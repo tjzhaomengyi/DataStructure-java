@@ -79,6 +79,16 @@ public class BinaryTree<T>{
 			System.out.println("null");
 		}
 	}
+	/*
+	 * 获取二叉树的高度
+	 */
+	public static int getHeight(BinaryTreeNode root){
+		if(root == null){
+			return 0;
+		}
+		return Math.max(getHeight(root.leftChild),getHeight(root.rightChild))+1;
+	} 
+	
 	
 	/*
 	 * 广度优先遍历二叉树
