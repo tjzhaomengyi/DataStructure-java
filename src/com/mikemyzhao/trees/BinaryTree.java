@@ -1,5 +1,7 @@
 package com.mikemyzhao.trees;
 
+import java.util.LinkedList;
+
 /*
  * 缺点这里的方法基本都是Static方法，参数传BinaryTree的头节点，但是BinaryTree的内容没有限制
  */
@@ -89,6 +91,23 @@ public class BinaryTree<T>{
 		return Math.max(getHeight(root.leftChild),getHeight(root.rightChild))+1;
 	} 
 	
+	/*
+	 * 广度遍历二叉树,就是一行一行的遍历
+	 */
+	public static void breadthFirstTraverse(BinaryTreeNode root){
+		if(root == null)return;
+		Queue<BinaryTreeNode> queue = new LinkedList<BinaryTreeNode>();
+		BinaryTreeNode currentNode = null;
+		queue.offer(root);
+		while(!queue.isEmpty()){
+			currentNode = queue.poll();
+			System.out.println(currentNode.data + " ");
+			if(currentNode.leftChild != null)
+				queue.offer(currentNode.leftChild);
+			if(currentNode.rightChild != null)
+				queue.offer(currentNode.rightChild);
+		}
+	}
 	
 	/*
 	 * 广度优先遍历二叉树
