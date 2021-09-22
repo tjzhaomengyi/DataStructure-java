@@ -6,7 +6,7 @@ package com.mikemyzhao.list;
  * @Description:算法小抄和leetcode通用ListNode节点类型
  */
 public class ListNode {
-  int val;
+  public int val;
   public ListNode next;
 
   ListNode(int val){

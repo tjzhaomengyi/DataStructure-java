@@ -2,9 +2,9 @@ package com.mikemyzhao.trees;
 //用一个Java泛型
 public class BinaryTreeNode<T> {
 	//数据
-	T data;
-	BinaryTreeNode<T> leftChild;
-	BinaryTreeNode<T> rightChild;
+	public T data;
+	public BinaryTreeNode<T> leftChild;
+	public BinaryTreeNode<T> rightChild;
 	
 	public T getData(){
 		return data;
@@ -20,7 +20,7 @@ public class BinaryTreeNode<T> {
 		this.rightChild = null;
 	}
 	
-	BinaryTreeNode(T data){
+	public BinaryTreeNode(T data){
 		this.data = data;
 		this.leftChild = null;
 		this.rightChild = null;

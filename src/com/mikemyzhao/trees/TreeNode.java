@@ -14,7 +14,7 @@ public class TreeNode {
   public TreeNode right;//指向右侧子节点的指针
 
   //构造函数
-  TreeNode(int val){
+  public TreeNode(int val){
     this.val = val;
     this.left = null;
     this.right = null;

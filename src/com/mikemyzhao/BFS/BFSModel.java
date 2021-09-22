@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * @Author: zhaomengyi
  * @Date: 2021-09-03 9:52
- * @Description:BFS模板
+ * @Description:BFS模板,一般要找最小步数，最小深度都要敏感直接想到BFS算法
  */
 public class BFSModel {
   int BFS(TreeNode start,TreeNode target){
