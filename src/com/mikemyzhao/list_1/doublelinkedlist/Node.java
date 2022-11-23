@@ -1,0 +1,15 @@
+package com.mikemyzhao.list.doublelinkedlist;
+
+public class Node {
+	Object value;
+	Node prev = this;
+	Node next = this;
+	Node(Object v){
+		value = v;
+	}
+	
+	public String toString(){
+		return value.toString();
+	}
+	
+}
