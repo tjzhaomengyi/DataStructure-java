@@ -1,4 +1,4 @@
-package com.mikemyzhao.list;
+package com.mikemyzhao.list_1;
 
 public class LinkedList {
 	public Node head; //定义一个头节点

@@ -1,6 +1,4 @@
-package com.mikemyzhao.list;
-
-import com.mikemyzhao.list.ListNode;
+package com.mikemyzhao.list_1;
 
 /**
  * @Author: zhaomengyi

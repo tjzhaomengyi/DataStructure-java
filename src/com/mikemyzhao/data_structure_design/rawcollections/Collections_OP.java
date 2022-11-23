@@ -1,4 +1,4 @@
-package com.mikemyzhao.rawcollections;
+package com.mikemyzhao.data_structure_design.rawcollections;
 
 /**
  * @Author: zhaomengyi

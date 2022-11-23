@@ -1,4 +1,4 @@
-package com.mikemyzhao.SomeSkills_0.bigshua.tricks;
+package com.mikemyzhao.SomeSkills_0.tricks;
 
 /**
  * @Author: zhaomengyi

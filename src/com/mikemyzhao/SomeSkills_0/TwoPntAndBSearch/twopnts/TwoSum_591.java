@@ -1,4 +1,4 @@
-package com.mikemyzhao.TwoPntAndBSearch.twopnts;
+package com.mikemyzhao.SomeSkills_0.TwoPntAndBSearch.twopnts;
 
 /**
  * @Author: zhaomengyi

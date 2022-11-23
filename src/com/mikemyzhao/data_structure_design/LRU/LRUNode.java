@@ -1,4 +1,4 @@
-package com.mikemyzhao.LRU;
+package com.mikemyzhao.data_structure_design.LRU;
 
 /**
  * @Author: zhaomengyi

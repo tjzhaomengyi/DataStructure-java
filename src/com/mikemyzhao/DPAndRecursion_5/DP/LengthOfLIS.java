@@ -1,4 +1,4 @@
-package com.mikemyzhao.DP_5;
+package com.mikemyzhao.DPAndRecursion_5.DP;
 
 import java.util.Arrays;
 import java.util.Collections;

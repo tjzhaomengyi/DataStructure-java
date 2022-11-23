@@ -1,4 +1,4 @@
-package com.mikemyzhao.SumAndPreSum;
+package com.mikemyzhao.SomeSkills_0.SumAndPreSum_0;
 
 import java.util.*;
 

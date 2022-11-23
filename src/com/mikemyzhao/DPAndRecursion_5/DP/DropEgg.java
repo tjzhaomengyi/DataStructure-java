@@ -1,4 +1,4 @@
-package com.mikemyzhao.DP_5;
+package com.mikemyzhao.DPAndRecursion_5.DP;
 
 import java.util.Arrays;
 
@@ -40,7 +40,7 @@ public class DropEgg {
     return dp[N][K];
   }
 
-  /**二分修改**/
+  /**二分修改，这题不能二分，看左神的讲解吧
   int dropEggDivide(int K,int N){
     if(K==1){return N;}
     if(N==0){return 0;}
@@ -142,4 +142,5 @@ public class DropEgg {
     System.out.println(new DropEgg().superEggDrop(8,10000));
 
   }
+   **/
 }

@@ -1,8 +1,5 @@
-package com.mikemyzhao.TwoPntAndBSearch;
+package com.mikemyzhao.SomeSkills_0.TwoPntAndBSearch;
 
-import sun.security.util.ArrayUtil;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.mikemyzhao.TreeOperations_2.bigshua;
+package com.mikemyzhao.TreeOperations_2.bigshua.traverse;
 
 /**
  * @Author: zhaomengyi
@@ -6,7 +6,6 @@ package com.mikemyzhao.TreeOperations_2.bigshua;
  * @Description:判断是否是搜索二叉树
  */
 public class LC_0098_ValidBinarySearchTree {
-  //技巧:Info类包装技巧
   public static class TreeNode{
     int val;
     TreeNode left;

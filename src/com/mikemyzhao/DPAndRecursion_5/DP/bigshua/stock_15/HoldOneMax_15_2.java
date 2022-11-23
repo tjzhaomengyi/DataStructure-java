@@ -3,9 +3,9 @@ package com.mikemyzhao.DPAndRecursion_5.DP.bigshua.stock_15;
 /**
  * @Author: zhaomengyi
  * @Date: 2022-03-25 7:55
- * @Description:一个时间手里只能有一只股票
+ * @Description:一个时间手里只能有一只股票,可以多次交易k次
  */
-public class HoldOneMax_15 {
+public class HoldOneMax_15_2 {
   public static int maxProfit(int[] prices){
     if(prices == null || prices.length == 0){
       return 0;

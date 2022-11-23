@@ -1,4 +1,4 @@
-package com.mikemyzhao.SomeSkills_0.tricks;
+package com.mikemyzhao.DPAndRecursion_5.DP.bigshua;
 
 /**
  * @Author: zhaomengyi
@@ -6,6 +6,7 @@ package com.mikemyzhao.SomeSkills_0.tricks;
  * @Description:
  */
 public class LC_0152_MaxProductSubbarray {
+  //技巧:动态规划的原地化简，纯思路
   //技巧:到i的时候，往左扩多远可以得到最大乘积
   public static double max(double[] arr){
     if(arr == null || arr.length == 0){
@@ -29,4 +30,6 @@ public class LC_0152_MaxProductSubbarray {
     }
     return ans;
   }
+
+
 }

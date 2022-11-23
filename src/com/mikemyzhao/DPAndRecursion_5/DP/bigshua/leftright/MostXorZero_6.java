@@ -1,4 +1,4 @@
-package com.mikemyzhao.DP_5.bigshua.leftright;
+package com.mikemyzhao.DPAndRecursion_5.DP.bigshua.leftright;
 
 import java.util.HashMap;
 

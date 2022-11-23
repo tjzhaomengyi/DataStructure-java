@@ -1,4 +1,4 @@
-package com.mikemyzhao.TwoPntAndBSearch;
+package com.point2offer;
 
 /**
  * @Author: zhaomengyi

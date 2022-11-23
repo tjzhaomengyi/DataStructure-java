@@ -1,7 +1,6 @@
-package com.mikemyzhao.TreeOperations;
+package com.mikemyzhao.TreeOperations_2;
 
-import com.mikemyzhao.trees.TreeNode;
-import sun.reflect.generics.tree.Tree;
+import com.mikemyzhao.TreeOperations_2.trees.TreeNode;
 
 /**
  * @Author: zhaomengyi

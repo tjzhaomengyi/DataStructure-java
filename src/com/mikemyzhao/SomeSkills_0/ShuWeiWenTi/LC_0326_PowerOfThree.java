@@ -1,6 +1,6 @@
-package com.MCAAlgorithm.bigshua.class34;
+package com.mikemyzhao.SomeSkills_0.ShuWeiWenTi;
 
-public class Problem_0326_PowerOfThree {
+public class LC_0326_PowerOfThree {
 
 	// 如果一个数字是3的某次幂，那么这个数一定只含有3这个质数因子
 	// 1162261467是int型范围内，最大的3的幂，它是3的19次方

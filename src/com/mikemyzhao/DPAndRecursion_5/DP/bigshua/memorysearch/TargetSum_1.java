@@ -1,4 +1,4 @@
-package com.mikemyzhao.DP_5.bigshua.memorysearch;
+package com.mikemyzhao.DPAndRecursion_5.DP.bigshua.memorysearch;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package com.mikemyzhao.HeapAndStrongHeapAndStackAndQueue_0.StackQueue.bigshua;
+package com.mikemyzhao.SortList_ALL.Stack.bigshua;
 
 import java.util.Stack;
 

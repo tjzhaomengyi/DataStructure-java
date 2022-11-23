@@ -5,7 +5,7 @@ package com.mikemyzhao.DPAndRecursion_5.DP.bigshua.shuweiDP;
  * @Date: 2022-04-03 11:14
  * @Description:给定一个数返回
  */
-public class OneNumerInRange {
+public class OneNumerInRange_19 {
   /**
    数学结论：给定一个数，在这个范围中的所有正数，1的个数为：
     (1)第一位为1，所有1的个数 = rest + 1 + (k - 1) * 10 ^(k - 2) 【rest是1后面剩下数】

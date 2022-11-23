@@ -1,4 +1,4 @@
-package com.mikemyzhao.simulate_reality_13;
+package com.mikemyzhao.simulate_reality_13.bigshua;
 
 /**
  * @Author: zhaomengyi
@@ -6,7 +6,7 @@ package com.mikemyzhao.simulate_reality_13;
  * @Description:https://leetcode-cn.com/problems/candy/
  * LC135
  */
-public class Candy {
+public class Candy_4 {
   public static int candy1(int[] ratings){
     if(ratings == null || ratings.length == 0){
       return 0;

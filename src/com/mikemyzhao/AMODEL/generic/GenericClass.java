@@ -1,4 +1,4 @@
-package com.mikemyzhao.generic;
+package com.mikemyzhao.AMODEL.generic;
 /* 泛型类的声明和非泛型类的生命类似，除了在类名后面添加了类型参数声明部分。
  * 和泛型方法一样，泛型类的类型参数声明也包含一个或多个类型参数，参数间用逗号隔开。
  * 一个泛型参数，也被称为一个类型变量，是用于指定一个泛型类型名称的标识符。

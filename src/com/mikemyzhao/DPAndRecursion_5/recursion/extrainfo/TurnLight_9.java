@@ -1,4 +1,4 @@
-package com.mikemyzhao.DPAndRecursion_5.DP.bigshua.extrainfo;
+package com.mikemyzhao.DPAndRecursion_5.recursion.extrainfo;
 
 /**
  * @Author: zhaomengyi
@@ -114,7 +114,7 @@ public class TurnLight_9 {
   }
 
   //因为n-1可能会对0位置灯进行改变所以0位置可以是灭的状态，反正等着n-1点亮，所以0和1的位置的灯就有四种状态组合
-  // 00,01,10,11
+  // 00,01,10,11=>这个就是对应着在0位置和1位置会有相应的按键动作
   public static int loopMinStep(int[] arr){
     if(arr == null || arr.length == 0){
       return 0;
@@ -122,5 +122,25 @@ public class TurnLight_9 {
     if(arr.length == 1){
       return arr[0] == 1 ? 0 : 1;
     }
+    if(arr.length == 2){
+      return arr[0] != arr[1] ? Integer.MAX_VALUE : (arr[0] ^ 1);
+    }
+    if(arr.length == 3){
+      return (arr[0] != arr[1] || arr[0] != arr[2]) ? Integer.MAX_VALUE : (arr[0] ^ 1);
+    }
+    int last = arr.length-1;
+    //0不变，1不变
+    int p1 = processLoop(arr, 3,arr[1],arr[2],arr[last],arr[0]);
+    //0变，1不变
+    int p2 = processLoop(arr,3,arr[1] ^ 1,arr[2],arr[last] ^ 1,arr[0] ^1);
+    //0不变，1变
+    int p3 = processLoop(arr, 3,arr[1] ^ 1,arr[2] ^ 2,arr[last],arr[0] ^ 1);
+    //0变，1变
+    int p4 = processLoop(arr, 3, arr[1],arr[2] ^ 1,arr[last] ^ 1,arr[0]);
+
+    p2 = p2 != Integer.MAX_VALUE ? (p2 + 1) : p2;
+    p3 = p3 != Integer.MAX_VALUE ? (p3 + 1) : p3;
+    p4 = p4 != Integer.MAX_VALUE ? (p4 + 2) : p4;
+    return Math.min(Math.min(p1,p2),Math.min(p3,p4));
   }
 }

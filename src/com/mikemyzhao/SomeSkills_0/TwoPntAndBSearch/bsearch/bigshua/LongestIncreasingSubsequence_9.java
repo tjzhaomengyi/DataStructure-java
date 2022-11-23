@@ -1,4 +1,4 @@
-package com.mikemyzhao.TwoPntAndBSearch.bsearch.bigshua;
+package com.mikemyzhao.SomeSkills_0.TwoPntAndBSearch.bsearch.bigshua;
 
 /**
  * @Author: zhaomengyi

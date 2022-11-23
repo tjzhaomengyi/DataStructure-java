@@ -5,7 +5,7 @@ package com.mikemyzhao.Tanxin_2_3.bigshua;
  * @Date: 2022-03-18 14:28
  * @Description:求子数组的最大异或和
  */
-public class MaxSubarrXor_5 {
+public class MaxSubarrXor_6 {
   //使用前缀树，有num进来进行add方法，然后求maxOr
   public static class Node {
     //这个前缀树只有两个方向0和1，表示进来的数的各个位的二进制方向，一个有符号的数最多32位
@@ -34,6 +34,7 @@ public class MaxSubarrXor_5 {
         //期待遇到的东西
         //如果是31位为0表示正数，如果是1表示负数，正负数都是希望符号为和当前一样，正数为正数，负数变正数
         //如果是31位就是path保持一致，如果没有就变
+        //贪心就表示了只要其中的一部分即子数组情况
         int best = move == 31 ? path : (path ^ 1);
         ans |= (path ^ best) << move;
         cur = cur.nexts[best];
@@ -51,8 +52,8 @@ public class MaxSubarrXor_5 {
     NumTrie numTrie = new NumTrie();
     numTrie.add(0);
     for(int i = 0; i < arr.length; i++){
-      xor ^= arr[i];
-      max = Math.max(max, numTrie.maxXor(xor));
+      xor ^= arr[i];//在前缀数组中存前缀的异或结果
+      max = Math.max(max, numTrie.maxXor(xor));//当前值进来或不进来，到i位置肯定是最大的，前面可能甩掉了一部分数，因为每一步都贪心了
       numTrie.add(xor);
     }
     return max;

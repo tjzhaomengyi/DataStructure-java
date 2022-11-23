@@ -1,4 +1,4 @@
-package com.mikemyzhao.SortList_ALL.Queue.bigshua;
+package com.mikemyzhao.SortList_ALL.QueueAndHeap.bigshua;
 
 import java.util.PriorityQueue;
 

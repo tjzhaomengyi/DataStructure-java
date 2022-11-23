@@ -1,4 +1,4 @@
-package com.mikemyzhao.LFU;
+package com.mikemyzhao.data_structure_design.LFU;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;

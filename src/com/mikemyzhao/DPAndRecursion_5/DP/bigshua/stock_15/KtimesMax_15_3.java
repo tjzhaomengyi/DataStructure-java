@@ -5,7 +5,7 @@ package com.mikemyzhao.DPAndRecursion_5.DP.bigshua.stock_15;
  * @Date: 2022-03-25 14:54
  * @Description:允许买卖k笔交易(一只股票买进来再卖空算一笔交易)，买卖完成才能买第二次，一个时间内持有一只股票
  */
-public class KtimesMax_15 {
+public class KtimesMax_15_3 {
   public static int maxProfit(int K, int[] prices){
     if(prices == null || prices.length == 0){
       return 0;

@@ -1,4 +1,4 @@
-package com.mikemyzhao.SegmentTree_IndexTree_9;
+package com.mikemyzhao.TreeClassicSytle.SegmentTree_IndexTree_9;
 
 /**
  * @Author: zhaomengyi

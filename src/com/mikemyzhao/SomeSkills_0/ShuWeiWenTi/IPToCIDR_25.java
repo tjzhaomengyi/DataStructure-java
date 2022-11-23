@@ -1,4 +1,4 @@
-package com.mikemyzhao.SomeSkills_0.bigshua.ShuWeiWenTi;
+package com.mikemyzhao.SomeSkills_0.ShuWeiWenTi;
 
 import java.util.ArrayList;
 import java.util.HashMap;

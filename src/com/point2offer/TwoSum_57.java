@@ -9,7 +9,7 @@ import java.util.List;
  * @Date: 2021-10-09 19:29
  * @Description:单调递增找两数之和
  */
-public class TwoSun_57 {
+public class TwoSum_57 {
   public int[] twoSum(int[] nums, int target) {
     int i=0,j=nums.length-1;
     while(i<j){
@@ -21,8 +21,4 @@ public class TwoSun_57 {
     return new int[0];
   }
 
-  public int[][] findContinuousSequence(int target) {
-
-    return null;
-  }
 }

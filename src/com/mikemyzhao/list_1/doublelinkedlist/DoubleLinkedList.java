@@ -1,4 +1,4 @@
-package com.mikemyzhao.list.doublelinkedlist;
+package com.mikemyzhao.list_1.doublelinkedlist;
 
 public class DoubleLinkedList {
 	private Node head= new Node(null);

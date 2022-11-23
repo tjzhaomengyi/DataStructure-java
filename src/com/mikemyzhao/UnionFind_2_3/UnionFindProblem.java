@@ -1,4 +1,4 @@
-package com.mikemyzhao.UnionFind;
+package com.mikemyzhao.UnionFind_2_3;
 
 /**
  * @Author: zhaomengyi

@@ -5,7 +5,7 @@ package com.point2offer;
  * @Date: 2021-10-10 21:34
  * @Description:
  */
-public class StringToInt {
+public class StringToInt_67 {
   public int strToInt(String str) {
     char[] c = str.trim().toCharArray();
     if(c.length == 0) return 0;
@@ -15,7 +15,8 @@ public class StringToInt {
     else if(c[0] != '+') i = 0;
     for(int j = i; j < c.length; j++) {
       if(c[j] < '0' || c[j] > '9') break;
-      if(res > bndry || res == bndry && c[j] > '7') return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+      //拼之前不能大于bndry，如果等于bndry并且最低位大于7也不行
+      if((res > bndry) || (res == bndry && c[j] > '7')) return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
       res = res * 10 + (c[j] - '0');
     }
     return sign * res;

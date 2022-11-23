@@ -1,4 +1,4 @@
-package com.mikemyzhao.SomeSkills_0.tricks.HuiWenXiLie;
+package com.mikemyzhao.SomeSkills_0.HuiWenXiLie;
 
 /**
  * @Author: zhaomengyi

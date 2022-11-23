@@ -1,6 +1,4 @@
-package com.mikemyzhao.BFS;
-
-import com.mikemyzhao.trees.TreeNode;
+package com.mikemyzhao.BFSDFS_ForTreeAndGraph_1_4;
 
 import java.util.Queue;
 import java.util.Set;

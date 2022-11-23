@@ -1,4 +1,4 @@
-package com.mikemyzhao.DP_5;
+package com.mikemyzhao.DPAndRecursion_5.DP;
 
 import com.mikemyzhao.TreeOperations_2.trees.TreeNode;
 

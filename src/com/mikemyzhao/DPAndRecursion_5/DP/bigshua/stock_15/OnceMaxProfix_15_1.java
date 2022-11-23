@@ -5,7 +5,7 @@ package com.mikemyzhao.DPAndRecursion_5.DP.bigshua.stock_15;
  * @Date: 2022-03-25 7:49
  * @Description:
  */
-public class OnceMaxProfix_15 {
+public class OnceMaxProfix_15_1 {
   public static int maxProfit(int[] prices){
     if(prices == null || prices.length == 0){
       return 0;

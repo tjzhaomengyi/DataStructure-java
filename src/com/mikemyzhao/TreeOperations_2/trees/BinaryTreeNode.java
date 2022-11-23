@@ -1,4 +1,4 @@
-package com.mikemyzhao.trees;
+package com.mikemyzhao.TreeOperations_2.trees;
 //用一个Java泛型
 public class BinaryTreeNode<T> {
 	//数据

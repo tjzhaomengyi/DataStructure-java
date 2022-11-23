@@ -9,7 +9,7 @@ import java.util.List;
  * @Date: 2022-04-17 18:04
  * @Description:
  */
-public class LC_0140_WordBreakII_FindBreakChars {
+public class LC_0140_WordBreakII_FindBreakChars_ByDFS {
   public static class Node {
     public String path;
     public boolean end;
@@ -68,7 +68,7 @@ public class LC_0140_WordBreakII_FindBreakChars {
     char[] str = s.toCharArray();
     Node root = getTrie(wordDict);
     boolean[] dp = getdp(s,root);
-    ArrayList<String> path = new ArrayList<>();
+    ArrayList<String> path = new ArrayList<>();//技巧:记录DFS的path
     List<String> ans = new ArrayList<>();
     process(str, 0, root, dp, path, ans);
     return ans;

@@ -1,4 +1,4 @@
-package com.mikemyzhao.SomeSkills_0.bigshua.headtail;
+package com.mikemyzhao.SomeSkills_0.headtail;
 
 import java.util.HashMap;
 

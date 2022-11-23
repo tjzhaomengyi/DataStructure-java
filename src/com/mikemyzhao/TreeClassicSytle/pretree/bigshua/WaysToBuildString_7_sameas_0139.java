@@ -8,7 +8,7 @@ import java.util.HashSet;
  * @Date: 2022-03-19 15:06
  * @Description:给定一个字符串，给定一个字典数组，字典中每个词可以无限使用来组成该字符串，求一共多少方法
  */
-public class WaysToBuildString_7 {
+public class WaysToBuildString_7_sameas_0139 {
   //方法1：使用递归。每次从i开始做前缀一直到end，然后对该前缀进行字典中查询
   public static int ways(String str, String[] arr){
     HashSet<String> set  = new HashSet<>();

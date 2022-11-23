@@ -1,4 +1,4 @@
-package com.mikemyzhao.BFS;
+package com.mikemyzhao.BFSDFS_ForTreeAndGraph_1_4;
 
 import java.util.HashSet;
 import java.util.LinkedList;

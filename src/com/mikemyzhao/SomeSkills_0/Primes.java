@@ -1,6 +1,4 @@
-package com.mikemyzhao.SomeSkills;
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
+package com.mikemyzhao.SomeSkills_0;
 
 import java.util.Arrays;
 

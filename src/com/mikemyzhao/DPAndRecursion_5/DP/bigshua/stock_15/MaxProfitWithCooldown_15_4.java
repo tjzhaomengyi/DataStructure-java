@@ -5,7 +5,7 @@ package com.mikemyzhao.DPAndRecursion_5.DP.bigshua.stock_15;
  * @Date: 2022-03-25 15:39
  * @Description:带有cooldown问题，每笔交易后要有一天的间隔，也就是说在卖出后要隔一天才能再买入
  */
-public class MaxProfitWithCooldown_15 {
+public class MaxProfitWithCooldown_15_4 {
   //递归，就是抱着当前行为是否是买入行为，当前持有的买入价格为buyPrice
   public static int process1(int[] prices, boolean buy, int index, int buyPrice){
     if(index >= prices.length){

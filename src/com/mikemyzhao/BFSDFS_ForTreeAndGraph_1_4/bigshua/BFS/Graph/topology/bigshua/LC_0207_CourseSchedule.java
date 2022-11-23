@@ -10,7 +10,7 @@ import java.util.Queue;
  * @Date: 2022-04-18 10:32
  * @Description:
  */
-public class LC_02007_CourseSchedule {
+public class LC_0207_CourseSchedule {
   public static class Course {
     public int name;
     public int in;//技巧:课程的入度

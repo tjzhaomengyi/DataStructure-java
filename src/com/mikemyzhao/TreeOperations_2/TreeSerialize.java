@@ -1,6 +1,6 @@
-package com.mikemyzhao.TreeOperations;
+package com.mikemyzhao.TreeOperations_2;
 
-import com.mikemyzhao.trees.TreeNode;
+import com.mikemyzhao.TreeOperations_2.trees.TreeNode;
 
 import java.util.LinkedList;
 import java.util.Queue;

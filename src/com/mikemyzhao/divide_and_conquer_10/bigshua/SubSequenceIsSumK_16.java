@@ -7,7 +7,7 @@ import java.util.HashSet;
  * @Date: 2022-03-27 8:45
  * @Description:求子序列，必须从左往右，能不能累加出K
  */
-public class SubSequenceIsSumK {
+public class SubSequenceIsSumK_16 {
   //如果K比较大，考虑使用分治的算法，分为左右半边
   //todo:暴力递归版本求子序列的累加和
 

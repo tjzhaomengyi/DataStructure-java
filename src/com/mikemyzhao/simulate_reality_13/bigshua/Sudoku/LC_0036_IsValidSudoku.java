@@ -1,4 +1,4 @@
-package com.mikemyzhao.simulate_reality_13.bigshua;
+package com.mikemyzhao.simulate_reality_13.bigshua.Sudoku;
 
 /**
  * @Author: zhaomengyi

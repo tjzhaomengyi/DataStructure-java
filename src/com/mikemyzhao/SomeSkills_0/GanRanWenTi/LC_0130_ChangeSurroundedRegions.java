@@ -1,4 +1,4 @@
-package com.mikemyzhao.SomeSkills_0.tricks.GanRanWenTi;
+package com.mikemyzhao.SomeSkills_0.GanRanWenTi;
 
 /**
  * @Author: zhaomengyi

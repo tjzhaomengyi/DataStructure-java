@@ -1,4 +1,4 @@
-package com.mikemyzhao.TwoPntAndBSearch;
+package com.mikemyzhao.SomeSkills_0.TwoPntAndBSearch;
 
 import java.util.Arrays;
 import java.util.Collections;

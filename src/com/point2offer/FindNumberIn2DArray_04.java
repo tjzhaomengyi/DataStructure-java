@@ -5,7 +5,7 @@ package com.point2offer;
  * @Date: 2021-10-04 12:12
  * @Description:
  */
-public class FindNumberIn2DArray {
+public class FindNumberIn2DArray_04 {
   public boolean findNumberIn2DArray(int[][] matrix, int target) {
     //使用二分查找法，把二维数组转换成一维数组
     if(matrix == null || matrix.length==0){
@@ -29,6 +29,6 @@ public class FindNumberIn2DArray {
 
   public static void main(String[] args) {
     int[][] martix = {{1,4},{2,5}};
-    System.out.println(new FindNumberIn2DArray().findNumberIn2DArray(martix,2));
+    System.out.println(new FindNumberIn2DArray_04().findNumberIn2DArray(martix,2));
   }
 }

@@ -1,4 +1,4 @@
-package com.mikemyzhao.SomeSkills_0.tricks.YangHuiSanjiao;
+package com.mikemyzhao.SomeSkills_0.YangHuiSanjiao;
 
 import java.util.ArrayList;
 import java.util.List;

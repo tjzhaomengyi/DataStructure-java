@@ -6,7 +6,7 @@ package com.mikemyzhao.TreeOperations_2.bigshua;
  * @Date: 2022-03-18 10:11
  * @Description:根据先序遍历重建搜索二叉树 // 本题测试链接 : https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/
  */
-public class ConstructBSTFromPreorder {
+public class ConstructBSTFromPreorder_5 {
   public static class TreeNode {
     public int val;
     public TreeNode left;

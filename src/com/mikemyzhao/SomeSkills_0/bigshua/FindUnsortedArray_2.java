@@ -5,8 +5,9 @@ package com.mikemyzhao.SomeSkills_0.bigshua;
  * @Date: 2022-03-15 10:41
  * @Description:找到数组中的无序子数组长度
  * @解法：从左往右找到右边界，从右往左找到左边界
+ * LC581
  */
-public class FindUnsortedArray_02 {
+public class FindUnsortedArray_2 {
   public static int findUnsortedArray(int[] nums){
     if(nums == null || nums.length < 2){
       return 0;

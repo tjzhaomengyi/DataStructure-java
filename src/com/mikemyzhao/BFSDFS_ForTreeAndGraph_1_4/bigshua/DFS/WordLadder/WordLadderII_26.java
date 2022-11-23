@@ -1,4 +1,4 @@
-package com.mikemyzhao.BFSDFS_ForTreeAndGraph_1_4.bigshua.BFS.WordLadder;
+package com.mikemyzhao.BFSDFS_ForTreeAndGraph_1_4.bigshua.DFS.WordLadder;
 
 import java.util.*;
 

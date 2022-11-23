@@ -1,9 +1,158 @@
 package com.mikemyzhao.UnionFind_2_3.bigshua;
 
+import com.MCAAlgorithm.bigshua.class13.Code04_BricksFallingWhenHit;
+
 /**
  * @Author: zhaomengyi
  * @Date: 2022-03-24 14:59
- * @Description:
+ * @Description:消消乐
  */
 public class BricksFallingWhenHit_13 {
+
+  public static int[] hitBricks(int[][] grid, int[][] hits) {
+    for (int i = 0; i < hits.length; i++) {
+      if (grid[hits[i][0]][hits[i][1]] == 1) {
+        grid[hits[i][0]][hits[i][1]] = 2;
+      }
+    }
+    UnionFind unionFind = new UnionFind(grid);
+    int[] ans = new int[hits.length];
+    for (int i = hits.length - 1; i >= 0; i--) {
+      if (grid[hits[i][0]][hits[i][1]] == 2) {
+        ans[i] = unionFind.finger(hits[i][0], hits[i][1]);
+      }
+    }
+    return ans;
+  }
+
+
+
+    //并查集
+  public static class UnionFind{
+    private int N;
+    private int M;
+    //有多少砖块被整体连接到天花板,间接的也算
+    private int cellingAll;
+    //原始矩阵
+    private int[][] grid;
+    //i为头结点，表示是否连接到天花板
+    private boolean[] cellingSet;
+    private int[] fatherMap;
+    private int[] sizeMap;//父节点的连接去大小
+    private int[] stack;
+
+    public UnionFind(int[][] matrix){
+      initSpace(matrix);
+      initConnect();
+
+    }
+
+    private void initSpace(int[][] matrix){
+      grid = matrix;
+      N = grid.length;
+      M = grid[0].length;
+      int all = N * M;
+      cellingAll = 0;
+      cellingSet = new boolean[all];
+      fatherMap = new int[all];
+      sizeMap = new int[all];
+      stack = new int[all];
+      for(int row = 0; row < N; row++){
+        for(int col = 0; col < M; col++){
+          if(grid[row][col] == 1){//表示这个地方有砖
+            int index = row * M + col;
+            fatherMap[index] = index;
+            sizeMap[index] = 1;//这个砖连接
+            if(row == 0){
+              cellingSet[index] = true;
+              cellingAll++;
+            }
+          }
+        }
+      }
+    }
+
+    private void initConnect(){
+      for(int row = 0; row < N; row++){
+        for(int col = 0; col < M; col++){
+          union(row, col, row - 1, col);
+          union(row, col, row + 1, col);
+          union(row, col, row, col - 1);
+          union(row, col, row, col + 1);
+        }
+      }
+    }
+
+    private void union(int r1, int c1, int r2, int c2){
+      if(valid(r1, c1) && valid(r2, c2)){
+        int father1 = find(r1, c1);
+        int father2 = find(r2, c2);
+        if(father1 != father2){
+          int size1 = sizeMap[father1];
+          int size2 = sizeMap[father2];
+          boolean status1 = cellingSet[father1];
+          boolean status2 = cellingSet[father2];
+          if(size1 <= size2){
+            fatherMap[father1] = father2;//把小的连在大的上面
+            sizeMap[father2] = size1 + size2;
+            if(status1 ^ status2){ //如果A是天花板集合，B也是天花板集合，不需要改变
+              cellingSet[father2] = true;
+              cellingAll += status1 ? size2 : size1;
+            }
+          }else{
+            fatherMap[father2] = father1;
+            sizeMap[father1] = size1 + size2;
+            if (status1 ^ status2) {
+              cellingSet[father1] = true;
+              cellingAll += status1 ? size2 : size1;
+            }
+          }
+        }
+      }
+    }
+
+    //todo:找该位置的父节点，如果没有还得更新
+    private int find(int row, int col){
+      int stackSize = 0;
+      int index = row * M + col;//当前节点在stack中的位置
+      while(index != fatherMap[index]){//当前节点没有找到父节点
+        stack[stackSize] = index;//todo:当前查询节点的路径，一会好为代表节点标记所有的子节点
+        stackSize++;
+        index = fatherMap[index]; //当前节点不是代表节点，用代表节点替代当前节点
+      }
+      while(stackSize != 0){//todo:把这个路径上的所有节点都设置为上面拿到的index
+        fatherMap[stack[--stackSize]] = index;
+      }
+      return index;
+    }
+
+    private boolean valid(int row, int col){
+      return row >= 0 && row < N && col >=0 && col < M && grid[row][col] == 1;
+    }
+
+    public int cellingNum(){
+      return cellingAll;
+    }
+    public int finger(int row, int col){
+      grid[row][col] = 1;
+      int cur = row * M + col;
+      if(row == 0){
+        cellingSet[cur] = true;
+        cellingAll++;
+      }
+      fatherMap[cur] = cur;
+      sizeMap[cur] = 1;
+      int pre = cellingAll;
+      union(row, col, row - 1, col);
+      union(row, col, row + 1, col);
+      union(row, col, row, col - 1);
+      union(row, col, row, col + 1);
+      int now = cellingAll;
+      if(row == 0){
+        return now - pre;
+      } else {
+        return now == pre ? 0 : now - pre - 1;
+      }
+    }
+  }
 }

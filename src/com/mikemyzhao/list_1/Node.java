@@ -1,4 +1,4 @@
-package com.mikemyzhao.list;
+package com.mikemyzhao.list_1;
 
 public class Node {
 	protected Node next;//指针域
