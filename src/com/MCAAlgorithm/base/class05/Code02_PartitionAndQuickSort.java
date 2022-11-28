@@ -30,8 +30,9 @@ public class Code02_PartitionAndQuickSort {
 		return lessEqual;
 	}
 
+	// 重点算法：荷兰国旗问题，一定要记住：区域如何扩，小于等于的时候是交换当前index并向右扩充less区域。当前数大于目标数，当前数和大于区前一个数交换，大于区向左扩大
 	// arr[L...R] 玩荷兰国旗问题的划分，以arr[R]做划分值
-	// <arr[R] ==arr[R] > arr[R]
+	// <arr[R] ==arr[R] >arr[R]
 	public static int[] netherlandsFlag(int[] arr, int L, int R) {
 		if (L > R) { // L...R L>R
 			return new int[] { -1, -1 };
@@ -39,22 +40,23 @@ public class Code02_PartitionAndQuickSort {
 		if (L == R) {
 			return new int[] { L, R };
 		}
-		int less = L - 1; // < 区 右边界
+		int less = L - 1; //注意写法： < 区 右边界
 		int more = R; // > 区 左边界
 		int index = L;
 		while (index < more) { // 当前位置，不能和 >区的左边界撞上
-			if (arr[index] == arr[R]) {
+			if (arr[index] == arr[R]) { //默认拿最后一个数作为目标
 				index++;
 			} else if (arr[index] < arr[R]) {
 //				swap(arr, less + 1, index);
 //				less++;
-//				index++;						
-				swap(arr, index++, ++less);
+//				index++;
+				//思路：当前的数和小于等于区的下一个数进行交换，然后当前位置移动
+				swap(arr, index++, ++less);//index先交换再后移，less先移动再交换
 			} else { // >
-				swap(arr, index, --more);
+				swap(arr, index, --more);//注意：index不动！！，more先减再交换
 			}
 		}
-		swap(arr, more, R); // <[R]   =[R]   >[R]
+		swap(arr, more, R); // <[R]   =[R]   >[R] //因为最开始卡住arr[R],所以要把arr[R]放到more区域的第一个位置
 		return new int[] { less + 1, more };
 	}
 
