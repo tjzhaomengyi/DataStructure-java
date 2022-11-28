@@ -41,9 +41,9 @@ public class Problem_0148_SortList {
 					pre.next = mhmt[0];
 					pre = mhmt[1];
 				}
-				teamFirst = hthtn[4];
+				teamFirst = hthtn[4]; //思路：走到下一组
 			}
-			teamFirst = h;
+			teamFirst = h; //思路：如果现在的步长是2，下一组还得从当前merge好的 h 位置开始
 			pre = null;
 		}
 		return h;
