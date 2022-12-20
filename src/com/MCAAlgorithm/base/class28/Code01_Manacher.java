@@ -74,17 +74,20 @@ public class Code01_Manacher {
 	}
 
 	public static void main(String[] args) {
-		int possibilities = 5;
-		int strSize = 20;
-		int testTimes = 5000000;
-		System.out.println("test begin");
-		for (int i = 0; i < testTimes; i++) {
-			String str = getRandomString(possibilities, strSize);
-			if (manacher(str) != right(str)) {
-				System.out.println("Oops!");
-			}
-		}
-		System.out.println("test finish");
+//		int possibilities = 5;
+//		int strSize = 20;
+//		int testTimes = 5000000;
+//		System.out.println("test begin");
+//		for (int i = 0; i < testTimes; i++) {
+//			String str = getRandomString(possibilities, strSize);
+//			if (manacher(str) != right(str)) {
+//				System.out.println("Oops!");
+//			}
+//		}
+//		System.out.println("test finish");
+		int res = manacher("bb");
+		System.out.println(res);
+
 	}
 
 }

@@ -24,6 +24,7 @@ public class Code01_MergeKSortedLists {
 		if (lists == null) {
 			return null;
 		}
+		//技巧：priorityqueue就是堆结构，可以自动调整内部排序的顺序
 		PriorityQueue<ListNode> heap = new PriorityQueue<>(new ListNodeComparator());
 		for (int i = 0; i < lists.length; i++) {
 			if (lists[i] != null) {

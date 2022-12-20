@@ -80,11 +80,12 @@ public class BackTracking {
     * 排列,给出[1,2,3]得到其全排列
     * **/
    List<List<Integer>> res2 = new LinkedList<>();
+
    List<List<Integer>> permute(int[] nums){
      //记录路径
      List<Integer> track = new LinkedList<>();
      backTrackForPermute(nums,track);
-     return res;
+     return res2;
    }
 
    void backTrackForPermute(int[] nums,List<Integer> track){

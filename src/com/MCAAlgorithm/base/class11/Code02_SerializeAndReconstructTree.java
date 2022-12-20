@@ -120,6 +120,7 @@ public class Code02_SerializeAndReconstructTree {
 		return head;
 	}
 
+	//宽度优先遍历
 	public static Queue<String> levelSerial(Node head) {
 		Queue<String> ans = new LinkedList<>();
 		if (head == null) {

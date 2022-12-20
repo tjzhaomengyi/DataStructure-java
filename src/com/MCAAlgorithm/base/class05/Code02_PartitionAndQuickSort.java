@@ -51,7 +51,7 @@ public class Code02_PartitionAndQuickSort {
 //				less++;
 //				index++;
 				//思路：当前的数和小于等于区的下一个数进行交换，然后当前位置移动
-				swap(arr, index++, ++less);//index先交换再后移，less先移动再交换
+				swap(arr, index++, ++less);//index先交换再后移，less先移动再交换,因为less左侧肯定保持都看过的状态，所以交换完index直接走
 			} else { // >
 				swap(arr, index, --more);//注意：index不动！！，more先减再交换
 			}

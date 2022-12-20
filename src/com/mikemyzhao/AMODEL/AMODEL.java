@@ -26,7 +26,7 @@ public class AMODEL {
     while(!q.isEmpty()){
       int sz = q.size();
       /**将当前队列中所有节点向四周扩散**/
-      for(int i=0;i<sz;i++){
+      for(int i = 0; i < sz; i++){
         TreeNode curr = q.poll();
         /**这里是重点判断是否到达条件**/
         if(curr == target)
