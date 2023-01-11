@@ -85,7 +85,7 @@ public class Code04_RegularExpressionMatch {
 				} else { // si没结束
 					if (s[si] != e[ei] && e[ei] != '.') {
 						ans = process2(s, e, si, ei + 2, dp);
-					} else { // s[si] 可以和 e[ei]配上
+					} else { // s[si] 可以和 e[ei]配上。这个省略掉上一个方法中的while，用已经考察过的代替
 						ans = process2(s, e, si, ei + 2, dp) || process2(s, e, si + 1, ei, dp);
 					}
 				}
@@ -95,7 +95,7 @@ public class Code04_RegularExpressionMatch {
 		return ans;
 	}
 
-	// 动态规划版本 + 斜率优化
+	// 动态规划版本 + 斜率优化，这个别考虑了
 	public static boolean isMatch3(String str, String pattern) {
 		if (str == null || pattern == null) {
 			return false;

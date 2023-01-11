@@ -19,6 +19,7 @@ public class Problem_0210_CourseScheduleII {
 		}
 	}
 
+	//这个解法有问题：如果第二个参数给不全，这道题解法是错的，参考Code0210_CourseOrder代码
 	public int[] findOrder(int numCourses, int[][] prerequisites) {
 		int[] ans = new int[numCourses];
 		for (int i = 0; i < numCourses; i++) {

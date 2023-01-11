@@ -27,15 +27,15 @@ public class Problem_0341_FlattenNestedListIterator {
 	public class NestedIterator implements Iterator<Integer> {
 
 		private List<NestedInteger> list;
-		private Stack<Integer> stack;
-		private boolean used;
+		private Stack<Integer> stack;//光标位置，初始为-1
+		private boolean used;//光标来到的位置的数使没使用过
 
 		public NestedIterator(List<NestedInteger> nestedList) {
 			list = nestedList;
 			stack = new Stack<>();
 			stack.push(-1);
-			used = true;
-			hasNext();
+			used = true;// -1位置的光标使用过
+			hasNext();//让hasnext跳到下一个
 		}
 
 		@Override
@@ -51,6 +51,7 @@ public class Problem_0341_FlattenNestedListIterator {
 
 		@Override
 		public boolean hasNext() {
+
 			if (stack.isEmpty()) {
 				return false;
 			}

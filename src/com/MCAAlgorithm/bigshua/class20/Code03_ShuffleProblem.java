@@ -60,7 +60,7 @@ public class Code03_ShuffleProblem {
 	// 从start位置开始，往右len的长度这一段，做下标连续推
 	// 出发位置依次为1,3,9...
 	public static void cycles(int[] arr, int start, int len, int k) {
-		// 找到每一个出发位置trigger，一共k个
+		// 找到每一个出发位置trigger，一共k个，每三个出发一次
 		// 每一个trigger都进行下标连续推
 		// 出发位置是从1开始算的，而数组下标是从0开始算的。
 		for (int i = 0, trigger = 1; i < k; i++, trigger *= 3) {
@@ -142,6 +142,11 @@ public class Code03_ShuffleProblem {
 	}
 
 	public static void main(String[] args) {
+		int[] sorted = new int[]{1,3,2,2,3,1};
+		wiggleSort(sorted);
+		for(int i = 0; i < sorted.length; i++) {
+			System.out.print(sorted[i] + " ");
+		}
 //		for (int i = 0; i < 5000000; i++) {
 		for (int i = 0; i < 50; i++) {
 

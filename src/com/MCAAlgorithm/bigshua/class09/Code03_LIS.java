@@ -7,7 +7,9 @@ public class Code03_LIS {
 		if (arr == null || arr.length == 0) {
 			return 0;
 		}
-		int[] ends = new int[arr.length];
+		//其实应该用一个dp记录长度，用ends记录递增子序列结尾的大小
+
+		int[] ends = new int[arr.length];//思路：目前所有长度为i+1的递增子序列中最小结尾的值
 		ends[0] = arr[0];
 		int right = 0;
 		int l = 0;

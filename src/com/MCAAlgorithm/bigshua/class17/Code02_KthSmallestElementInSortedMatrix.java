@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 
 // 本题测试链接 : https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
 public class Code02_KthSmallestElementInSortedMatrix {
-
+	//思路：转换一下问题：小于等于100的有几个
 	// 堆的方法
 	public static int kthSmallest1(int[][] matrix, int k) {
 		int N = matrix.length;
@@ -67,7 +67,7 @@ public class Code02_KthSmallestElementInSortedMatrix {
 		while (left <= right) {
 			int mid = left + ((right - left) >> 1);
 			// <=mid 有几个 <= mid 在矩阵中真实出现的数，谁最接近mid
-			Info info = noMoreNum(matrix, mid);
+			Info info = noMoreNum(matrix, mid);//收集信息
 			if (info.num < k) {
 				left = mid + 1;
 			} else {

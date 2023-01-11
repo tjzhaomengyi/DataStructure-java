@@ -60,6 +60,7 @@ public class LC_0341_FlattenList {
 
     @Override
     public Integer next() {
+
       return hasNext() ? stack.pop().getInteger() : -1;
     }
   }

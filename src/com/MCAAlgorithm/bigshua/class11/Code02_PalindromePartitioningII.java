@@ -110,6 +110,11 @@ public class Code02_PalindromePartitioningII {
 				}
 			}
 			process(s, 0, 1, checkMap, dp, new ArrayList<>(), ans);
+			for(int i = 0; i < dp.length; i++){
+				System.out.print(dp[i]+",");
+			}
+			System.out.println();
+
 		}
 		return ans;
 	}
@@ -196,6 +201,14 @@ public class Code02_PalindromePartitioningII {
 		ans3 = minCutAllWays(s);
 		for (List<String> way : ans3) {
 			for (String str : way) {
+				System.out.print(str + " ");
+			}
+			System.out.println();
+		}
+		s = "aaeeffcff";
+		ans3 = minCutAllWays(s);
+		for(List<String> way : ans3){
+			for(String str : way){
 				System.out.print(str + " ");
 			}
 			System.out.println();

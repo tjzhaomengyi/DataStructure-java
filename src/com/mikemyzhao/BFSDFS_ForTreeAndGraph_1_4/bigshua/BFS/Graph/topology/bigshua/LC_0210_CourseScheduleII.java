@@ -53,7 +53,7 @@ public class LC_0210_CourseScheduleII {
       t.in++;
     }
 
-    int needPreNums = nodes.size();//需要修的所有课程数量
+    int needPreNums = nodes.size();
     //技巧:拓扑排序的BFS来了
     //技巧:1往队列里面塞入度为0的点
     Queue<Course> zeroInQueue = new LinkedList<>();
@@ -79,6 +79,13 @@ public class LC_0210_CourseScheduleII {
     }
     //技巧:3看看从队列里面出来的数量是不是和需要修完的课程数量一样
     return count == needPreNums ? res : new int[0];
+  }
+
+  public static void main(String[] args) {
+    int[] res = canFinish(3, new int[][]{{1,0}});
+    for(int i = 0; i < res.length; i++) {
+      System.out.print(res[i] + " ");
+    }
   }
 
 }

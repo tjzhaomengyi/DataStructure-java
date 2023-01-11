@@ -2,7 +2,7 @@ package com.MCAAlgorithm.bigshua.class12;
 
 // 本题测试链接 : https://leetcode.com/problems/median-of-two-sorted-arrays/
 public class Code03_FindKthMinNumber {
-
+	//刷题班12-79节
 	public double findMedianSortedArrays(int[] nums1, int[] nums2) {
 		int size = nums1.length + nums2.length;
 		boolean even = (size & 1) == 0;
@@ -57,27 +57,30 @@ public class Code03_FindKthMinNumber {
 
 	
 	
-	
-	// A[s1...e1]
-	// B[s2...e2]
-	// 一定等长！
-	// 返回整体的，上中位数！8（4） 10（5） 12（6）
+
+	// LC-0004 寻找两个等长数组中位数问题
+	// 思路：A[s1...e1]，s1到e1有序
+	//  B[s2...e2]，s2到e2有序
+	//  上面两段一定等长！!!【关键条件】
+	//  返回整体的，上中位数！8（4） 10（5） 12（6）
 	public static int getUpMedian(int[] A, int s1, int e1, int[] B, int s2, int e2) {
 		int mid1 = 0;
 		int mid2 = 0;
 		while (s1 < e1) {
+			//太难了~直接记住例子吧：在纸上的推导
 			// mid1 = s1 + (e1 - s1) >> 1
-			mid1 = (s1 + e1) / 2;
+			mid1 = (s1 + e1) / 2; //
 			mid2 = (s2 + e2) / 2;
 			if (A[mid1] == B[mid2]) {
-				return A[mid1];
+				return A[mid1];//数学结论：只要两个中点相等直接返回
 			}
 			// 两个中点一定不等！
 			if (((e1 - s1 + 1) & 1) == 1) { // 奇数长度
 				if (A[mid1] > B[mid2]) {
 					if (B[mid2] >= A[mid1 - 1]) {
-						return B[mid2];
+						return B[mid2];//太难了~直接记住例子吧：纸上推导，如果B[mid] 大于了 A[mid-1] 那么B[mid]就是最终的中位数
 					}
+					//太难了~直接记住例子吧：纸上推导，B[mid]没有大于A[mid - 1]，把B[mid]删掉，剩下部分继续迭代
 					e1 = mid1 - 1;
 					s2 = mid2 + 1;
 				} else { // A[mid1] < B[mid2]
@@ -87,7 +90,7 @@ public class Code03_FindKthMinNumber {
 					e2 = mid2 - 1;
 					s1 = mid1 + 1;
 				}
-			} else { // 偶数长度
+			} else { // 偶数长度，直接进入二分
 				if (A[mid1] > B[mid2]) {
 					e1 = mid1;
 					s2 = mid2 + 1;
@@ -97,7 +100,7 @@ public class Code03_FindKthMinNumber {
 				}
 			}
 		}
-		return Math.min(A[s1], B[s2]);
+		return Math.min(A[s1], B[s2]);//此时A 和 B中都只有一个数了，取最小即可
 	}
 
 }
