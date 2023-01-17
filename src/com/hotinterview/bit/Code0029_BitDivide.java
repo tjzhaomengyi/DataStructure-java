@@ -3,7 +3,7 @@ package com.hotinterview.bit;
 /**
  * @Author: zhaomengyi
  * @Date: 2023-01-10 4:30 下午
- * @Description:
+ * @Description:这个是加减乘除都不用，全部重新实现
  */
 public class Code0029_BitDivide {
   public int add(int a, int b){
