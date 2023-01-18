@@ -29,15 +29,17 @@ public class Code02_MinCoinsNoLimit {
 			return 0;
 		}
 		int N = arr.length;
-		int[][] dp = new int[N + 1][aim + 1];
-		dp[N][0] = 0;
+		int[][] dp = new int[N + 1][aim + 1];//
+		dp[N][0] = 0;//在还剩N张时候凑0元用0张
 		for (int j = 1; j <= aim; j++) {
-			dp[N][j] = Integer.MAX_VALUE;
+			dp[N][j] = Integer.MAX_VALUE;//剩 N 张凑 j 开始都用最多张，这个是最坏情况
 		}
+		//技巧：使用动态规划的倒推法，动态规划的题目尽量使用倒推法
 		for (int index = N - 1; index >= 0; index--) {
 			for (int rest = 0; rest <= aim; rest++) {
 				int ans = Integer.MAX_VALUE;
 				for (int zhang = 0; zhang * arr[index] <= rest; zhang++) {
+					//因为是倒推，所以在上一张面值的时候，凑当前 rest - zhang*当前面值 时候用多少张
 					int next = dp[index + 1][rest - zhang * arr[index]];
 					if (next != Integer.MAX_VALUE) {
 						ans = Math.min(ans, zhang + next);

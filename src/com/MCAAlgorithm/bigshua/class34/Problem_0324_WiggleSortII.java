@@ -61,7 +61,7 @@ public class Problem_0324_WiggleSortII {
 	}
 
 	public static void shuffle(int[] nums, int l, int r) {
-		while (r - l + 1 > 0) {
+		while (r - l + 1 > 1) {
 			int lenAndOne = r - l + 2;
 			int bloom = 3;
 			int k = 1;
@@ -167,6 +167,11 @@ public class Problem_0324_WiggleSortII {
 
 	// 为了测试
 	public static void main(String[] args) {
+		int[] sorted = new int[]{1,3,2,2,3,1};
+		wiggleSort(sorted);
+		for(int i = 0; i < sorted.length; i++) {
+			System.out.print(sorted[i] + " ");
+		}
 		int N = 10;
 		int V = 10;
 		int testTime = 10000;

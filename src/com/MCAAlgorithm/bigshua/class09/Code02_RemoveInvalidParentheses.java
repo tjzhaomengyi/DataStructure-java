@@ -41,13 +41,11 @@ public class Code02_RemoveInvalidParentheses {
 				count--;
 			}
 			// i check计数<0的第一个位置
-			if (count < 0) {
-				for (int j = deleteIndex; j <= i; ++j) {
-					// 比如
+			if (count < 0) { //一旦count计数小于0，说明括号组合出错了（肯定是多一个右括号），然后开始考虑删除哪个右括号
+				for (int j = deleteIndex; j <= i; ++j) { //技巧：删除谁？从deleteIndex开始往后，直到出错的位置
+					// 比如 ）
 					if (s.charAt(j) == par[1] && (j == deleteIndex || s.charAt(j - 1) != par[1])) {
-						remove(
-								s.substring(0, j) + s.substring(j + 1, s.length()),
-								ans, i, j, par);
+						remove(s.substring(0, j) + s.substring(j + 1, s.length()), ans, i, j, par);
 					}
 				}
 				return;

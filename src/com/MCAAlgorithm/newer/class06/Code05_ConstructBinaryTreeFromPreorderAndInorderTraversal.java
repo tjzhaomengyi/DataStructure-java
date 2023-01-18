@@ -36,6 +36,7 @@ public class Code05_ConstructBinaryTreeFromPreorderAndInorderTraversal {
 		while (in[find] != pre[L1]) {
 			find++;
 		}
+		//find从L2开始，分别计算左右的长度
 		head.left = f(pre, L1 + 1, L1 + find - L2, in, L2, find - 1);
 		head.right = f(pre, L1 + find - L2 + 1, R1, in, find + 1, R2);
 		return head;

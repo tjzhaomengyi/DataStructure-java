@@ -4,7 +4,7 @@ import java.util.Stack;
 
 // 测试链接：https://leetcode.com/problems/maximal-rectangle/
 public class Code04_MaximalRectangle {
-
+	//数学结论：在单调栈中的数的意义就是，每次单调栈数只要一出栈就表示：当前要入栈的值是比当前栈顶元素小的最右的元素，此时该栈顶的下一个栈中元素是左侧比该栈顶元素小的
 	public static int maximalRectangle(char[][] map) {
 		if (map == null || map.length == 0 || map[0].length == 0) {
 			return 0;
@@ -31,7 +31,10 @@ public class Code04_MaximalRectangle {
 			while (!stack.isEmpty() && height[i] <= height[stack.peek()]) {
 				int j = stack.pop();
 				int k = stack.isEmpty() ? -1 : stack.peek();
-				int curArea = (i - k - 1) * height[j];
+				// k j i || height[k] < height[j] > height[i],所以不要
+				//数学结论：在单调栈中的数的意义就是，每次单调栈数只要一出栈就表示：当前要入栈的值是比当前栈顶元素小的最右的元素，此时该栈顶的下一个栈中元素是左侧比该栈顶元素小的
+				//结算当前栈顶
+				int curArea = (i - k - 1) * height[j];//结算当前栈顶
 				maxArea = Math.max(maxArea, curArea);
 			}
 			stack.push(i);

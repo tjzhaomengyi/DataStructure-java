@@ -13,7 +13,7 @@ public class Code01_SplitSumClosed {
 		return process(arr, 0, sum / 2);
 	}
 
-	// arr[i...]可以自由选择，请返回累加和尽量接近rest，但不能超过rest的情况下，最接近的累加和是多少？
+	//技巧：arr[i...]可以自由选择，请返回累加和尽量接近rest，但不能超过rest的情况下，最接近的累加和是多少？
 	public static int process(int[] arr, int i, int rest) {
 		if (i == arr.length) {
 			return 0;

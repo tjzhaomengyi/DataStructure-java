@@ -3,9 +3,9 @@ package com.MCAAlgorithm.base.class16;
 import java.util.HashSet;
 import java.util.Stack;
 
-public class Code02_DFS {
+public class Code02_BFS {
 
-	public static void dfs(Node node) {
+	public static void bfs(Node node) {
 		if (node == null) {
 			return;
 		}

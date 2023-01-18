@@ -17,15 +17,18 @@ public class Code06_BSAwesome {
 		int mid = 0;
 		while (left < right) {
 			mid = (left + right) / 2;
+			//如果mid生效，让left 和 right下标失效
 			if (arr[mid] > arr[mid - 1]) {
-				right = mid - 1;
+				left = mid  + 1;
 			} else if (arr[mid] > arr[mid + 1]) {
-				left = mid + 1;
+				right = mid - 1;
 			} else {
 				return mid;
 			}
 		}
 		return left;
 	}
+
+
 
 }

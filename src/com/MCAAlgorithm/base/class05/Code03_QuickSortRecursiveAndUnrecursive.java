@@ -21,7 +21,7 @@ public class Code03_QuickSortRecursiveAndUnrecursive {
 			if (arr[index] == arr[R]) {
 				index++;
 			} else if (arr[index] < arr[R]) {
-				swap(arr, index++, ++less);
+				swap(arr, index++, ++less);//
 			} else {
 				swap(arr, index, --more);
 			}
