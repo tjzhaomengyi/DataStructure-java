@@ -41,7 +41,9 @@ public class Problem_0148_SortList {
 					pre.next = mhmt[0];
 					pre = mhmt[1];
 				}
+
 				teamFirst = hthtn[4]; //思路：走到下一组
+
 			}
 			teamFirst = h; //思路：如果现在的步长是2，下一组还得从当前merge好的 h 位置开始
 			pre = null;
@@ -52,7 +54,7 @@ public class Problem_0148_SortList {
 	//思路：如何理解hthtn()这个函数：
 	// 功能：获得新组的左组头结点和尾节点、右组的头结点和尾结点、指向下一组的指针next。
 	// 参数：teamfirst表示左组第一个节点【但是会利用teamfirst往下移动，但是我觉得还是用一个变量指针合适】。
-	// 		len表示这一组的步长，比如len=8，表示左组长度为8，右组长度为8
+	// 		  len表示这一组的步长，比如len=8，表示左组长度为8，右组长度为8
 	// 目标：需要把新组的结果连到前面组的尾部，同时还要生成指向下一组的next
 	public static ListNode[] hthtn(ListNode teamFirst, int len) {
 		ListNode ls = teamFirst;
@@ -85,7 +87,8 @@ public class Problem_0148_SortList {
 		//思路：2、对左右组执行断连
 		le.next = null;//左组和右组断连！
 		if (re != null) {
-			next = re.next;//但是要保存右组的下一个位置，要不找不到后面段位了
+			next = re.next;//但是要保存右组的下一
+			// 个位置，要不找不到后面段位了
 			re.next = null;//右组也断连
 		}
 		return new ListNode[] { ls, le, rs, re, next };

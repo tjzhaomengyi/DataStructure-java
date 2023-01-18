@@ -5,7 +5,7 @@ package com.mikemyzhao.sorted_0.mergesorttransfer;
  * @Date: 2022-01-01 10:15
  * @Description:MergeSort的基本形式
  */
-public class MergeSort_00 {
+public class MergeSort_00_standard {
   public static void mergeSort(int[] arr){
     if(arr==null || arr.length<2){
       return;
@@ -18,9 +18,10 @@ public class MergeSort_00 {
       return;
     }
     int mid = L + ((R-L)>>1);
+    //递归黑盒，让左右边都满足排好序
     process(arr,L,mid);
     process(arr,mid+1,R);
-    merge(arr,L,mid,R);
+    merge(arr,L,mid,R);//整理归并排序开辟的辅助数组
   }
 
   //假设条件：此时L到M有序，M +1到R有序
@@ -40,6 +41,18 @@ public class MergeSort_00 {
     }
     for(i=0;i<help.length;i++){
       arr[L+i] = help[i];
+    }
+  }
+
+  //非递归版本:思路:步长开始为1，然后每次2倍调整，直到步长正好大于当灯数组长度。
+  public static void mergeSortNoRec(int[] arr){
+    if(arr == null || arr.length < 2){
+      return;
+    }
+    int step = 1;
+    int N = arr.length;
+    while (step < N){
+      //要关心凑不满一组的情况
     }
   }
 

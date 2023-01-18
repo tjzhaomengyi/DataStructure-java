@@ -171,25 +171,33 @@ public class Code03_QuickSortRecursiveAndUnrecursive {
 
 	// 跑大样本随机测试（对数器）
 	public static void main(String[] args) {
-		int testTime = 500000;
-		int maxSize = 100;
-		int maxValue = 100;
-		boolean succeed = true;
-		System.out.println("test begin");
-		for (int i = 0; i < testTime; i++) {
-			int[] arr1 = generateRandomArray(maxSize, maxValue);
-			int[] arr2 = copyArray(arr1);
-			int[] arr3 = copyArray(arr1);
-			quickSort1(arr1);
-			quickSort2(arr2);
-			quickSort3(arr3);
-			if (!isEqual(arr1, arr2) || !isEqual(arr1, arr3)) {
-				succeed = false;
-				break;
-			}
+//		int testTime = 500000;
+//		int maxSize = 100;
+//		int maxValue = 100;
+//		boolean succeed = true;
+//		System.out.println("test begin");
+//		for (int i = 0; i < testTime; i++) {
+//			int[] arr1 = generateRandomArray(maxSize, maxValue);
+//			int[] arr2 = copyArray(arr1);
+//			int[] arr3 = copyArray(arr1);
+//			quickSort1(arr1);
+//			quickSort2(arr2);
+//			quickSort3(arr3);
+//			if (!isEqual(arr1, arr2) || !isEqual(arr1, arr3)) {
+//				succeed = false;
+//				break;
+//			}
+//		}
+		int[] test = new int[]{1,0,2};
+		netherlandsFlag(test,0,test.length-1);
+		for(int i = 0; i < test.length; i++){
+			System.out.print(test[i]);
 		}
+
+
+
 		System.out.println("test end");
-		System.out.println("测试" + testTime + "组是否全部通过：" + (succeed ? "是" : "否"));
+//		System.out.println("测试" + testTime + "组是否全部通过：" + (succeed ? "是" : "否"));
 	}
 
 }
