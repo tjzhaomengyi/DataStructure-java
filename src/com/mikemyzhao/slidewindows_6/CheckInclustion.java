@@ -7,7 +7,7 @@ import java.util.Map;
  * @Author: zhaomengyi
  * @Date: 2021-09-04 10:56
  * @Description:字符串排列
- * @NO:LC567,判断S2字符串是否包含S1字符串的排列
+ * @NO:LC567,判断S2字符串是否包含S1字符串的排列,最终答案还是ContainAllCharExtraly_12
  */
 public class CheckInclustion {
   public boolean checkInclusion(String s1, String s2) {

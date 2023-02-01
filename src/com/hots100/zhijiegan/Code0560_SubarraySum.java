@@ -9,7 +9,7 @@ import java.util.List;
  * @Description:
  */
 public class Code0560_SubarraySum {
-  //技巧：前缀和
+  //技巧：前缀和，还可以使用Map解决前缀和循环遍历的问题，参考PTOS010_SubarraySum:subArraySum2()
   public int subarraySum(int[] nums, int k) {
     int ans = 0;
     if(nums == null || nums.length == 0) return 0;

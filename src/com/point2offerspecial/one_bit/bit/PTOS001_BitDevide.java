@@ -1,4 +1,4 @@
-package com.point2offerspecial.bit;
+package com.point2offerspecial.one_bit.bit;
 
 /**
  * @Author: zhaomengyi
@@ -32,13 +32,13 @@ public class PTOS001_BitDevide {
 
   public int div(int a, int b){ // 因为负数范围大，所以a和b都是负数
     int ans = 0;
-    while (a >= b){
+    while (a <= b){
       int val = b;
       int quotient = 1;
       //思路：Integer.MIN_VALUE:0x1后面30个0(-2^31)，
       // Integer.MAX_VALUE:0x0后面30个1（2^31-1）
       //
-      while(val >= 0xc0000000 && a >= val + val){ //val的2倍不能超过0x80000000
+      while(val >= 0xc0000000 && a <= val + val){ //val的2倍不能超过0x80000000
         quotient += quotient; //2倍
         val += val;//除数每次两倍增长
       }
@@ -55,6 +55,7 @@ public class PTOS001_BitDevide {
     int tmp1 = ans1 >> 31;
     System.out.println(tmp);
     System.out.println(tmp1);
-
+    int ans2 = new PTOS001_BitDevide().divide(1, 1);
+    System.out.print(ans2);
   }
 }

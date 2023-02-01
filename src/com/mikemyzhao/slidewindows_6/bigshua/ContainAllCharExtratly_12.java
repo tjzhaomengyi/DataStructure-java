@@ -12,7 +12,7 @@ public class ContainAllCharExtratly_12 {
 
   public static boolean containExactly(String s1, String s2)
   {
-    //
+    //s1是长串s2是子串
     if(s1 == null || s2 == null || s1.length() < s2.length()){
       return false;
     }
@@ -36,10 +36,10 @@ public class ContainAllCharExtratly_12 {
       if(all == 0){
         return true;
       }
-      if(count[str1[R]]-- > 0){//凸出的时候减掉
+      if(count[str1[R]]-- > 0){//吐出的时候减掉,说明减掉的字符在count里面有记录
         all--;
       }
-      if(count[str1[R-M]]++ >=0){
+      if(count[str1[R-M]]++ >=0){//左神上课这块也没讲清楚，如果正好不是str2里面的字符为什么还+1
         all++;
       }
     }

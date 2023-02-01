@@ -1,7 +1,4 @@
-package com.point2offerspecial.bit;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.point2offerspecial.one_bit.bit;
 
 /**
  * @Author: zhaomengyi

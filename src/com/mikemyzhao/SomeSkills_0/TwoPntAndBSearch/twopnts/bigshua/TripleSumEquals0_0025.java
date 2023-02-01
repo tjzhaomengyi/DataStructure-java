@@ -9,9 +9,8 @@ import java.util.List;
  * @Date: 2022-04-07 15:35
  * @Description:在有序数组中找到所有和为0的三元组
  */
-public class TripleSumEquals0_25 {
+public class TripleSumEquals0_0025 {
   //技巧：先给出二元组的解法，然后用二元组代替三元组的解法
-
   //技巧：二元组和为0,在0到end上找到和为0的二元组
   public static List<List<Integer>> twoSum(int[] nums, int end, int target){
     int L = 0;

@@ -31,9 +31,10 @@ public class Code02_3Sum {
 		int R = end;
 		List<List<Integer>> ans = new ArrayList<>();
 		while (L < R) {
+			//如果加大了，就把R往左移动
 			if (nums[L] + nums[R] > target) {
 				R--;
-			} else if (nums[L] + nums[R] < target) {
+			} else if (nums[L] + nums[R] < target) { //如果小了就把左指针往右移动
 				L++;
 			} else { // nums[L] + nums[R] == target
 				if (L == 0 || nums[L - 1] != nums[L]) {

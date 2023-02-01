@@ -1,4 +1,4 @@
-package com.point2offerspecial.bit;
+package com.point2offerspecial.one_bit.bit;
 
 /**
  * @Author: zhaomengyi
