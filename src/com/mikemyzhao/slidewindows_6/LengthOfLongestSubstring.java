@@ -1,5 +1,7 @@
 package com.mikemyzhao.slidewindows_6;
 
+import com.point2offerspecial.three_string.SlidingWindow.PTOS016_LengthOfLongestSubstring;
+
 import java.util.HashMap;
 
 /**
@@ -17,7 +19,7 @@ public class LengthOfLongestSubstring {
       char c = s.charAt(right);
       right++;
       window.put(c,window.getOrDefault(c,0)+1);
-      while(window.get(c)>1){ //如果窗口中这个c出现了1次以上，说明要收缩窗口了
+      while(window.get(c) > 1){ //如果窗口中这个c出现了1次以上，说明要收缩窗口了
         char d = s.charAt(left);
         left++;
         window.put(d,window.get(d)-1);
@@ -25,5 +27,9 @@ public class LengthOfLongestSubstring {
       res = Integer.max(res,right-left);
     }
     return res;
+  }
+  public static void main(String[] args) {
+    int ans = new LengthOfLongestSubstring().lengthOfLongestSubstring("abcabcbb");
+    System.out.println(ans);
   }
 }

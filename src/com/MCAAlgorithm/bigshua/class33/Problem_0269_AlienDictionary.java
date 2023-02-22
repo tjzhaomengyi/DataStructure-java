@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Problem_0269_AlienDictionary {
-
+	//解释参考PTOS113_AlienOrder
 	public static String alienOrder(String[] words) {
 		if (words == null || words.length == 0) {
 			return "";

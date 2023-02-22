@@ -132,7 +132,7 @@ public class Code01_LinkedListMid {
 		test.next.next.next.next.next = new Node(5);
 		test.next.next.next.next.next.next = new Node(6);
 		test.next.next.next.next.next.next.next = new Node(7);
-		test.next.next.next.next.next.next.next.next = new Node(8);
+		//test.next.next.next.next.next.next.next.next = new Node(8);
 
 		Node ans1 = null;
 		Node ans2 = null;

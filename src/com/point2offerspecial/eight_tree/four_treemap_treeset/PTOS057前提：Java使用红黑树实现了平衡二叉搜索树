@@ -1,0 +1,14 @@
+这种方法大大缩小了搜索时间复杂度
+1、TreeSet 和 TreeMap的增删查时间复杂度都是O(logn)
+    使用场景：需要根据数据的大小实现快速查找
+2、TreeSet的专有操作：
+    （1）ceiling 返回键大于或等于给定值的最小键；如果没有返回null
+    （2）floor 返回小于或等于等于给定值的最大键；如果没有返回null
+    （3）higher 返回键大于给定值的最小键；如果没有返回null
+    （4）lower 返回键小于给定值的最大键；如果没有返回null
+3、TreeMap的专有操作
+    （1）ceilingEntry/ceilingKey 返回大于或等于给定值的最小映射/键，如果没有返回null
+    （2）floorEntry/floorKey 返回键小于或等于给定值的最大映射/键位，如果没有返回null；
+    （3）higherEntry/higherKey 返回键大于给定值的最小映射/键；如果没有返回null
+    （4）lowerEntry/lowerKey 返回键小于给定值的最大映射/键；如果没有返回null
+

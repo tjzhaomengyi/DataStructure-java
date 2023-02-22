@@ -19,6 +19,7 @@ public class Code01_FriendCircles {
 		return unionFind.sets();
 	}
 
+	//参考PTOS116_FriendCycles的解释
 	public static class UnionFind {
 		// parent[i] = k ： i的父亲是k
 		private int[] parent;

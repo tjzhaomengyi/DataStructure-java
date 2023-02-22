@@ -34,7 +34,7 @@ public class WaysToBuildString_7_sameas_0139 {
   }
 
 
-  //使用前缀树的方法，减少查询过程
+  //太难了~直接记住例子吧 使用前缀树的方法，减少查询过程
   public static class Node{
     public boolean end;
     public Node[] nexts;

@@ -3,7 +3,7 @@ package com.hots100.dp;
 /**
  * @Author: zhaomengyi
  * @Date: 2022-12-08 5:43 下午
- * @Description:
+ * @Description:背包问题
  */
 public class Code0416_CanPartition {
   //能不能分出两个部分，让两部分和相等
@@ -16,7 +16,8 @@ public class Code0416_CanPartition {
     }
     if(sum % 2 != 0) return false;
     sum = sum / 2;
-    int[][] dp = new int[N+1][sum + 1];
+    //用这个思路不是非常好想，PTOS101使用的是直接用是否能凑一半sum的方法做dp
+    int[][] dp = new int[N+1][sum + 1];//拿走N件冻洗能凑出的
     //思路：从i下标的数自由选择，返回累加和尽量接近sum。
     // 在i位置：使用 i位置 的数:arr[i]+process(arr, i+1, rest-arr[i])，
     // 或者不使用 i位置 的数:process(arr, i+1, rest)

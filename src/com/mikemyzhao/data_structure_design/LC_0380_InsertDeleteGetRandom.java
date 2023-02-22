@@ -9,9 +9,9 @@ import java.util.HashMap;
  */
 public class LC_0380_InsertDeleteGetRandom {
   class RandomizedSet {
-
+    //题目要求插入和删除都要O(1)的时间复杂度，所以只能用Map，val->index, index->val
     private HashMap<Integer, Integer> keyIndexMap;//技巧:val对应index
-    private HashMap<Integer, Integer> indexKeyMap;
+    private HashMap<Integer, Integer> indexKeyMap;// index对应val
     private int size;
 
     public RandomizedSet() {

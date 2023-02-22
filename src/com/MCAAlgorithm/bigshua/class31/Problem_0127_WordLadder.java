@@ -83,6 +83,7 @@ public class Problem_0127_WordLadder {
 		if (!dict.contains(endWord)) {
 			return 0;
 		}
+		//技巧：看PTOS108的题解吧，那个是固定思路，左神用DFS来求解，求最短路径最好用BFS
 		HashSet<String> startSet = new HashSet<>();
 		HashSet<String> endSet = new HashSet<>();
 		HashSet<String> visit = new HashSet<>();

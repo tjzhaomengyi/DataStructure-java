@@ -18,16 +18,17 @@ public class LC_0437_PathSumIII {
 
   public static int pathSum(TreeNode root, int sum){
     HashMap<Integer, Integer> preSumMap = new HashMap<>();//技巧:DFS记录走过的路径
-    preSumMap.put(0, 1);
+    preSumMap.put(0, 1);//这个特别重要
     return process(root, sum, 0, preSumMap);
   }
+  //preAll表示前缀和 All = sum + find
   public static int process(TreeNode x, int sum, int preAll, HashMap<Integer, Integer> preSumMap){
     if(x == null){
       return 0;
     }
-    int all = preAll + x.val;//preAll记录之前的和
+    int all = preAll + x.val;//preAll记录之前的和 all表示当前x结尾的前缀和，所以用all - sum = find如果find找到说明有记录这个的前缀和
     int ans = 0;
-    if(preSumMap.containsKey(all - sum)){
+    if(preSumMap.containsKey(all - sum)){ //all - sum 表示以当前x结尾
       ans = preSumMap.get(all - sum);
     }
     if(!preSumMap.containsKey(all)){

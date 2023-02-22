@@ -5,6 +5,7 @@ import java.util.Stack;
 
 public class Code02_BFS {
 
+	//注意：这种栈的惯性思路更多的是解决DFS问题，BFS第一反应还是使用Queue
 	public static void bfs(Node node) {
 		if (node == null) {
 			return;

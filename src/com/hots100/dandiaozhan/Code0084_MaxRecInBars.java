@@ -5,7 +5,7 @@ import java.util.Stack;
 /**
  * @Author: zhaomengyi
  * @Date: 2022-12-15 7:10 下午
- * @Description:
+ * @Description: 参考Code04_MaximalRectangle的解释【单调栈的：扣边界 + 数学结论】
  */
 public class Code0084_MaxRecInBars {
 
