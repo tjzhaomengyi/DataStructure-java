@@ -63,7 +63,7 @@ public class PTOS119_LongestConsecurive {
       int ans = 1;
       int n = nums.length;
       UnionFind uf = new UnionFind(n);
-      boolean[] pass = new boolean[n];
+      boolean[] pass = new boolean[n];//记录那些存在重复的下标，直接跳过，并查集中不要合并它们
       for(int i = 0; i < n - 1; i++){
         int j = i + 1;
         if(pass[i] == true){
