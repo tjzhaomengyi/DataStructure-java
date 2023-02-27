@@ -5,7 +5,7 @@ import java.util.Stack;
 /**
  * @Author: zhaomengyi
  * @Date: 2022-04-17 19:25
- * @Description:
+ * @Description: 注意这个题的题目已经把逆波兰式的顺序给好了，直接用一个栈处理给出的公式即可
  */
 public class LC_0150_NiBolanShi {
   public static int evalRPN(String[] tokens) {
@@ -39,5 +39,11 @@ public class LC_0150_NiBolanShi {
         break;
     }
     stack.push(ans);
+  }
+
+  public static void main(String[] args) {
+    String[] tokens = new String[]{"2","1","+","3","*"};
+    int ans = evalRPN(tokens);
+    System.out.println(ans);
   }
 }

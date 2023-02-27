@@ -92,6 +92,7 @@ public class Code02_Cola {
 			// 凑出第一瓶可乐之后，当前的面值有可能能继续买更多的可乐
 			// 以下过程就是后续的可乐怎么用当前面值的钱来买
 			// 用当前面值的钱，买一瓶可乐需要几张
+			// 技巧：向上取整的方法
 			int curQianBuyOneColaZhang = (x + qian[i] - 1) / qian[i];
 			// 用当前面值的钱，一共可以搞定几瓶可乐
 			int curQianBuyColas = Math.min(zhang[i] / curQianBuyOneColaZhang, m);

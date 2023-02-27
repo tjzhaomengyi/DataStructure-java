@@ -19,6 +19,7 @@ public class Code0142_DetectCycle {
     if(head == null || head.next == null || head.next.next == null){
       return null;
     }
+    //扣边界：这里要避开前两个直接成环的可能，让快的直接越过去
     ListNode slow = head.next;
     ListNode fast = head.next.next;
     while(slow != fast){

@@ -7,7 +7,7 @@ import java.util.Stack;
 /**
  * @Author: zhaomengyi
  * @Date: 2022-04-19 13:49
- * @Description:
+ * @Description:这道题左神复杂了
  */
 public class LC_0739_NearestTempreature {
   public static int[] dailyTemperatures(int[] arr) {
@@ -31,6 +31,21 @@ public class LC_0739_NearestTempreature {
         list.add(i);
         stack.push(list);
       }
+    }
+    return ans;
+  }
+
+  //这个方法比上面的方法更省略一点，思路：就是当前要进来的温度如果比stack中的温度高的话把前面低的温度出栈，并求天数差即可。然后这个温度入栈
+  public int[] dailyTemperatures_easy(int[] temperatures) {
+    if(temperatures == null) return null;
+    int[] ans = new int[temperatures.length];
+    Stack<Integer> store = new Stack<>();//存温度的下标
+    for(int i = 0; i < temperatures.length; i++){
+      while (!store.isEmpty() && temperatures[i] > temperatures[store.peek()]){
+        int prev = store.pop();//当前进来的温度比里面的温度高，所以前面小于当前温度的出去就行
+        ans[prev] = i - prev;
+      }
+      store.push(temperatures[i]);
     }
     return ans;
   }

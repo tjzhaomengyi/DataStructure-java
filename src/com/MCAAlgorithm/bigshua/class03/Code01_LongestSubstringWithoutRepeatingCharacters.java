@@ -2,7 +2,7 @@ package com.MCAAlgorithm.bigshua.class03;
 
 // 本题测试链接 : https://leetcode.com/problems/longest-substring-without-repeating-characters/
 public class Code01_LongestSubstringWithoutRepeatingCharacters {
-
+	//这个是DP的方法
 	public static int lengthOfLongestSubstring(String s) {
 		if (s == null || s.equals("")) {
 			return 0;
@@ -10,7 +10,7 @@ public class Code01_LongestSubstringWithoutRepeatingCharacters {
 		char[] str = s.toCharArray();
 		int[] map = new int[256];
 		for (int i = 0; i < 256; i++) {
-			map[i] = -1;
+			map[i] = -1;//记录字符出现的位置
 		}
 		map[str[0]] = 0;
 		int N = str.length;

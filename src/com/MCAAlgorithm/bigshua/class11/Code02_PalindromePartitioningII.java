@@ -14,12 +14,15 @@ public class Code02_PalindromePartitioningII {
 		char[] str = s.toCharArray();
 		int N = str.length;
 		boolean[][] checkMap = createCheckMap(str, N);
-		int[] dp = new int[N + 1];
-		dp[N] = 0;
+		int[] dp = new int[N + 1];//思路：从i开始到字符串结束最少分成几部分，保证每部分都是回文
+		dp[N] = 0;//
+		//技巧：一维空间从后往前递推
 		for (int i = N - 1; i >= 0; i--) {
 			if (checkMap[i][N - 1]) {
 				dp[i] = 1;
 			} else {
+				//思路：如果checkmap[i][N-1]不是回文，那么肯定要从i到j切一部分出来，
+				// 所以是 1 + next（next表示从j+1到n-1能切出最少回文数）
 				int next = Integer.MAX_VALUE;
 				for (int j = i; j < N; j++) {
 					if (checkMap[i][j]) {
@@ -29,7 +32,7 @@ public class Code02_PalindromePartitioningII {
 				dp[i] = 1 + next;
 			}
 		}
-		return dp[0] - 1;
+		return dp[0] - 1;//因为求得都是部分数所以刀数为部分数-1
 	}
 
 	public static boolean[][] createCheckMap(char[] str, int N) {

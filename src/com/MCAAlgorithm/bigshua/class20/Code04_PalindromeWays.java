@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.bigshua.class20;
 
-import com.mikemyzhao.DPAndRecursion_5.DP.bigshua.fanweichangshi.PalindromeWays_20;
+import com.mikemyzhao.DP.DP.bigshua.fanweichangshi.PalindromeWays_20;
 
 public class Code04_PalindromeWays {
 

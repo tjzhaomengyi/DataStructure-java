@@ -20,7 +20,6 @@ public class Code0046_Permute {
   void process(int[] nums, List<Integer> track, List<List<Integer>> res){
     if(track.size() == nums.length){
       res.add(new ArrayList<>(track));
-      return;
     }
     for(int i = 0; i < nums.length; i++){
       //排除track中已经有的

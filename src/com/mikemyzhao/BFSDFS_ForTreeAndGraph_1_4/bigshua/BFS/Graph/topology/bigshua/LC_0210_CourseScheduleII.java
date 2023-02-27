@@ -1,5 +1,7 @@
 package com.mikemyzhao.BFSDFS_ForTreeAndGraph_1_4.bigshua.BFS.Graph.topology.bigshua;
 
+import com.point2offerspecial.fifteen_graph.topology.PTOS113_CourseOrder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -37,16 +39,15 @@ public class LC_0210_CourseScheduleII {
     for(int i = 0; i < courses; i++){
       res[i] = i;
     }
+    //技巧：这道题一定要在这家所有节点，否则出错，多的测试用例报错
+    for(int i = 0; i < courses; i++){
+      nodes.put(i, new Course(i));
+    }
     for (int[] arr : relation) {
       //注意这里from在后面，to在前面
       int to = arr[0];
       int from = arr[1];
-      if (!nodes.containsKey(to)) {
-        nodes.put(to, new Course(to));
-      }
-      if (!nodes.containsKey(from)) {
-        nodes.put(from, new Course(from));
-      }
+
       Course t = nodes.get(to);
       Course f = nodes.get(from);
       f.nexts.add(t);

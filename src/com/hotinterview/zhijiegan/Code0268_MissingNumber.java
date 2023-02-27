@@ -6,7 +6,7 @@ package com.hotinterview.zhijiegan;
  * @Description:
  */
 public class Code0268_MissingNumber {
-  //儿童趣味益智：使用抑或的性质XOR，如果是0表示都是奇数个，XOR的结果就是缺的那个数
+  //儿童趣味益智：使用异或的性质XOR，如果是0表示都是奇数个，XOR的结果就是缺的那个数
   public int missingNumber(int[] nums) {
     int N = nums.length;
     int XOR = 0;

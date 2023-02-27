@@ -20,7 +20,7 @@ public class Problem_0440_KthSmallestInLexicographicalOrder {
 		int pick = 0;
 		int already = 0;
 		if (k <= left) {
-			// k / a 向上取整-> (k + a - 1) / a
+			//技巧： k / a 向上取整-> (k + a - 1) / a
 			pick = (k + number[len] - 1) / number[len];
 			already = (pick - 1) * number[len];
 			return kth((pick + 1) * offset[len] - 1, len, k - already);

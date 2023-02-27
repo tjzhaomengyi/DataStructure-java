@@ -29,7 +29,8 @@ public class LC_0056_MergeIntervals {
     }
     //技巧:最后一定把最后剩下的一组生成，因为还在等着，囧
     intervals[size][0] = s;
-    intervals[size++][1] = e;
+    intervals[size][1] = e;//先取再加加
+    size++;
     return Arrays.copyOf(intervals, size);
 
   }

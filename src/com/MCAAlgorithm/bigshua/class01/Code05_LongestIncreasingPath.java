@@ -2,6 +2,7 @@ package com.MCAAlgorithm.bigshua.class01;
 
 public class Code05_LongestIncreasingPath {
 
+	//这种递归的方法超时
 	public static int longestIncreasingPath1(int[][] matrix) {
 		int ans = 0;
 		int N = matrix.length;

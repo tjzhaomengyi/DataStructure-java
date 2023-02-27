@@ -22,6 +22,7 @@ public class Code04_DistinctSubseq {
 		return res;
 	}
 
+	//LeetCode115：https://leetcode.cn/problems/distinct-subsequences/
 	// S[...i]的所有子序列中，包含多少个字面值等于T[...j]这个字符串的子序列
 	// 记为dp[i][j]
 	// 可能性1）S[...i]的所有子序列中，都不以s[i]结尾，则dp[i][j]肯定包含dp[i-1][j]
