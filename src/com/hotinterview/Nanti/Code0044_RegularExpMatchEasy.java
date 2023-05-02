@@ -52,6 +52,47 @@ public class Code0044_RegularExpMatchEasy {
     return ans;
   }
 
+
+  /***
+   * 这个方法就是模板，动态规划搞定，单个字符的
+   * @param reg
+   * @param str
+   * @return
+   */
+  public static boolean isMatchByDP(String reg, String str){
+    int m = reg.length();
+    int n = str.length();
+    boolean[][] dp = new boolean[m + 1][n + 1];
+    dp[0][0] = true;
+    if(reg.charAt(0) == '*'){
+      dp[1][0] = true;
+    }
+    for(int i = 1; i < m + 1; i++){
+      char r = reg.charAt(i - 1);
+      for(int j = 1; j < n + 1; j++){
+        char c = str.charAt(j - 1);
+        if(r == '?'){
+          if(Character.isDigit(c) || Character.isLetter(c)){
+            dp[i][j] = dp[i - 1][j - 1];
+          } else {
+            dp[i][j] = false;
+          }
+        } else if(r == '*'){
+          if(Character.isDigit(c) || Character.isLetter(c)){
+            dp[i][j] = dp[i - 1][j - 1] || dp[i][j - 1] ||dp[i - 1][j];
+          } else {
+            dp[i][j] = false;
+          }
+        } else if(c == r){
+          dp[i][j] = dp[i - 1][j - 1];
+        } else {
+          dp[i][j] = false;
+        }
+      }
+    }
+    return dp[m][n];
+  }
+
   public static void main(String[] args) {
     boolean ans = new Code0044_RegularExpMatchEasy().isMatch("","***");
   }

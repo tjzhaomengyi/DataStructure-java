@@ -22,6 +22,7 @@ public class Problem_0621_TaskScheduler {
 		// maxCount : 最多次，是几次？
 		// 砍掉最后一组剩余的任务数
 		int tasksExceptFinalTeam = tasks.length - maxKinds;
+		//free+1应该是 maxKind + (free - maxKind + 1)得到的
 		int spaces = (free + 1) * (maxCount - 1);
 		// 到底几个空格最终会留下！
 		int restSpaces = Math.max(0, spaces - tasksExceptFinalTeam);

@@ -22,6 +22,7 @@ public class Primes {
       }
     }
     return true;
+
   }
 
   //埃拉托色尼筛选法
