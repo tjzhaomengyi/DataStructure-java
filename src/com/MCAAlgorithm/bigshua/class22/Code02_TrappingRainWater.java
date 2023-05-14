@@ -1,5 +1,7 @@
 package com.MCAAlgorithm.bigshua.class22;
 
+import java.util.Scanner;
+
 // 本题测试链接 : https://leetcode.com/problems/trapping-rain-water/
 public class Code02_TrappingRainWater {
 
@@ -23,6 +25,20 @@ public class Code02_TrappingRainWater {
 			}
 		}
 		return water;
+	}
+
+	public static void main(String[] args) {
+	  Scanner in = new Scanner(System.in);
+		while (in.hasNextLine()) {
+			String[] str = in.nextLine().split(" ");
+			int[] nums = new int[str.length];
+			for(int i = 0; i < nums.length; i++){
+				nums[i] = Integer.valueOf(str[i]);
+			}
+			int ans = trap(nums);
+			System.out.println(ans);
+
+		}
 	}
 
 }
