@@ -44,10 +44,11 @@ public class Code03_MaxMeetingScore {
 
 	public static int maxScore2(int[][] meetings) {
 		Arrays.sort(meetings, (a, b) -> a[0] - b[0]);
-		PriorityQueue<Integer> heap = new PriorityQueue<>();
+		PriorityQueue<Integer> heap = new PriorityQueue<>();//准备一个小根堆
 		int time = 0;
-		// 已经把所有会议，按照截止时间，从小到大，排序了！
+		// 技巧小贪心，已经把所有会议，按照截止时间，从小到大，排序了！
 		// 截止时间一样的，谁排前谁排后，无所谓
+		//技巧:进当前的会议，并来到完成的时刻，但是如果都在相同的时间内，选择收益更大的【贪心】
 		for (int i = 0; i < meetings.length; i++) {
 			if (time + 10 <= meetings[i][0]) {
 				heap.add(meetings[i][1]);

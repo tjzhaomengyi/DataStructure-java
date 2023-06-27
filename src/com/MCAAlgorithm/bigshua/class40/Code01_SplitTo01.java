@@ -34,6 +34,7 @@ public class Code01_SplitTo01 {
 	// ..
 	// n = 1 ,.最终裂变的数组，长度多少？
 	// 请都填写到lenMap中去！
+	//思路 2:用两个表
 	public static long len(long n, HashMap<Long, Long> lenMap) {
 		if (n == 1 || n == 0) {
 			lenMap.put(n, 1L);
@@ -67,8 +68,7 @@ public class Code01_SplitTo01 {
 		return all;
 	}
 
-	//
-
+	//思路 1:递归普通解
 	public static long nums1(long n, long l, long r) {
 		if (n == 1 || n == 0) {
 			return n == 1 ? 1 : 0;

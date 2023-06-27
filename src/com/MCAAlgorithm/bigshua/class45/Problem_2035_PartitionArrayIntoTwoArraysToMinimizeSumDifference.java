@@ -5,6 +5,8 @@ import java.util.TreeSet;
 
 public class Problem_2035_PartitionArrayIntoTwoArraysToMinimizeSumDifference {
 
+
+	//纯暴力
 	public static int minimumDifference(int[] arr) {
 		int size = arr.length;
 		int half = size >> 1;
@@ -50,7 +52,7 @@ public class Problem_2035_PartitionArrayIntoTwoArraysToMinimizeSumDifference {
 			}
 			map.get(pick).add(sum);
 		} else {
-			process(arr, index + 1, end, pick, sum, map);
+			process(arr, index + 1, end, pick, sum, map);//不挑当前的数
 			process(arr, index + 1, end, pick + 1, sum + arr[index], map);
 		}
 	}

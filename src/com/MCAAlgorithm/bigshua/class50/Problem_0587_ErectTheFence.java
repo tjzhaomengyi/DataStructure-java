@@ -4,6 +4,10 @@ import java.util.Arrays;
 
 public class Problem_0587_ErectTheFence {
 
+	//技巧 : 凸包问题，返回一个二维数据最外围的点
+	//  给出三个点判断，三者的叉乘结果
+	// 	根据x、y排序，x小的放在前面，如果x一样，y小的放在前面
+	// 数学结论: 找凸图形的外包线: 规则:每个点x进来，如果在栈中倒数第一和倒数第二的右侧，倒数第一、出栈，如果在左侧x进站，最终卡着逆时针的边界连接出来
 	public static int[][] outerTrees(int[][] points) {
 		int n = points.length;
 		int s = 0;

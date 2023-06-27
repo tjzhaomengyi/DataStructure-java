@@ -44,6 +44,8 @@ public class LC_0687_LongestSameValPath {
     TreeNode r = x.right;
     Info linfo = process(l);
     Info rinfo = process(r);
+
+    //必须从x出发的情况下，往下的最大路径
     int len = 1;
     if(l != null && l.val == x.val){
       len = linfo.len + 1;
@@ -51,7 +53,7 @@ public class LC_0687_LongestSameValPath {
     if(r != null && r.val == x.val){
       len = Math.max(len, rinfo.len + 1);
     }
-    //不从x触发最大路径
+    //不从x出发最大路径
     int max = Math.max(Math.max(linfo.max, rinfo.max), len);
     if(l != null && r != null && l.val == x.val && r.val == x.val){
       max = Math.max(max, linfo.len + rinfo.len + 1);

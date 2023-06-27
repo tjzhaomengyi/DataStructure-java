@@ -2,7 +2,7 @@ package com.MCAAlgorithm.bigshua.class36;
 
 import java.util.Arrays;
 
-// 来自腾讯
+// 来自 腾讯
 // 给定一个数组arr，当拿走某个数a的时候，其他所有的数都+a
 // 请返回最终所有数都拿走的最大分数
 // 比如: [2,3,1]

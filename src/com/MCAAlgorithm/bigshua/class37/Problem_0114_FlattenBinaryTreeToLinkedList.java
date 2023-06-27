@@ -1,7 +1,7 @@
 package com.MCAAlgorithm.bigshua.
 		class37;
 
-// 利用morris遍历
+// 技巧:利用morris遍历 或者 二叉树遍历的套路
 public class Problem_0114_FlattenBinaryTreeToLinkedList {
 
 	// 这个类不用提交

@@ -6,6 +6,7 @@ public class Problem_0992_SubarraysWithKDifferentIntegers {
 
 	// nums 数组，题目规定，nums中的数字，不会超过nums的长度
 	// [ ]长度为5，0~5
+	//繁衍题 滑动窗口【维持k和k-1种的两个窗口】，使用y、x、i维持k-1种和k种，然这个结果一直维持住
 	public static int subarraysWithKDistinct1(int[] nums, int k) {
 		int n = nums.length;
 		// k-1种数的窗口词频统计
@@ -44,9 +45,12 @@ public class Problem_0992_SubarraysWithKDifferentIntegers {
 		return ans;
 	}
 
+	//思路 2:收集到小于等于k个有多少个 减去 收集到小于等于k-1有多少个 就等于 收集等于k个的子数组
+	// 这个解法比第一个解法的模型简单
 	public static int subarraysWithKDistinct2(int[] arr, int k) {
 		return numsMostK(arr, k) - numsMostK(arr, k - 1);
 	}
+
 
 	public static int numsMostK(int[] arr, int k) {
 		int i = 0, res = 0;

@@ -3,7 +3,7 @@ package com.hotinterview.window;
 /**
  * @Author: zhaomengyi
  * @Date: 2023-01-06 6:22 下午
- * @Description:
+ * @Description: 繁衍题:利用数据量猜解法【经典题】
  */
 public class Code0395_LongestSubstring {
   //思路：题目要求最长的字符串中，每个字符都 >= k个，

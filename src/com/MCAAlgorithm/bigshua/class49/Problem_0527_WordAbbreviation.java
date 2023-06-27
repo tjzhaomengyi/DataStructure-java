@@ -13,6 +13,7 @@ public class Problem_0527_WordAbbreviation {
 		for (int i = 0; i < len; i++) {
 			res.add(makeAbbr(words.get(i), 1));
 			List<Integer> list = map.getOrDefault(res.get(i), new ArrayList<>());
+			
 			list.add(i);
 			map.put(res.get(i), list);
 		}

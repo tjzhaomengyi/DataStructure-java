@@ -20,6 +20,7 @@ public class Problem_0483_SmallestGoodBase {
 				}
 				if (sum < num) {
 					l = k + 1;
+
 				} else if (sum > num) {
 					r = k - 1;
 				} else {

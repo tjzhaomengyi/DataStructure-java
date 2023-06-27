@@ -6,13 +6,13 @@ public class Problem_0489_RobotRoomCleaner {
 
 	// 不要提交这个接口的内容
 	interface Robot {
-		public boolean move();
+		public boolean move();// 能动并且过去了返回true，不能过去返回false
 
 		public void turnLeft();
 
 		public void turnRight();
 
-		public void clean();
+		public void clean(); //move只负责移动，clean打扫完要回到原位置，且头还是原位置
 	}
 
 	// 提交下面的内容
@@ -44,9 +44,11 @@ public class Problem_0489_RobotRoomCleaner {
 			if (!visited.contains(nx + "_" + ny) && robot.move()) {
 				clean(robot, nx, ny, nd, visited);
 			}
-			robot.turnRight();
+			robot.turnRight();//每次clean完，回到初始位置，向右转执行新的方向，要对应nd的方向，两个正好是掐点了。思路:机器人开始的时候向上，向右转完正好是(0,1)的方向
+			// 思路:注意最后机器人的状态是向右的状态
 		}
-		// 负责回去：之前的位置，怎么到你的！你要回去，而且方向和到你之前，要一致！
+		//技巧 :负责回去：之前的位置，怎么到你的！你要回去，而且方向和到你之前，要一致！要回去要回去！！！【机器人要想我当前这个状态是怎么来的？】
+		// 这个就是清理现场！！！清理现场！！清理现场。来之前是什么状态，是什么格子
 		robot.turnRight();
 		robot.turnRight();
 		robot.move();

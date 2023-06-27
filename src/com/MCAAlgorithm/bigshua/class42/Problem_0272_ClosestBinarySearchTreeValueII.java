@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+//这道题有限制:低于O(N)
 public class Problem_0272_ClosestBinarySearchTreeValueII {
 
 	public static class TreeNode {
@@ -80,6 +81,7 @@ public class Problem_0272_ClosestBinarySearchTreeValueII {
 		}
 	}
 
+	//技巧:使用栈快速找后继和前驱
 	// 返回moreTops的头部的值
 	// 并且调整moreTops : 为了以后能很快的找到返回节点的后继节点
 	public static int getSuccessor(Stack<TreeNode> moreTops) {

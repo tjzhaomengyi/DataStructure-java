@@ -33,6 +33,7 @@ public class Problem_0656_CoinPath {
 		return dp[n - 1];
 	}
 
+	//结论:当前两个方案长度相等，选择倒数第二位字典序小的。如果路径不同，代价相同，选择路径长的
 	public static List<Integer> cheapestJump(int[] arr, int jump) {
 		int n = arr.length;
 		int[] best = new int[n];

@@ -1,12 +1,12 @@
 package com.MCAAlgorithm.bigshua.class36;
 
-// 来自美团
+// 来自 美团
 // 给定一个数组arr，长度为N，做出一个结构，可以高效的做如下的查询
 // 1) int querySum(L,R) : 查询arr[L...R]上的累加和
-// 2) int queryAim(L,R) : 查询arr[L...R]上的目标值，目标值定义如下：
+// 2) int queryAim(L,R) : 查询arr[L...R]上的目标值，目标值定义如下：技巧:公式转换，在做一个数组
 //        假设arr[L...R]上的值为[a,b,c,d]，a+b+c+d = s
 //        目标值为 : (s-a)^2 + (s-b)^2 + (s-c)^2 + (s-d)^2
-// 3) int queryMax(L,R) : 查询arr[L...R]上的最大值
+// 3) int queryMax(L,R) : 查询arr[L...R]上的最大值 技巧:线段树 繁衍题
 // 要求：
 // 1) 初始化该结构的时间复杂度不能超过O(N*logN)
 // 2) 三个查询的时间复杂度不能超过O(logN)

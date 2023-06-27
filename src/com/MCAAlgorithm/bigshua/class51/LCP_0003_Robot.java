@@ -6,6 +6,7 @@ import java.util.HashSet;
 // leetcode题目 : https://leetcode-cn.com/problems/programmable-robot/
 public class LCP_0003_Robot {
 
+	//技巧:记录每轮每个方向可以走几步
 	public static boolean robot1(String command, int[][] obstacles, int x, int y) {
 		int X = 0;
 		int Y = 0;
@@ -16,7 +17,7 @@ public class LCP_0003_Robot {
 			Y += c == 'U' ? 1 : 0;
 			set.add((X << 10) | Y);
 		}
-		// 不考虑任何额外的点，机器人能不能到达，(x，y)
+		// 思路:不考虑任何额外的点，机器人能不能到达，(x，y)
 		if (!meet1(x, y, X, Y, set)) {
 			return false;
 		}
@@ -33,6 +34,7 @@ public class LCP_0003_Robot {
 	// set, 一轮以内的所有可能性
 	// (x,y)要去的点
 	// 机器人从(0,0)位置，能不能走到(x,y)
+	// 思路:不考虑有任何障碍，xy是否能到达XY
 	public static boolean meet1(int x, int y, int X, int Y, HashSet<Integer> set) {
 		if (X == 0) { // Y != 0 往上肯定走了！
 			return x == 0;
@@ -122,7 +124,7 @@ public class LCP_0003_Robot {
 
 		printBinary(y);
 
-		// x_y 组合！
+		// x_y 组合！ 技巧:用位表示两个数，因为x和y最大只有1000,1000是2的9次方左右，所以每个数字只要10位即可表示
 		int c = (x << 10) | y;
 		printBinary(c);
 

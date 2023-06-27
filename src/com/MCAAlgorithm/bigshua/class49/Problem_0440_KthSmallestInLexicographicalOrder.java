@@ -3,6 +3,9 @@ package com.MCAAlgorithm.bigshua.class49;
 // 这道题在leetcode上，所有题解都只能做到O( (logN) 平方)的解
 // 我们课上讲的是O(logN)的解
 // 打败所有题解
+// 思路:以x开头只有1位的这样的数有1个
+//  以x开头小于等于两位的有11个，x0到x9(10个) + x (1个)
+//  以x开头小于等于三位的有111个，
 public class Problem_0440_KthSmallestInLexicographicalOrder {
 
 	public static int[] offset = { 0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };

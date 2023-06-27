@@ -1,5 +1,7 @@
 package com.MCAAlgorithm.bigshua.class46;
 
+//思路:如果字典没有对应长度的，target单词直接变成长度
+// 这道题没理解，挺难的还是
 public class Problem_0411_MinimumUniqueWordAbbreviation {
 
 	// 区分出来之后，缩写的长度，最短是多少？
@@ -10,6 +12,7 @@ public class Problem_0411_MinimumUniqueWordAbbreviation {
 
 	public static int abbrLen(int fix, int len) {
 		int ans = 0;
+
 		int cnt = 0;
 		for (int i = 0; i < len; i++) {
 			if ((fix & (1 << i)) != 0) {

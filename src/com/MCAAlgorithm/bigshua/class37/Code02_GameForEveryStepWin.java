@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.bigshua.class37;
 
-// 来自字节
+// 来自 字节
 // 扑克牌中的红桃J和梅花Q找不到了，为了利用剩下的牌做游戏，小明设计了新的游戏规则
 // 1) A,2,3,4....10,J,Q,K分别对应1到13这些数字，大小王对应0
 // 2) 游戏人数为2人，轮流从牌堆里摸牌，每次摸到的牌只有“保留”和“使用”两个选项，且当前轮必须做出选择
@@ -17,9 +17,9 @@ public class Code02_GameForEveryStepWin {
 
 	// 当前来到index位置，牌是cands[index]值
 	// 对手第i轮的得分，sroces[i]
-	// int hold : i之前保留的牌的总分
-	// int cur : 当前轮得到的，之前的牌只算上使用的效果，加成是多少
-	// int next : 之前的牌，对index的下一轮，使用效果加成是多少
+	// int hold : i之前保留的牌的总分，思路:这里只算“保留”的分数
+	// int cur : 当前轮得到的，之前的牌只算上使用的效果，加成是多少，思路:cur是只算“使用”得到的分数
+	// int next : 之前的牌，对index的下一轮，使用效果加成是多少，
 	// 返回值：如果i...最后，不能全赢，返回-1
 	// 如果i...最后，能全赢，返回最后一轮的最大值
 	
@@ -30,20 +30,21 @@ public class Code02_GameForEveryStepWin {
 	// 26 * 341 * 26 * 13 -> ? * (10 ^ 5)
 	public static int f(int[] cands, int[] sroces, int index, int hold, int cur, int next) {
 		if (index == 25) { // 最后一张
-			int all = hold + cur + cands[index] * 3;
+			int all = hold + cur + cands[index] * 3; //当前的保留，当前的使用，再加上当前牌爆发一下
 			if (all <= sroces[index]) {
 				return -1;
 			}
 			return all;
 		}
 		// 不仅最后一张
-		// 保留
+		// 情况1:保留
 		int all1 = hold + cur + cands[index];
 		int p1 = -1;
-		if (all1 > sroces[index]) {
+		if (all1 > sroces[index]) { //这个方案可以，后续可以
+			//下一轮的“使用”是当前轮的next，因为当前轮没有选择爆发，所以下下轮的“使用”是0
 			p1 = f(cands, sroces, index + 1, hold + cands[index], next, 0);
 		}
-		// 爆发
+		// 情况2:选择“使用”，爆发
 		int all2 = hold + cur + cands[index] * 3;
 		int p2 = -1;
 		if (all2 > sroces[index]) {

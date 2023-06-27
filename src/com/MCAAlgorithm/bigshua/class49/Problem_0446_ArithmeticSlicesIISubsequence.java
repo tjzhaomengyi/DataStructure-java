@@ -9,6 +9,7 @@ public class Problem_0446_ArithmeticSlicesIISubsequence {
 	public static int numberOfArithmeticSlices(int[] arr) {
 		int N = arr.length;
 		int ans = 0;
+		//以每个位置结尾搞一张表，key是差值，value表示有几个
 		ArrayList<HashMap<Integer, Integer>> maps = new ArrayList<>();
 		for (int i = 0; i < N; i++) {
 			maps.add(new HashMap<>());

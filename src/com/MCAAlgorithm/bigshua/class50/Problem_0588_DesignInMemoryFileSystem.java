@@ -6,6 +6,7 @@ import java.util.TreeMap;
 
 public class Problem_0588_DesignInMemoryFileSystem {
 
+	//繁衍题 : 前缀树
 	class FileSystem {
 
 		public class Node {

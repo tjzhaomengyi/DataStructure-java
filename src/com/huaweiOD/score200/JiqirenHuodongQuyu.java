@@ -11,6 +11,7 @@ import java.util.Scanner;
  */
 public class JiqirenHuodongQuyu {
   private static int[][] DIR = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     while (in.hasNextInt()) {
@@ -27,6 +28,7 @@ public class JiqirenHuodongQuyu {
       for(int i = 0; i < m; i++){
         for(int j = 0; j < n; j++){
           if(visited[i][j] == 0){
+            System.out.println("---------------------");
             int tmp = dfs(nums, visited, i, j);
             max = tmp > max ? tmp : max;
           }
@@ -47,8 +49,10 @@ public class JiqirenHuodongQuyu {
         int newX = d[0] + cur[0];
         int newY = d[1] + cur[1];
         if(newX >= 0 && newX <= nums.length - 1 && newY >= 0 && newY <= nums[0].length - 1){
-          if(visited[newX][newY] != 1 && Math.abs(nums[cur[0]][cur[1]] - nums[newX][newY]) <= 1){
+          if(visited[newX][newY] != 1 && Math.abs(nums[cur[0]][cur[1]] - nums[newX][newY]) <= 1){//技巧:这里不能等于1！！！
+           //Math.abs(nums[cur[0]][cur[1]] - nums[newX][newY]) <= 1
             k++;
+            System.out.println(newX + "," + newY);
             queue.offer(new int[]{newX, newY});
             visited[newX][newY] = 1;
           }

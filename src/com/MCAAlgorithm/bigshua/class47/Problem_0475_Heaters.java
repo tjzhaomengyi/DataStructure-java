@@ -1,7 +1,7 @@
 package com.MCAAlgorithm.bigshua.class47;
 
 import java.util.Arrays;
-
+//来自:华为
 public class Problem_0475_Heaters {
 
 	// 比如地点是7, 9, 14
@@ -27,6 +27,8 @@ public class Problem_0475_Heaters {
 	// 由17供暖，半径是3
 	// 由此可知，地点14应该由供暖点15来供暖，半径是1
 	// 以此类推
+	// 技巧:双排序，每个点求最好的，但是火炉不回退，最后要每个最好集合中的最差的
+	// 技巧:最重要的问题就是写对数期，千万不要指望线上示例给出的错误，怎么都是最快的
 	public static int findRadius(int[] houses, int[] heaters) {
 		Arrays.sort(houses);
 		Arrays.sort(heaters);

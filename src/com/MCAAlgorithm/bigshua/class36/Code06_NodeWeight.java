@@ -2,7 +2,7 @@ package com.MCAAlgorithm.bigshua.class36;
 
 import java.util.HashMap;
 
-// 来自美团
+// 来自 美团
 // 有一棵树，给定头节点h，和结构数组m，下标0弃而不用
 // 比如h = 1, m = [ [] , [2,3], [4], [5,6], [], [], []]
 // 表示1的孩子是2、3; 2的孩子是4; 3的孩子是5、6; 4、5和6是叶节点，都不再有孩子
@@ -17,7 +17,8 @@ import java.util.HashMap;
 //              (颜色为k的所有孩子个数 + 颜色k的孩子权值之和)
 //            }
 // 请计算所有孩子的权值并返回
-public class Code06_NodeWeight {
+public class
+Code06_NodeWeight {
 
 	// 当前来到h节点，
 	// h的直接孩子，在哪呢？m[h] = {a,b,c,d,e}

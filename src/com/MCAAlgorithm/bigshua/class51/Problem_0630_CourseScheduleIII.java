@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 
 public class Problem_0630_CourseScheduleIII {
 
+	//繁衍题:会议安排问题， 每次进课程，如果时间超过当前要进来课程的时间用时少的课程进来，淘汰课程时间长的。time指针记录当前课程的结束时间
 	public static int scheduleCourse(int[][] courses) {
 		// courses[i]  = {花费，截止}
 		Arrays.sort(courses, (a, b) -> a[1] - b[1]);
@@ -18,11 +19,9 @@ public class Problem_0630_CourseScheduleIII {
 				heap.add(c[0]);
 				time += c[0];
 			} else { // 当前时间 + 花费 > 截止时间的, 只有淘汰掉某课，当前的课才能进来！
-				// 
-				
-				
+				// 如何淘汰大根堆里面的课程
 				if (!heap.isEmpty() && heap.peek() > c[0]) {
-//					time -= heap.poll();
+//					time -= heap.poll(); //时间回调
 //					heap.add(c[0]);
 //					time += c[0];
 					heap.add(c[0]);

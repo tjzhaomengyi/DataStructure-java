@@ -1,6 +1,7 @@
 package com.MCAAlgorithm.bigshua.class36;
 
-// 来自哈喽单车
+// 来自 哈喽单车
+// 繁衍题 牛羊吃草问题，先后手的dp套路
 // 本题是leetcode原题 : https://leetcode.com/problems/stone-game-iv/
 public class Code11_StoneGameIV {
 
@@ -42,6 +43,7 @@ public class Code11_StoneGameIV {
 		return ans;
 	}
 
+	//最优解:当前情况依赖前面的情况，技巧:先后手的dp套路
 	public static boolean winnerSquareGame3(int n) {
 		boolean[] dp = new boolean[n + 1];
 		for (int i = 1; i <= n; i++) {

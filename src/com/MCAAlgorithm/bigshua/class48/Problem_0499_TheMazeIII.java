@@ -2,14 +2,16 @@ package com.MCAAlgorithm.bigshua.class48;
 
 public class Problem_0499_TheMazeIII {
 
-	// 节点：来到了哪？(r,c)这个位置
+	//技巧 节点：来到了哪？(r,c)这个位置
 	// 从哪个方向来的！d -> 0 1 2 3 4
 	// 之前做了什么决定让你来到这个位置。
+	// 宽度优先遍历的时候，每次记录该点能够到达的点，并记录从这个中心点到这四周四个点的距离，Node的方向记录到当前的点是从哪来的
+	// 宽度优先遍历的时候，每个点最多繁衍出周围四个点，再延伸出来的方向只能是一个方向。一旦撞墙宽度优先遍历再分裂三个方向。如果出现在visited表中不要走了，一个点的一个方向来的不要再走了
 	public static class Node {
 		public int r;
 		public int c;
-		public int d;
-		public String p;
+		public int d;//哪个方向来的
+		public String p;//之前做的决定路径
 
 		public Node(int row, int col, int dir, String path) {
 			r = row;
@@ -23,7 +25,7 @@ public class Problem_0499_TheMazeIII {
 	public static String findShortestWay(int[][] maze, int[] ball, int[] hole) {
 		int n = maze.length;
 		int m = maze[0].length;
-		Node[] q1 = new Node[n * m], q2 = new Node[n * m];
+		Node[] q1 = new Node[n * m], q2 = new Node[n * m];//q1和q2要交换空间，这一行遍历完，要把q1给q2
 		int s1 = 0, s2 = 0;
 		boolean[][][] visited = new boolean[maze.length][maze[0].length][4];
 		s1 = spread(maze, n, m, new Node(ball[0], ball[1], 4, ""), visited, q1, s1);
@@ -57,6 +59,7 @@ public class Problem_0499_TheMazeIII {
 	// s 下一层队列填到了哪，size
 	// 当前点cur，该分裂分裂，该继续走继续走，所产生的一下层的点，进入q，s++
 	// 返回值：q增长到了哪？返回size -> s
+	// 数组q，记录宽度优先遍历下一层的所有节点，s表示q的有效长度
 	public static int spread(int[][] maze, int n, int m, 
 			Node cur, boolean[][][] v, Node[] q, int s) {
 		int d = cur.d;

@@ -1,9 +1,10 @@
 package com.MCAAlgorithm.bigshua.class39;
 
-// 来自腾讯
+// 来自 腾讯 繁衍题:可见山峰对
 // 给定一个长度为n的数组arr，求有多少个子数组满足 : 
 // 子数组两端的值，是这个子数组的最小值和次小值，最小值和次小值谁在最左和最右无所谓
 // n<=100000（10^5） n*logn  O(N)
+// 技巧:使用单调栈
 public class Code02_ValidSequence {
 	
 
@@ -12,6 +13,7 @@ public class Code02_ValidSequence {
 			return 0;
 		}
 		int n = arr.length;
+		//技巧:这里可以改成自己定义一个类，让在栈里，他这里是自己手写的栈，没必要
 		int[] values = new int[n];
 		int[] times = new int[n];
 		int size = 0;

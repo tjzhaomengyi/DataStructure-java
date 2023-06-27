@@ -2,11 +2,13 @@ package com.MCAAlgorithm.bigshua.class35;
 
 import java.util.PriorityQueue;
 
-// 来自网易
+// 来自 网易
 // map[i][j] == 0，代表(i,j)是海洋，渡过的话代价是2
 // map[i][j] == 1，代表(i,j)是陆地，渡过的话代价是1
 // map[i][j] == 2，代表(i,j)是障碍，无法渡过
 // 每一步上、下、左、右都能走，返回从左上角走到右下角最小代价是多少，如果无法到达返回-1
+// 技巧:使用优先级队列的BFS，考虑当前可能性最低的
+// 繁衍题 这个就是A*算法
 public class Code04_WalkToEnd {
 
 	public static int minCost(int[][] map) {
@@ -31,6 +33,7 @@ public class Code04_WalkToEnd {
 		return -1;
 	}
 
+	//pre表示之前的代价
 	public static void add(int[][] m, int i, int j, int pre, PriorityQueue<Node> heap, boolean[][] visited) {
 		if (i >= 0 && i < m.length && j >= 0 && j < m[0].length && m[i][j] != 2 && !visited[i][j]) {
 			heap.add(new Node(i, j, pre + (m[i][j] == 0 ? 2 : 1)));

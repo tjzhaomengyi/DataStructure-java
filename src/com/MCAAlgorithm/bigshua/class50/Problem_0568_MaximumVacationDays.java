@@ -7,7 +7,7 @@ public class Problem_0568_MaximumVacationDays {
 		int k = day[0].length;
 		// pas[i] = {a, b, c}
 		// 从a、b、c能飞到i
-		int[][] pass = new int[n][];
+		int[][] pass = new int[n][]; //哪些城市能到0-n，二维数组的小数组是能够到该城市的城市集合，替换的fly表
 		for (int i = 0; i < n; i++) {
 			int s = 0;
 			for (int j = 0; j < n; j++) {

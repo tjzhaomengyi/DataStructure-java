@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.bigshua.class40;
 
-// 来自腾讯
+// 来自 腾讯
 // 比如arr = {3,1,2,4}
 // 下标对应是：0 1 2 3
 // 你最开始选择一个下标进行操作，一旦最开始确定了是哪个下标，以后都只能在这个下标上进行操作
@@ -26,7 +26,7 @@ public class Code05_AllSame {
 
 	public static int allSame(int[] arr) {
 		int ans = Integer.MAX_VALUE;
-		for (int i = 0; i < arr.length; i++) {
+		for (int i = 0; i < arr.length; i++) { //技巧:选择在不同的位置进行“刷”
 			ans = Math.min(ans, process(arr, i - 1, arr[i], i + 1));
 		}
 		return ans;
@@ -40,9 +40,12 @@ public class Code05_AllSame {
 	// right 可能性 : N
 	// midV 可能性 : arr中的最大值！
 	public static int process(int[] arr, int left, int midV, int right) {
+		//技巧:进到当前位置，对当前的位置进行判断
+		//把左侧的位置向右推
 		for (; left >= 0 && arr[left] == midV;) {
 			left--;
 		}
+		//把右侧的位置向右推
 		for (; right < arr.length && arr[right] == midV;) {
 			right++;
 		}

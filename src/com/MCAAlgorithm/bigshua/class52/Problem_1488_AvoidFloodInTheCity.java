@@ -7,6 +7,8 @@ import java.util.PriorityQueue;
 
 public class Problem_1488_AvoidFloodInTheCity {
 
+	//思路:这道题是知道后面哪天会下雨，贪心给后面最近的池子干活
+	// 技巧:使用一个该抽水的池子表，还有一张干活表，一旦有抽水池子表进入，那么后续一个进入的池子就要同时加入到干活表中
 	// rains[i] = j 第i天轮到j号湖泊下雨
 	// 规定，下雨日，干啥 : -1
 	// 不下雨日，如果没有湖泊可抽 : 1

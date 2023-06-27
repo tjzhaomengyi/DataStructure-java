@@ -1598,7 +1598,7 @@ Leetcode题目 : https://leetcode.com/problems/number-of-longest-increasing-subs
 注意: 给定的二叉树不超过10000个结点。 树的高度不超过1000。
 Leetcode题目 : https://leetcode.com/problems/longest-univalue-path/
 
-来自真实笔试
+来自 真实笔试
 给定一个长度len，表示一共有几位
 所有字符都是小写(a~z)，可以生成长度为1，长度为2，
 长度为3...长度为len的所有字符串

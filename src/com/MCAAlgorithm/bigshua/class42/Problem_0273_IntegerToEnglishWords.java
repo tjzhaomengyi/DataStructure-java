@@ -2,6 +2,7 @@ package com.MCAAlgorithm.bigshua.class42;
 
 public class Problem_0273_IntegerToEnglishWords {
 
+	//技巧:如何读数，中英文一样，划分区间
 	public static String num1To19(int num) {
 		if (num < 1 || num > 19) {
 			return "";

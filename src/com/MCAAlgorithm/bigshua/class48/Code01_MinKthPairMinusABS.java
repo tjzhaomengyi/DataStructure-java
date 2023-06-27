@@ -43,7 +43,7 @@ public class Code01_MinKthPairMinusABS {
 		int left = 0;
 		int right = arr[n - 1] - arr[0];
 		int mid = 0;
-		int rightest = -1;
+		int rightest = -1; //技巧:踩点
 		while (left <= right) {
 			mid = (left + right) / 2;
 			// 数字对差值的绝对值<=mid的数字对个数，是不是 < k个的！

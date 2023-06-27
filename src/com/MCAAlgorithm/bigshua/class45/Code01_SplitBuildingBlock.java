@@ -2,7 +2,7 @@ package com.MCAAlgorithm.bigshua.class45;
 
 import java.util.Arrays;
 
-// 来自京东笔试
+// 来自 京东笔试
 // 小明手中有n块积木，并且小明知道每块积木的重量。现在小明希望将这些积木堆起来
 // 要求是任意一块积木如果想堆在另一块积木上面，那么要求：
 // 1) 上面的积木重量不能小于下面的积木重量
@@ -23,6 +23,7 @@ import java.util.Arrays;
 // 1 1 5 5 20 20 (50) 60 70 70 70 80 90
 // 420
 // 其中x是一个任意重量的积木，夹在20和60之间可以让积木继续往上搭
+// 技巧:贪心:缝隙越小的差值越要粘合
 public class Code01_SplitBuildingBlock {
 
 	// 这是启发解

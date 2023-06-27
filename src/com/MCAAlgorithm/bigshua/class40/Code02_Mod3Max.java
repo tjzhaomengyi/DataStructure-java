@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeSet;
 
-// 来自去哪儿网
+// 来自 去哪儿网
 // 给定一个arr，里面的数字都是0~9
 // 你可以随意使用arr中的数字，哪怕打乱顺序也行
 // 请拼出一个能被3整除的，最大的数字，用str形式返回
+// 数学结论:如果当前数4 % 3 = 1， 如果要这个4，拼出的数字余数必须2，才能拼出余数为0
 public class Code02_Mod3Max {
 
 	public static String max1(int[] arr) {
@@ -86,6 +87,7 @@ public class Code02_Mod3Max {
 		return p1.equals("$") ? p2 : p1;
 	}
 
+	//3为除数，下一步要求的mod是多少
 	public static int nextMod(int require, int current) {
 		if (require == 0) {
 			if (current == 0) {

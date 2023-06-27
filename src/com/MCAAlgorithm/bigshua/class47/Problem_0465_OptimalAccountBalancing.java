@@ -8,6 +8,7 @@ import java.util.HashMap;
 // 不管该集合用了什么样的0集合划分方案，当一个新的数到来时：
 // 1) 如果该数是-K，那么任何0集合的划分方案中，因为新数字的加入，0集合的数量都会+1
 // 2) 如果该数不是-K，那么任何0集合的划分方案中，0集合的数量都会不变
+// 这是道递归的好题
 public class Problem_0465_OptimalAccountBalancing {
 
 	// 用位信息替代集合结构的暴力尝试
@@ -28,11 +29,13 @@ public class Problem_0465_OptimalAccountBalancing {
 	// debt数组，收到的钱的数组(固定)
 	// N, debt的长度(固定)
 	// 返回值含义 : set这个集合中，最多能划分出多少个小集合累加和是0，返回累加和是0的小集合最多的数量
+	// 数学结论:内部划分为0的越多，剩下结余越少，最后转的越少。这个想法根本想不到，挺狗的。这个太巧了，就是个结论
+	//下面几个递归的方法都是在集合中找最多的和为0的子集的个数
 	public static int process1(int[] debt, int set, int sum, int N) {
 		// set中只有一个人的时候！
 		// debt中，没有0的，所以每个人一定都需要转账！
 		if ((set & (set - 1)) == 0) {
-			return 0;
+			return 0; //划分不出来
 		}
 		int value = 0;
 		int max = 0;

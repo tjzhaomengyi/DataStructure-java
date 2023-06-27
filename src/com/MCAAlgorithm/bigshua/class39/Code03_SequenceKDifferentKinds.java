@@ -1,12 +1,13 @@
 package com.MCAAlgorithm.bigshua.class39;
 
-// 来自百度
+// 来自 百度
 // 给定一个字符串str，和一个正数k
 // str子序列的字符种数必须是k种，返回有多少子序列满足这个条件
 // 已知str中都是小写字母
 // 原始是取mod
 // 本节在尝试上，最难的
 // 搞出桶来，组合公式
+// 数学结论:
 public class Code03_SequenceKDifferentKinds {
 
 	// bu -> {6,7,0,0,6,3}

@@ -2,6 +2,7 @@ package com.MCAAlgorithm.bigshua.class42;
 
 public class Problem_0335_SelfCrossing {
 
+	//儿童趣味益智:画图，最多到i-5的情况，i-6其实和i-5情况一样的
 	public static boolean isSelfCrossing(int[] x) {
 		if (x == null || x.length < 4) {
 			return false;

@@ -3,8 +3,9 @@ package com.MCAAlgorithm.bigshua.class36;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// 来自三七互娱
+// 来自 三七互娱
 // Leetcode原题 : https://leetcode.com/problems/bus-routes/
+// 技巧:按层的宽度优先遍历
 public class Code12_BusRoutes {
 
 	// 0 : [1,3,7,0]

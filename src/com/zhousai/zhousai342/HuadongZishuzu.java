@@ -1,10 +1,6 @@
-package com.jingsai.zhousai342;
+package com.zhousai.zhousai342;
 
-import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Scanner;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 /**
  * @Author: zhaomengyi

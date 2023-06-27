@@ -2,9 +2,10 @@ package com.MCAAlgorithm.bigshua.class36;
 
 import java.util.TreeSet;
 
-// 来自腾讯
+// 来自 腾讯
 // 给定一个字符串str，和一个正数k
 // 返回长度为k的所有子序列中，字典序最大的子序列
+// 技巧:单调栈，只要比当前栈小的就加上，一旦比栈顶大，就把栈弹出，把当前这个大的压栈。再看下边界条件
 public class Code10_MaxKLenSequence {
 
 	public static String maxString(String s, int k) {

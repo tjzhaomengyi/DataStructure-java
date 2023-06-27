@@ -1,4 +1,4 @@
-package com.jingsai.zhousai342;
+package com.zhousai.zhousai342;
 
 /**
  * @Author: zhaomengyi

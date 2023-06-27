@@ -1,5 +1,6 @@
 package com.MCAAlgorithm.bigshua.class49;
 
+//先找粗回文，然后贪心从中间+1或者-1，难度在进位上
 public class Problem_0564_FindTheClosestPalindrome {
 
 	public static String nearestPalindromic(String n) {

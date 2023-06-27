@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 public class Problem_0377_CombinationSumIV {
 
+	//繁衍题 贴纸问题
 	// 当前剩下的值是rest，
 	// nums中所有的值，都可能作为分解rest的，第一块！全试一试
 	// nums, 无重复，都是正
@@ -16,7 +17,7 @@ public class Problem_0377_CombinationSumIV {
 			return 1;
 		}
 		int ways = 0;
-		for (int num : nums) {
+		for (int num : nums) { //每个都尝试，继续尝试
 			ways += ways(rest - num, nums);
 		}
 		return ways;

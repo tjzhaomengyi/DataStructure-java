@@ -6,7 +6,10 @@ import java.util.Queue;
 
 public class Problem_0317_ShortestDistanceFromAllBuildings {
 
+	// 0代表路，1代表人，2代表障碍，求最好的会议点
 	// 如果grid中0比较少，用这个方法比较好
+	// 一个1收集一张表，使用BFS，然后每个会议点都可以通过表直接查到，求这些点的最小累加和
+	// 注意如果0比较多就是0向1发请柬
 	public static int shortestDistance1(int[][] grid) {
 		int ans = Integer.MAX_VALUE;
 		int N = grid.length;
@@ -164,6 +167,8 @@ public class Problem_0317_ShortestDistanceFromAllBuildings {
 		}
 	}
 
+	// 繁衍题 : BFS + 分层遍历 + 距离表和visited表压缩
+	//技巧: 大神的方法，直接使用一个visit表和一个距离表(记录累加和)，每个点的bfs增加距离表的距离
 	// 方法三的大流程和方法二完全一样，从每一个1出发，而不从0出发
 	// 运行时间快主要是因为常数优化，以下是优化点：
 	// 1) 宽度优先遍历时，一次解决一层，不是一个一个遍历：
@@ -185,14 +190,14 @@ public class Problem_0317_ShortestDistanceFromAllBuildings {
 	// dist[nextr][nextc] += level;
 	public static int shortestDistance3(int[][] grid) {
 		int[][] dist = new int[grid.length][grid[0].length];
-		int pass = 0;
+		int pass = 0;//每个1走过对应的点就在visit中标记pass
 		int step = Integer.MAX_VALUE;
-		int[] trans = { 0, 1, 0, -1, 0 };
+		int[] trans = { 0, 1, 0, -1, 0 }; //技巧:就是四个方向的hard code
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++) {
 				if (grid[i][j] == 1) {
 					step = bfs(grid, dist, i, j, pass--, trans);
-					if (step == Integer.MAX_VALUE) {
+					if (step == Integer.MAX_VALUE) { // 一旦发现系统最大值，说明bfs执行不下去了，有无法连通的1区域
 						return -1;
 					}
 				}
@@ -211,10 +216,11 @@ public class Problem_0317_ShortestDistanceFromAllBuildings {
 	public static int bfs(int[][] grid, int[][] dist, int row, int col, int pass, int[] trans) {
 		Queue<int[]> que = new LinkedList<int[]>();
 		que.offer(new int[] { row, col });
+		//技巧:这里不用visited数组，直接在原来的grid上进行修改pass，来标记是否走过
 		int level = 0;
 		int ans = Integer.MAX_VALUE;
 		while (!que.isEmpty()) {
-			int size = que.size();
+			int size = que.size();//技巧:按照层的宽度优先遍历，搞一批，这批的点都是相同的
 			level++;
 			for (int k = 0; k < size; k++) {
 				int[] node = que.poll();
@@ -222,11 +228,11 @@ public class Problem_0317_ShortestDistanceFromAllBuildings {
 					int nextr = node[0] + trans[i - 1];
 					int nextc = node[1] + trans[i];
 					if (nextr >= 0 && nextr < grid.length && nextc >= 0 && nextc < grid[0].length
-							&& grid[nextr][nextc] == pass) {
+							&& grid[nextr][nextc] == pass) { //不越界且为pass是路，如果不是pass，那么就是不连通，直接跳到最后返回最大值
 						que.offer(new int[] { nextr, nextc });
 						dist[nextr][nextc] += level;
 						ans = Math.min(ans, dist[nextr][nextc]);
-						grid[nextr][nextc]--;
+						grid[nextr][nextc]--;//走过的路要--，表示已经走过了
 					}
 				}
 			}

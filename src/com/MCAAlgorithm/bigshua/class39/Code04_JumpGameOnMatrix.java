@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.bigshua.class39;
 
-// 来自京东
+// 来自 京东
 // 给定一个二维数组matrix，matrix[i][j] = k代表:
 // 从(i,j)位置可以随意往右跳<=k步，或者从(i,j)位置可以随意往下跳<=k步
 // 如果matrix[i][j] = 0，代表来到(i,j)位置必须停止
@@ -8,6 +8,7 @@ package com.MCAAlgorithm.bigshua.class39;
 // 已知matrix中行数n <= 5000, 列数m <= 5000
 // matrix中的值，<= 5000
 // 最弟弟的技巧也过了。最优解 -> dp+枚举优化(线段树，体系学习班)
+// 繁衍题:线段树
 public class Code04_JumpGameOnMatrix {
 
 	// 暴力方法，仅仅是做对数器

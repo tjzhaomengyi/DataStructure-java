@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.bigshua.class36;
 
-// 来自网易
+// 来自 网易
 // 规定：L[1]对应a，L[2]对应b，L[3]对应c，...，L[25]对应y
 // S1 = a
 // S(i) = S(i-1) + L[i] + reverse(invert(S(i-1)));

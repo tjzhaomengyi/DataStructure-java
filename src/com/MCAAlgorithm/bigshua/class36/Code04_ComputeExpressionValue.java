@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.bigshua.class36;
 
-// 来自美团
+// 来自 美团
 // () 分值为2
 // (()) 分值为3
 // ((())) 分值为4
@@ -11,6 +11,8 @@ package com.MCAAlgorithm.bigshua.class36;
 // (()())()(()) -> (2 * 2 + 1) * 2 * 3 -> 30
 // 给定一个括号字符串str，已知str一定是正确的括号结合，不会有违规嵌套
 // 返回分数
+// 技巧:经典括号计算题，用递归，返回结果和下一个位置
+// 繁衍题:括号表达式问题
 public class Code04_ComputeExpressionValue {
 
 	public static int sores(String s) {
@@ -25,6 +27,7 @@ public class Code04_ComputeExpressionValue {
 		if (s[i] == ')') {
 			return new int[] { 1, i };
 		}
+		//下面遇到的是左括号
 		int ans = 1;
 		while (i < s.length && s[i] != ')') {
 			int[] info = compute(s, i + 1);

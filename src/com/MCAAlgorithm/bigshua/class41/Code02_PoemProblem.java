@@ -3,7 +3,7 @@ package com.MCAAlgorithm.bigshua.class41;
 import java.util.Arrays;
 import java.util.HashMap;
 
-// 来自小红书
+// 来自 小红书
 // 有四种诗的韵律分别为: AABB、ABAB、ABBA、AAAA
 // 比如 : 1 1 3 3就属于AABB型的韵律、6 6 6 6就属于AAAA型的韵律等等
 // 一个数组arr，当然可以生成很多的子序列，如果某个子序列一直以韵律的方式连接起来，我们称这样的子序列是有效的
@@ -15,6 +15,18 @@ import java.util.HashMap;
 // 题目限制 : arr长度 <= 4000, arr中的值<= 10^9
 // 离散化之后，arr长度 <= 4000,  arr中的值<= 4000
 public class Code02_PoemProblem {
+
+//	//启发性代码,实际上在时间复杂度上是无法实现的
+//	//当前来到arr[i],rule16种，
+//	public static int f(int[] arr, int i, int rule, int preA, int preB){
+//		//p0:i位置删除
+//		int p0 = f(arr, i + 1, rule, preA, preB);
+//		//i到底能不能实现这个rule，分情况讨论
+//		if(rule == 1){
+//			int p1 = f(arr, i + 1, 2, arr[i],preB)
+//		}
+//		//i有4000种，rule:16种，preA和preB都有4000中，这个数量级跑不了
+//	}
 
 	// arr[i.....]符合规则连接的最长子序列长度
 //	public static int zuo(int[] arr, int i) {
@@ -82,6 +94,7 @@ public class Code02_PoemProblem {
 	// [
 	// [3,6,9]
 	// ]
+	//技巧这个是正解
 	public static int maxLen2(int[] arr) {
 		if (arr == null || arr.length < 4) {
 			return 0;

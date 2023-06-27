@@ -4,11 +4,13 @@ import java.util.TreeSet;
 
 public class Problem_0363_MaxSumOfRectangleNoLargerThanK {
 
+	//技巧:使用前缀和来求最接近k的值,引子，在数组中使用前缀和找出最接近k的前缀和
 	public static int nearK(int[] arr, int k) {
 		if (arr == null || arr.length == 0) {
 			return Integer.MIN_VALUE;
 		}
-		TreeSet<Integer> set = new TreeSet<>();
+		//set统计前缀和
+		TreeSet<Integer> set = new TreeSet<>();//因为要找到最接近的和是多少，所以用treeset
 		set.add(0);
 		int ans = Integer.MIN_VALUE;
 		int sum = 0;
@@ -23,11 +25,12 @@ public class Problem_0363_MaxSumOfRectangleNoLargerThanK {
 				int curAns = sum - find;
 				ans = Math.max(ans, curAns);
 			}
-			set.add(sum);
+			set.add(sum); //更新新得到的sum
 		}
 		return ans;
 	}
 
+	//技巧:分情况讨论，【技巧】压缩数组，包含1行，包含1行和2行，包含2和3
 	public static int maxSumSubmatrix(int[][] matrix, int k) {
 		if (matrix == null || matrix[0] == null) {
 			return 0;

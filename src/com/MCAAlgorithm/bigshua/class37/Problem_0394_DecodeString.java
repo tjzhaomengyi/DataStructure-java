@@ -2,6 +2,7 @@ package com.MCAAlgorithm.bigshua.class37;
 
 public class Problem_0394_DecodeString {
 
+	//繁衍题:表达式问题
 	public static String decodeString(String s) {
 		char[] str = s.toCharArray();
 		return process(str, 0).ans;
@@ -24,6 +25,7 @@ public class Problem_0394_DecodeString {
 	public static Info process(char[] s, int i) {
 		StringBuilder ans = new StringBuilder();
 		int count = 0;
+		//技巧:嵌套模板写法
 		while (i < s.length && s[i] != ']') {
 			if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')) {
 				ans.append(s[i++]);

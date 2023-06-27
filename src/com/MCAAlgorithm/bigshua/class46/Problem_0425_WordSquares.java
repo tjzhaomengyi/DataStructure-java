@@ -63,18 +63,19 @@ public class Problem_0425_WordSquares {
 	// map, 前缀所拥有的单词
 	// path, 之前填过的单词, 0...i-1填过的
 	// ans, 收集答案
+	//技巧:又是一个DFS，从path中删除结果
 	public static void process(int i, int n, HashMap<String, List<String>> map, LinkedList<String> path,
 			List<List<String>> ans) {
 		if (i == n) {
-			ans.add(new ArrayList<>(path));
+			ans.add(new ArrayList<>(path)); //技巧:dfs的结果一定要克隆一下
 		} else {
-			// 把限制求出来，前缀的限制！
+			// 把限制求出来，求前缀的限制！
 			StringBuilder builder = new StringBuilder();
 			for (String pre : path) {
 				builder.append(pre.charAt(i));
 			}
 			String prefix = builder.toString();
-			if (map.containsKey(prefix)) {
+			if (map.containsKey(prefix)) { //技巧:注意上来会把空串为key都加进去，所有可能都会加进去
 				for (String next : map.get(prefix)) {
 					path.addLast(next);
 					process(i + 1, n, map, path, ans);

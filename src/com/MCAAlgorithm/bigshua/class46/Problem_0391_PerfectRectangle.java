@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class Problem_0391_PerfectRectangle {
 
+	//结论题，无聊
 	public static boolean isRectangleCover(int[][] matrix) {
 		if (matrix.length == 0 || matrix[0].length == 0) {
 			return false;

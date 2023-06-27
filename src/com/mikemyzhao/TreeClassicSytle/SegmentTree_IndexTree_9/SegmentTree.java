@@ -6,6 +6,7 @@ package com.mikemyzhao.TreeClassicSytle.SegmentTree_IndexTree_9;
  * @Description:线段树类
  */
 public class SegmentTree {
+  //数学结论:线段树能干啥，(1)某个区间段的全部加某个数，(2)某个区间全部更新某个值，(3)区间上累计和查询
   private int MAXN;//
   private int[] arr;
   private int[] sum;//线段树维护的区间和
