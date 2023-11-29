@@ -33,7 +33,7 @@ public class BigSum {
       ans[i] = String.valueOf(temp).charAt(0);
     }
     String ans_tmp = new StringBuilder(new String(ans)).reverse().toString();
-    if(carry == 1){
+    if(carry == 1) {
       return "1" + ans_tmp;
     }
     return ans_tmp;
