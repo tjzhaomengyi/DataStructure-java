@@ -1,4 +1,4 @@
-package com.book.zuoshen.InterviewGuide.chpt1;
+package com.book.zuoshen.InterviewGuide.chpt1.stack;
 
 import java.util.Stack;
 
@@ -19,6 +19,7 @@ public class Stack_TwoStackMakeQueue {
 
     //push栈向pop栈倒入数据
     private void pushToPop(){
+        //技巧：这个位置的判断非常讨巧，避免了混乱的判断
         if (stackPop.isEmpty()){ //注意：这里防止：在Stackpop中有元素还加入的问题，这样在peek的时候保证是正确的队头即可
             while(!stackPush.isEmpty()){
                 stackPop.push(stackPush.pop());
@@ -27,7 +28,7 @@ public class Stack_TwoStackMakeQueue {
     }
 
     //在这三个动态调整队列的方法中，要处理两个栈中的东西
-    public void add(int pushInt){
+    public void push(int pushInt){
         stackPush.push(pushInt);
         pushToPop();
     }
@@ -46,10 +47,21 @@ public class Stack_TwoStackMakeQueue {
         }
         pushToPop();
         return stackPop.peek();
+    }
 
+    public boolean empty(){
+        if(stackPop.empty() && stackPush.empty()){
+            return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) {
         Stack_TwoStackMakeQueue q = new Stack_TwoStackMakeQueue();
+        for(int i=0; i < 10; i++){
+            q.push(i);//注意：这里在添加元素的时候，stackPop里面一直就只有一个元素，这样可以保证可以正常取到peek
+        }
+        int peek = q.peek();
+        System.out.println(peek);
     }
 }

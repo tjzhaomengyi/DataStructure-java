@@ -1,11 +1,12 @@
-package com.book.zuoshen.InterviewGuide.chpt1.stack;
+package com.book.zuoshen.InterviewGuide.chpt1.skillmove.shuangduanduilie;
 
 import java.util.LinkedList;
 
 /**
  * @Author: zhaomengyi
  * @Date: 2024/1/11 16:26
- * @Description:生成窗口最大值数组，这种题真的就是想出来的时候会就会，不会也不太好想这个时间复杂度。
+ * @Description:https://leetcode.cn/problems/sliding-window-maximum/
+ *    生成窗口最大值数组，这种题真的就是想出来的时候会就会，不会也不太好想这个时间复杂度。
  */
 public class GenerateWindowMaxArr {
     //窗口大小为w，数组长度为N，要求时间复杂度为O(N)
@@ -21,12 +22,12 @@ public class GenerateWindowMaxArr {
         int[] res = new int[arr.length - w + 1];
         int index = 0;
         for(int i = 0; i < arr.length; i++){
-            while(!qmax.isEmpty() && arr[qmax.peekLast()] <= arr[i]){
+            while(!qmax.isEmpty() && arr[qmax.peekLast()] <= arr[i]){ //只要辅助队列最后一个值比当前的值小就扔掉，保证队列递增的状态
                 qmax.pollLast();
             }
             qmax.addLast(i);
             if(qmax.peekFirst() == i - w){
-                qmax.pollFirst();//只有这动qmax辅助数据第一个值
+                qmax.pollFirst();//只有这里动qmax辅助数据第一个值，把辅助队列中过期的值扔掉！
             }
             if(i >= w - 1){ //边走边往结果填充，然后把qmax辅助的队头放入
                 res[index++] = arr[qmax.peekFirst()];
