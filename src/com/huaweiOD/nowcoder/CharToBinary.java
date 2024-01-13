@@ -1,6 +1,5 @@
 package com.huaweiOD.nowcoder;
 
-import sun.rmi.server.InactiveGroupException;
 
 import java.util.Scanner;
 

@@ -9,7 +9,7 @@ import java.util.Stack;
  */
 public class PTOS039_LargestRectangleArea {
   public int largestRectangleArea(int[] heights) {
-    if(heights == null) return 0;
+    if (heights == null) return 0;
     Stack<Integer> stack = new Stack<>();
     int ans = 0;
     for(int i = 0; i < heights.length; i++){
