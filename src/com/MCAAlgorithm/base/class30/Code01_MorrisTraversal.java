@@ -39,7 +39,7 @@ public class Code01_MorrisTraversal {
 					mostRight.right = cur;
 					cur = cur.left;
 					continue;
-				} else { //这里肯定是到了mostRight.right=cur的条件
+				} else {
 					mostRight.right = null;
 				}
 			}
