@@ -1,4 +1,4 @@
-package com.book.zuoshen.InterviewGuide.chpt3.treecalculate;
+package com.book.zuoshen.InterviewGuide.chpt3.dpintree;
 
 import java.util.HashMap;
 
