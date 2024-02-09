@@ -1,4 +1,4 @@
-package com.mikemyzhao.TrackInTime.recursion.ClassicRecursion;
+package com.mikemyzhao.recursion.ClassicRecursion;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.mikemyzhao.TrackInTime.recursion;
+package com.mikemyzhao.recursion;
 
 import java.util.Scanner;
 

@@ -2,6 +2,7 @@ package com.MCAAlgorithm.bigshua.class05;
 
 public class Code03_EditCost {
 
+	//ic插入、dc删除、rc替换
 	public static int minCost1(String s1, String s2, int ic, int dc, int rc) {
 		if (s1 == null || s2 == null) {
 			return 0;
@@ -11,18 +12,28 @@ public class Code03_EditCost {
 		int N = str1.length + 1;
 		int M = str2.length + 1;
 		int[][] dp = new int[N][M];
-		// dp[0][0] = 0
+		// dp[0][0] = 0 空字符串
+		// 让chs1[i]删除为空
 		for (int i = 1; i < N; i++) {
 			dp[i][0] = dc * i;
 		}
+		//让长度为0的chs1插入成chs2[j]
 		for (int j = 1; j < M; j++) {
 			dp[0][j] = ic * j;
 		}
+		//普遍位置
 		for (int i = 1; i < N; i++) {
 			for (int j = 1; j < M; j++) {
-				dp[i][j] = dp[i - 1][j - 1] + (str1[i - 1] == str2[j - 1] ? 0 : rc);
-				dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + ic);
-				dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + dc);
+				//当前字符进行替换的决策
+				if(str1[i - 1] == str2[j - 1]){//如果当前字符相等，不需要操作
+					dp[i][j] = dp[i - 1][j - 1];
+				} else {
+					dp[i][j] = dp[i - 1][j - 1] + rc;//替换当前字符的代价
+				}
+				//如果让i变成j-1，这位不要了
+				dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + dc);
+				//如果让i-1增加一位变成j
+				dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + ic);
 			}
 		}
 		return dp[N - 1][M - 1];

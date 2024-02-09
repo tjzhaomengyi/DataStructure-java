@@ -10,7 +10,8 @@ public class Code01_HanoiProblem {
 	}
 
 	// 目标是: 把0~i的圆盘，从from全部挪到to上
-	// 返回，根据arr中的状态arr[0..i]，它是最优解的第几步？
+	// 0...index这些圆盘arr[0..i],i+1层塔
+	// 返回，根据arr中的状态arr[0..i]，它是i+1层塔问题的最优解的第几步？
 	// f(i, 3 , 2, 1) f(i, 1, 3, 2) f(i, 3, 1, 2)
 	public static int process(int[] arr, int i, int from, int other, int to) {
 		if (i == -1) {
@@ -78,10 +79,11 @@ public class Code01_HanoiProblem {
 		if (arr[index] == from) {
 			return step(arr, index - 1, from, other, to);
 		} else {
-			int p1 = (1 << index) - 1;
-			int p2 = 1;
-			int p3 = step(arr, index - 1, other, to, from);
-			if (p3 == -1) {
+			//数学结论：用汉诺塔的数学结论！！
+			int p1 = (1 << index) - 1; // index步骤之前都走完了！
+			int p2 = 1; //当前index又已经来到了最右边，说明这个也成功了
+			int p3 = step(arr, index - 1, other, to, from);//剩下的要从中间挪到右侧侧
+			if (p3 == -1) { //如果中间不是最优解
 				return -1;
 			}
 			return p1 + p2 + p3;

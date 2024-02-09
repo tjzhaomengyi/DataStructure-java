@@ -70,7 +70,7 @@ public class Code02_MinCoinsNoLimit {
 				}
 			}
 		}
-		return dp[0][aim];
+		return dp[0][aim] == Integer.MAX_VALUE ? -1 : dp[0][aim];
 	}
 
 	// 为了测试

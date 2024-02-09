@@ -1,4 +1,4 @@
-package com.mikemyzhao.TrackInTime.recursion.ClassicRecursion;
+package com.mikemyzhao.recursion.ClassicRecursion;
 
 import java.util.ArrayList;
 import java.util.HashSet;

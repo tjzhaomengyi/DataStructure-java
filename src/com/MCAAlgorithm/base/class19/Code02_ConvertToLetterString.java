@@ -1,5 +1,8 @@
 package com.MCAAlgorithm.base.class19;
 
+import com.book.zuoshen.InterviewGuide.chpt4.stringdp.NumToChars;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 public class Code02_ConvertToLetterString {
 
 	// str只含有数字字符0~9
@@ -108,11 +111,13 @@ public class Code02_ConvertToLetterString {
 			int ans0 = number(s);
 			int ans1 = dp1(s);
 			int ans2 = dp2(s);
-			if (ans0 != ans1 || ans0 != ans2) {
+			int ans3 = NumToChars.numDP(s);
+			if (ans0 != ans1 || ans0 != ans2 || ans0 != ans3) {
 				System.out.println(s);
 				System.out.println(ans0);
 				System.out.println(ans1);
 				System.out.println(ans2);
+				System.out.println(ans3);
 				System.out.println("Oops!");
 				break;
 			}
