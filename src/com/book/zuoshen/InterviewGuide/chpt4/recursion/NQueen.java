@@ -1,4 +1,4 @@
-package com.book.zuoshen.InterviewGuide.chpt4.dp;
+package com.book.zuoshen.InterviewGuide.chpt4.recursion;
 
 /**
  * @Author: zhaomengyi
