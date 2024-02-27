@@ -1,0 +1,28 @@
+滑动窗口最常见的问题是求窗口内的最大/小值问题，使用双端队里数据结构配合完成这个工作。
+如果找到窗口的最大值，双端队列中保存下标，双端队列对应值的大小遵循的原则是从大到小，R从左到右遍历，如果遍历到的数比双端队列最后一个数大，双端队列弹出最后一个记录，
+直到这个新的数满足从大到小的原则。这个双端队列的意义：假设此时依次让窗口缩小，哪些数可以成为窗口内的最大值。
+[5,3,0,4,5], 如果以这个数组整体为一个窗口，双端队列只有4(arr[4]=5)这个值，说明不断减小窗口让L++，这个缩小的窗口最大值是5。如果是一个移动的窗口，每次把过期的值
+删除掉，然后第一个值就是当前窗口的最大值。
+public static int[] getMaxWindow(int[] arr, int w) {
+		if (arr == null || w < 1 || arr.length < w) {
+			return null;
+		}
+		// qmax 窗口最大值的更新结构
+		// 放下标,保证下标对应的值是从大到小
+		LinkedList<Integer> qmax = new LinkedList<Integer>();
+		int[] res = new int[arr.length - w + 1];
+		int index = 0;//配合res使用
+		for (int R = 0; R < arr.length; R++) {
+			while (!qmax.isEmpty() && arr[qmax.peekLast()] <= arr[R]) { //对于0位置的数这里跳过
+				qmax.pollLast();
+			}
+			qmax.addLast(R);
+			if (qmax.peekFirst() == R - w) {//R - w是窗口过期下标
+				qmax.pollFirst();
+			}
+			if (R >= w - 1) { //现在是否形成了一个完整的窗口
+				res[index++] = arr[qmax.peekFirst()];
+			}
+		}
+		return res;
+	}

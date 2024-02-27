@@ -5,12 +5,13 @@ package com.mikemyzhao.simulate_reality_13.bigshua;
 /**
  * @Author: zhaomengyi
  * @Date: 2022-04-07 18:05
- * @Description:
+ * @Description:，【注意：参考InterviewGuide中GasStation的最新解法】
  * // 本题测试链接 : https://leetcode.com/problems/gas-station/
  * // 注意本题的实现比leetcode上的问法更加通用
  * // leetcode只让返回其中一个良好出发点的位置
  * // 本题是返回结果数组，每一个出发点是否是良好出发点都求出来了
  * // 得到结果数组的过程，时间复杂度O(N)，额外空间复杂度O(1)
+ * 数学技巧：通过前缀和数组还原出原始的数值[i-1, i...j] 求arr[i] = pre[i] - pre[i-1]
  */
 public class GasStation_25 {
   public static int canCompleteCircuit(int[] gas, int[] cost){

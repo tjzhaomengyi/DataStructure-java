@@ -137,6 +137,7 @@ public class Code01_FindMinKth {
 		return arr[(L + R) / 2];
 	}
 
+	//这里用插入排序因为只有五个数
 	public static void insertionSort(int[] arr, int L, int R) {
 		for (int i = L + 1; i <= R; i++) {
 			for (int j = i - 1; j >= L && arr[j] > arr[j + 1]; j--) {
