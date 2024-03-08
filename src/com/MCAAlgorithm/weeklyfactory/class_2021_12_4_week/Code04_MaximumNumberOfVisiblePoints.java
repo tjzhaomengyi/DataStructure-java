@@ -24,7 +24,7 @@ public class Code04_MaximumNumberOfVisiblePoints {
 			if (x == 0 && y == 0) {
 				zero++;
 			} else {
-				arr[m] = Math.toDegrees(Math.atan2(y, x));
+				arr[m] = Math.toDegrees(Math.atan2(y, x)); //把点位放入同一个圆周上，把xy坐标变成角度
 				arr[m + 1] = arr[m] + 360;
 				m += 2;
 			}

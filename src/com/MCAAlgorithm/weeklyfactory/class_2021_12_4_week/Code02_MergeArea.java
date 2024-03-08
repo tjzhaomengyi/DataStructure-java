@@ -65,7 +65,7 @@ public class Code02_MergeArea {
 	// [中国，四川，成都]
 	//   0    1    2
 	public static void f(String[] path, int index, Area pre, long count) {
-		if (index == path.length) {
+		if (index == path.length) { //前一个节点是最后一个节点，把最后一个节点赋值
 			pre.count += count;
 		} else {
 			// 前一个节点 pre 中国

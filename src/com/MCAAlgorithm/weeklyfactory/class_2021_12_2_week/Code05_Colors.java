@@ -17,6 +17,7 @@ import java.util.Queue;
 // 点的数量 <= 10^5
 public class Code05_Colors {
 
+	//思路：不以x为起点，左右合法；以x为起点，往每棵子树扎下去有多少合法；最难的情况跨x
 	public static class Node {
 		public int color;
 		public List<Node> nexts;
