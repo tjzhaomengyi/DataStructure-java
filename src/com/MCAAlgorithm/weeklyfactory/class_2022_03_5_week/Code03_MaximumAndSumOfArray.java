@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Code03_MaximumAndSumOfArray {
 
 	public static int maximumANDSum(int[] arr, int m) {
-		m <<= 1;
+		m <<= 1; //把桶进行分身，如果再玩KM
 		int[][] graph = new int[m][m];
 		for (int i = 0; i < arr.length; i++) {
 			for (int j = 0, num = 1; j < m; num++, j += 2) {

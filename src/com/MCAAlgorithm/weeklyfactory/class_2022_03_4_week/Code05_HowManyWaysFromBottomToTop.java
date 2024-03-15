@@ -19,6 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
+//在一个拓扑排序中找到从头到尾的食物链有几条，在拓扑排序过程中，每个节点记录到自己的路径条数，拓扑排序在找到出度为0的点结束，起始入度为0的点自己作为1，一点点往下推
 public class Code05_HowManyWaysFromBottomToTop {
 
 	public static int[] in = new int[5001];

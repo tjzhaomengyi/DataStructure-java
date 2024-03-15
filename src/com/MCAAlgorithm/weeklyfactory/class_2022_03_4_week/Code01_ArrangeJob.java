@@ -12,6 +12,13 @@ import java.util.PriorityQueue;
 // 返回你能否做到这一点
 public class Code01_ArrangeJob {
 
+	//解法，把n个任务设计成TimePoint点，然后根据TimePoint点进行小根堆，紧着先结束的任务先做
+	// 开 开 开 开 开 闭 开 开 开 闭 开 闭
+	// 开始的时候start时间为0，一旦遇到闭时间，那么就结算栈里的工作是否能执行完，然后把当前的闭时间设置为开始时间，再执行到下一个闭，看看这个
+	//时间段是否能把栈中的任务执行完（观察当前闭的时间是否大于heap.poll（),如果栈顶小于等于闭时间，说明到了这个闭时间还有没有完成的任务），
+	// 一旦不能执行完，返回false，说明整套工作安排无法实现
+
+
 	// 1 开 7
 	// 5 闭 end没有用！
 	public static class TimePoint {
@@ -54,7 +61,7 @@ public class Code01_ArrangeJob {
 					}
 					heap.poll();
 				}
-				if (heap.peek() <= curTime) {
+				if (heap.peek() <= curTime) { //栈中的
 					return false;
 				}
 				lastTime = curTime;

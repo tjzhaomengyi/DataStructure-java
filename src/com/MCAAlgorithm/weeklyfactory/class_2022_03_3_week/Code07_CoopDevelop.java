@@ -43,15 +43,17 @@ public class Code07_CoopDevelop {
 
 	//递归求子集，如果不是该人技能的全集，把这个技能组合放入并统计，【如何理解这个自己递归就挺难的】
 	//int[] people表示某个人掌握的技能（这个people应该改成skill比较合适），noFullSetsNums，某个技能组合的统计数量，status表示当前这个人掌握的技能
-	//full表示是否要这个技能
+	//full表示当前status是否为"完整"子集，完整意味着这个子集实际上就是原始技能集，没有排除任何技能，如果少了一个不能视为完整
 	public static void fillNoFullMap(int[] people, int i, long status, boolean full,
 			HashMap<Long, Long> noFullSetsNums) {
-		if (i == people.length) { //如果把所有都遍历完了
-			if (!full) { //full=false 并且当前这个状态是没有满状态
+		if (i == people.length) { //如果把这个人所有技能都遍历完了
+			if (!full) { //并且不是原始技能的全部集合
 				noFullSetsNums.put(status, noFullSetsNums.getOrDefault(status, 0L) + 1);
 			}
-		} else { //todo:这里怎么理解
+		} else { //todo:这里怎么理解，左神专答https://www.mashibing.com/question/detail/95489
+			//1、不向status添加技能，full为false，因为开始创建不包括所有原始技能的子集，先调用这个，准备抽出这个技能，但是不使用
 			fillNoFullMap(people, i + 1, status, false, noFullSetsNums); //不要这个技能，不往status填充
+			//2、这里full保持原始值，这个变量值关注是否已经从集合中排除了任何技能，而不是我们是否添加了新的技能，这里感觉把full写成false也可以，没啥影响，反正都使用了
 			fillNoFullMap(people, i + 1, (status << 10) | people[i], full, noFullSetsNums); //要这个技能往status填充
 		}
 	}

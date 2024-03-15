@@ -8,6 +8,10 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_03_4_week;
 // leetcode测试链接 : https://leetcode.com/problems/reach-a-number/
 public class Code04_JumpToTargets {
 
+	//结论 利用差值的奇偶性，因为跳反的话肯定是变化偶数的长度，类似大厂刷题class38——
+	// （1）跳反目标差是偶数情况：1+2+3+4+5+6=21,如果第一步跳反19，如果第二步跳反17，如果第三部跳反15
+	//如果x到y跳到了10，现在本来想到0，那么久在5步跳反。
+	//(2)跳反目标差是奇数情况1+2+3+4=10，目标是7，现在从在10的时候执行跳反是不能到7的，偶数-偶数=偶数,解决办法继续往后跳，直到该位置到7的距离是偶数，就能找到好的跳反点
 	public static int reachNumber(long target) {
 		if (target == 0) {
 			return 0;

@@ -14,5 +14,19 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_03_5_week;
 // 如果你可以让所有我军在消耗完自身的行动能力之前，消灭所有的敌军，请返回总距离的最小值
 // 如果你就是无法消灭所有敌军，返回-1
 public class Code04_KillAllSameTime {
+    /***
+     *
+     * 5    0   4   0   0   0
+     * 0    -2  -2  -2  -2  0
+     * -1   -2  -2  -2  -2  0
+     * 0    0   -1  0   0   0
+     *
+     */
+
+    //流程：对每个我军执行BFS，统计能打到的敌军,上图a=5，b=4,得到价值表为
+    //      甲      乙
+    //a     2       5
+    //b     4      无穷大(Integer.MAX_VALUE)打不到
+    //把表里的值转成负数，使用long表示，如果跑完的long比-MAXVALUE还小无法打完
 
 }

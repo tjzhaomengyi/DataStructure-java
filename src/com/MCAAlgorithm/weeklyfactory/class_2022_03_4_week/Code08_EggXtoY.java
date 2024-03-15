@@ -11,30 +11,30 @@ public class Code08_EggXtoY {
 
 	// 彻底贪心！
 	public static int minTimes1(int x, int y) {
-		if (x <= y) {
+		if (x <= y) { //不够y个直接拿
 			return y - x;
 		}
 		// 0 0
 		// 1 2
 		// 2 1
-		int mod = x % 3;
+		int mod = x % 3; //尽快到达3的整数倍，不管是加还是减，贪心了
 		// 鸡蛋拿到3的整数倍，需要耗费的行动点数
 		int need = mod == 0 ? 0 : (mod == 1 ? 2 : 1);
-		return need + 1 + minTimes1((x + 2) / 3, y);
+		return need + 1 + minTimes1((x + 2) / 3, y);//1是把鸡蛋放回仓库的操作
 	}
 
 	public static int minTimes2(int x, int y) {
 		if (x <= y) {
 			return y - x;
 		}
-		int limit = minTimes1(x, y);
+		int limit = minTimes1(x, y);//太得儿了，用上面的贪心作为limit限制，让递归来验证limit
 		int[][] dp = new int[x + limit + 1][limit + 1];
 		return process(x, y, 0, limit, dp);
 	}
 
 	// 当前鸡蛋数量cur，目标aim
 	// 之前已经用了多少行动点，pre
-	// limit : 一定行动点，超过limit，不需要尝试了！
+	// limit : 一定行动点，超过limit，不需要尝试了！不加这个limit递归不会执行完
 	public static int process(int cur, int aim, int pre, int limit, int[][] dp) {
 		if (pre > limit) {
 			return Integer.MAX_VALUE;
@@ -46,9 +46,9 @@ public class Code08_EggXtoY {
 		if (cur == aim) {
 			ans = pre;
 		} else {
-			int p1 = process(cur + 1, aim, pre + 1, limit, dp);
+			int p1 = process(cur + 1, aim, pre + 1, limit, dp);//拿了一个鸡蛋
 			int p2 = Integer.MAX_VALUE;
-			if (cur % 3 == 0) {
+			if (cur % 3 == 0) { //砍掉2/3个鸡蛋
 				p2 = process(cur / 3, aim, pre + 1, limit, dp);
 			}
 			ans = Math.min(p1, p2);

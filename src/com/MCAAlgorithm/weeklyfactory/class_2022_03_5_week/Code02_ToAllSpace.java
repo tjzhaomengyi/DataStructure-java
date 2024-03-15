@@ -75,7 +75,7 @@ public class Code02_ToAllSpace {
 		return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
 	}
 
-	// 正式方法
+	// 正式方法 	取每个值的相反数，然后求最大，然后结果的绝对值就是最小结果
 	// KM算法
 	public static int minDistance2(int[][] map) {
 		int n = 0;

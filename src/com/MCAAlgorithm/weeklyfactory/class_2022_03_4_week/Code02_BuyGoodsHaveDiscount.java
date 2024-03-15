@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.weeklyfactory.class_2022_03_4_week;
 
-// 来自字节内部训练营
+// 来自字节内部训练营【非常好非常好的题】
 // 某公司游戏平台的夏季特惠开始了，你决定入手一些游戏。现在你一共有X元的预算。
 // 平台上所有的 n 个游戏均有折扣，标号为 i 的游戏的原价a_i元，现价只要b_i元
 // 也就是说该游戏可以优惠 a_i - b_i，并且你购买该游戏能获得快乐值为 w_i
@@ -20,7 +20,15 @@ import java.io.StreamTokenizer;
 
 
 public class Code02_BuyGoodsHaveDiscount {
-	
+
+	//这道题非常有意思，不是花给的真钱，而是用一个心里价位来买，然后变成背包问题
+	// 转化成心里价位的过程：
+	// 商品价格10元 | 真实价格6元 | 折扣4元 | 买家心里预估10元
+	// 这个情况买家直接买5件最爽，获得的总优惠5 * 4 = 20， 超出心里预估5*6 - 10 = 20，总有花大于等于超过的预算，
+	// 但是如果买了6件那么不行，总优惠6*4 = 24，超出心里预估价格6*6-10 = 26，那么总优惠小于了超出预算，
+	// 转化过程（1）用优惠价-折扣价，就是心里价位 4-6 = -2，消耗了心里预估10元中的两元
+	// (2)如果优惠价-折扣价 > 0,那么心里价位增加，比如真实价格4元，折扣价格6元，那么10+2=12，并且这样的东西必买！！！
+	//转换好心里价位剩下的就计算背包问题
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
