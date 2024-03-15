@@ -35,7 +35,7 @@ public class Code01_LoudAndRich {
 			degree[r[1]]++;
 		}
 		// 所有入度为0的点，入队列
-		int[] zeroQueue = new int[N];
+		int[] zeroQueue = new int[N];//不用这个，直接替换成queue结构省事
 		int l = 0;
 		int r = 0;
 		for (int i = 0; i < N; i++) {

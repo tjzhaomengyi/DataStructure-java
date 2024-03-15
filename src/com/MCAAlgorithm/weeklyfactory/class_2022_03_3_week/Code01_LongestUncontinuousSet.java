@@ -34,7 +34,8 @@ public class Code01_LongestUncontinuousSet {
 		}
 	}
 
-	// 最优解
+	// 最优解，dp[i]如果在0...i随意选数字，0...i最多选几个不违规:(1)不要arr[i]，dp[i] = dp[i - 1],(2)让arr[i]进入这个集合,瞅一眼前面的数，
+	// 假设当前数是7，如果前面数是7或者6，就不能放入(直接去重处理),如果是6，看6前面是多少这里要枚举尝试了dp[i]=dp[j]+1；如果小于等于5，那么可以放入7，dp[i]=dp[i-1]+1;
 	public static int longestUncontinuous2(int[] arr) {
 		if (arr == null || arr.length == 0) {
 			return 0;

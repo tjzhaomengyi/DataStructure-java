@@ -21,7 +21,7 @@ public class Code01_AStarAlgorithm {
 		int n = map.length;
 		int m = map[0].length;
 		// heap小根堆
-		// [20,1,7]
+		// [20,1,7] 来到1行7列的时候从start点到这个位置的距离是20
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
 		// 1,7已经处理过了，closed[1][7] = true
 		boolean[][] closed = new boolean[n][m];
@@ -64,8 +64,9 @@ public class Code01_AStarAlgorithm {
 		}
 		int n = map.length;
 		int m = map[0].length;
-		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> (a[0] + a[1]) - (b[0] + b[1]));
+		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> (a[0] + a[1]) - (b[0] + b[1])); //综合代价
 		boolean[][] closed = new boolean[n][m];
+		//[真实距离，预估步数， 起始地点]
 		heap.add(new int[] { map[startX][startY], distance(startX, startY, targetX, targetY), startX, startY });
 		int ans = Integer.MAX_VALUE;
 		while (!heap.isEmpty()) {

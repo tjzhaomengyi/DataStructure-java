@@ -1,10 +1,11 @@
 package com.MCAAlgorithm.weeklyfactory.class_2022_03_2_week;
 
-// 来自微软
+// 来自微软，好题啊
 // 给定一个正数数组arr，长度为N，依次代表N个任务的难度，给定一个正数k
 // 你只能从0任务开始，依次处理到N-1号任务结束，就是一定要从左往右处理任务
 // 只不过，难度差距绝对值不超过k的任务，可以在一天之内都完成
-// 返回完成所有任务的最少天数
+// 返回完成所有任务的最少天数,最大值减去最小值不能大于k，这样的话任务可以合并
+//【一维数组的动态规划+窗口内最大值最小值的更新】
 public class Code06_JobMinDays {
 
 	public static int minDays1(int[] arr, int k) {
@@ -28,6 +29,7 @@ public class Code06_JobMinDays {
 		return dp[n - 1];
 	}
 
+	//在窗口从左向右不回退滑动窗口左侧的过程中，一直记录窗口内最大值和最小值
 	public static int minDays2(int[] arr, int k) {
 		int n = arr.length;
 		int[] dp = new int[n];
@@ -47,7 +49,7 @@ public class Code06_JobMinDays {
 				minR--;
 			}
 			windowMin[minR++] = i;
-			while (arr[windowMax[maxL]] - arr[windowMin[minL]] > k) {
+			while (arr[windowMax[maxL]] - arr[windowMin[minL]] > k) { //让左边指针一直缩小！直到不违规！！！
 				if (windowMax[maxL] == L) {
 					maxL++;
 				}

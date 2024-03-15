@@ -24,6 +24,43 @@ import java.io.StreamTokenizer;
 import java.util.ArrayList;
 
 public class Code01_BuyThingsAboutCollocation {
+	//原始递归写法
+	public static int p(int [][][] matrix, int index, int rest){
+		if(rest < 0){
+			return -1;
+		}
+		if(index == matrix.length){
+			return 0;
+		}
+		int[][] team = matrix[index];
+		if(team.length == 1){
+			int p1 = p(matrix, index + 1, rest);
+			int p2 = -1;
+			int next = p(matrix, index + 1, rest - team[0][1]);
+			if(next != -1){
+				p2 = team[0][0] * team[0][1] + next;
+			}
+			return Math.max(p1, p2);
+		} else if(team.length == 2){
+			int[] a = team[0];
+			int[] b = team[1];
+			int p1 = p(matrix, index +1, rest);
+			int p2 = -1;
+			int next2 = p(matrix, index +1, rest - a[1]);
+			if(next2 != -1){
+				p2 = a[0] * a[1] + next2;
+			}
+			int p3 = -1;
+			int next3 = p(matrix, index + 1, rest - a[1] - b[1]);
+			if(next3 != -1){
+				p3 = a[0] * a[1] +b[0] * b[1] + next3;
+			}
+			return Math.max(p1, Math.max(p2, p3));
+		} else { //a:bc 不要,三个货物，写满五种情况
+			//todo:
+			return 0;
+		}
+	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -80,6 +117,8 @@ public class Code01_BuyThingsAboutCollocation {
 		return process(things, n, 0, money, dp);
 	}
 
+	//带挂件的背包问题，a:de | b:f | c:g | h,第一组可以分成五种情况,(1)什么也不要，(2)a （3）ad(4) ade
+	// 商品组:0:[[3,9],[6,7],[4,3]] 表示0号商品组的主商品是3，重要度是9，附件是6、4，重要度为7，3
 	public static int process(ArrayList<ArrayList<int[]>> things, int n, int index, int rest, int[][] dp) {
 		if (rest < 0) {
 			return -1;

@@ -38,9 +38,10 @@ public class Code01_StronglyConnectedComponents {
 			n--;
 		}
 
+		//scc方法就是对每个点进行tarjan算法
 		private void scc() {
 			for (int i = 1; i <= n; i++) {
-				if (dfn[i] == 0) {
+				if (dfn[i] == 0) { //没有分配dfn的点跑一遍tarjan
 					tarjan(i);
 				}
 			}
@@ -55,7 +56,7 @@ public class Code01_StronglyConnectedComponents {
 		// int sccn;
 		// scc[]
 		private void tarjan(int p) {
-			low[p] = dfn[p] = ++cnt;
+			low[p] = dfn[p] = ++cnt; //分配的初始dfn和low号
 			stack[stackSize++] = p;
 			for (int q : nexts.get(p)) {
 				// q 当前p的每一个孩子
@@ -63,15 +64,16 @@ public class Code01_StronglyConnectedComponents {
 					tarjan(q);
 				}
 				// q 肯定遍历过  1) 遍历过，结算了！2）遍历过，没结算
-				if (scc[q] == 0) { // scc[q]!=0 q已经属于某个集团了！不能用来更新
+				if (scc[q] == 0) { // scc[q]!=0 q已经属于某个集团了！不能用来更新。集团编号从1开始
 					low[p] = Math.min(low[p], low[q]);
 				}
 			}
+			//是连通图的口袋！
 			if (low[p] == dfn[p]) {
 				sccn++;
 				int top = 0;
 				do {
-					top = stack[--stackSize];
+					top = stack[--stackSize];//弹栈，直到变成自己停止弹栈，并把这些出栈元素设置为当前集团号
 					scc[top] = sccn;
 				} while (top != p);
 			}

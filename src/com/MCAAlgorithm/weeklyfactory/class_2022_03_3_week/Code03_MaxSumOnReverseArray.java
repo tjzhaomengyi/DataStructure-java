@@ -19,6 +19,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_03_3_week;
 // 字节的: 可进行一次翻转情况下，子数组最大价值和
 public class Code03_MaxSumOnReverseArray {
 
+
 	public static int maxSumReverse1(int[] arr) {
 		int ans = Integer.MIN_VALUE;
 		for (int L = 0; L < arr.length; L++) {
@@ -49,6 +50,13 @@ public class Code03_MaxSumOnReverseArray {
 		return max;
 	}
 
+	//分析答案的可能性：
+	// （1）这个区间不翻转
+	// （2）这个区间翻转，这段区间肯定使用左右两头的其中一部分，贯穿不可能，中间一部分也不可能
+	// 3 5 -6 -7 2 5 转换 3 5 5 2 -7 -6 ，2 5 -4 -3 6 7转换 -3 -4 5 2 6 7
+	//（3）任何一种左翻转，肯定对应一个右侧翻转
+	//大流程必须以i开头的右侧不翻转，i-1的左侧翻转，凑出一个结果，依次遍历
+	//那么0...i-1这部分怎么翻转，-6 3 4 -5，找i前面的以j结尾最大的子数组，这部分肯定可以翻过来，这肯定能做到
 	public static int maxSumReverse2(int[] arr) {
 		int n = arr.length;
 		int[] prefix = new int[n];

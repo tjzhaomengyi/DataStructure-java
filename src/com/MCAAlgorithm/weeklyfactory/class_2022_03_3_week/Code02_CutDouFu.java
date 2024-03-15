@@ -15,18 +15,19 @@ import java.util.Arrays;
 // 返回豆腐中最大的一块体积是多少
 public class Code02_CutDouFu {
 
+	//俯视图求最大面积，x，y轴的最大间距  * z轴的最大间距，豆腐的不能忽略，
 	public static long maxCut(int[][] cuts) {
 		if (cuts == null || cuts.length == 0) {
 			return 10000L * 10000L * 10000L;
 		}
 		// 0 类型
 		// 1 切哪了
-		Arrays.sort(cuts, (a, b) -> a[0] != b[0] ? (a[0] - b[0]) : (a[1] - b[1]));
+		Arrays.sort(cuts, (a, b) -> a[0] != b[0] ? (a[0] - b[0]) : (a[1] - b[1])); //把刀排序
 		int n = cuts.length;
 		int i = 0;
 		int xMaxDiff = 0;
 		int pre = 0;
-		while (i < n && cuts[i][0] == 1) {
+		while (i < n && cuts[i][0] == 1) { //x的最大间距
 			xMaxDiff = Math.max(xMaxDiff, cuts[i][1] - pre);
 			pre = cuts[i][1];
 			i++;
@@ -34,7 +35,7 @@ public class Code02_CutDouFu {
 		xMaxDiff = Math.max(xMaxDiff, 10000 - pre);
 		int yMaxDiff = 0;
 		pre = 0;
-		while (i < n && cuts[i][0] == 2) {
+		while (i < n && cuts[i][0] == 2) { //y的最大间距
 			yMaxDiff = Math.max(yMaxDiff, cuts[i][1] - pre);
 			pre = cuts[i][1];
 			i++;
@@ -42,7 +43,7 @@ public class Code02_CutDouFu {
 		yMaxDiff = Math.max(yMaxDiff, 10000 - pre);
 		int zMaxDiff = 0;
 		pre = 0;
-		while (i < n && cuts[i][0] == 3) {
+		while (i < n && cuts[i][0] == 3) { //z的最大间距
 			zMaxDiff = Math.max(zMaxDiff, cuts[i][1] - pre);
 			pre = cuts[i][1];
 			i++;

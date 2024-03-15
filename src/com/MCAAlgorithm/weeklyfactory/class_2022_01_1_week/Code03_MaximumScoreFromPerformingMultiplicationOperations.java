@@ -44,12 +44,13 @@ public class Code03_MaximumScoreFromPerformingMultiplicationOperations {
 		}
 		int N = A.length;
 		int M = B.length;
-		int[][] dp = new int[M + 1][M + 1];
-		for (int L = M - 1; L >= 0; L--) {
+		int[][] dp = new int[M + 1][M + 1]; //A数组来到i的位置0~i-1位置的数字已经消耗完，A右边还有j个余量
+		for (int L = M - 1; L >= 0; L--) { //
 			for (int j = L + 1; j <= M; j++) {
 				int R = N - M + j - 1;
 				int indexB = L + N - R - 1;
-				dp[L][j] = Math.max(A[L] * B[indexB] + dp[L + 1][j], A[R] * B[indexB] + dp[L][j - 1]);
+				dp[L][j] = Math.max(A[L] * B[indexB] + dp[L + 1][j],
+						A[R] * B[indexB] + dp[L][j - 1]);
 			}
 		}
 		return dp[0][M];

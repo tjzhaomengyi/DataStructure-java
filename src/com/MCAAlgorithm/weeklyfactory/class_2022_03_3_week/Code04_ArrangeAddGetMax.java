@@ -16,6 +16,8 @@ import java.util.Arrays;
 // 输出：
 // 假设你可以在开始时重新排列arr，返回所有get操作返回值累计和最大是多少？
 public class Code04_ArrangeAddGetMax {
+	//线段树，在某个范围不停的加不停的get，告诉你所有的指令，让最后的get累加和最大，不用管所有的add，只看get行为，不管在那个位置放什么那几个位置的提升大小是一样的
+	//这里add是一个干扰项而已
 
 	public static int maxGets(int[] arr, int[][] ops) {
 		int n = arr.length;

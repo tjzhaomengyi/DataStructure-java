@@ -22,15 +22,16 @@ public class Code02_NearBiggerNoSameNeighbour {
 		for (int i = 1; i < raw.length; i++) {
 			if (raw[i - 1] == raw[i]) {
 				addOne(raw, i);
-				for (int j = i + 1; j < raw.length; j++) {
+				for (int j = i + 1; j < raw.length; j++) {//把相邻两位的后面全刷成0
 					raw[j] = '0';
 				}
-				process(raw);
+				process(raw);//这里可以不用递归，可以从当前考察的相邻位后续手动改成01010....
 				return;
 			}
 		}
 	}
 
+	//进位处理
 	// 99.....
 	//  +1
 	//100

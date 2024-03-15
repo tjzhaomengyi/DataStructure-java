@@ -6,14 +6,17 @@ import java.util.PriorityQueue;
 // 给定一个数组arr，长度为n
 // 表示n个服务员，每个人服务一个人的时间
 // 给定一个正数m，表示有m个人等位
-// 如果你是刚来的人，请问你需要等多久？
+// 如果你是刚来的人，请问你需要等多久？【如何尽早开始服务】
 // 假设：m远远大于n，比如n<=1000, m <= 10的9次方，该怎么做？
+//
 public class Code07_MinWaitingTime {
 
+	//O(mLogn)的时间复杂度，超时了
 	public static int minWaitingTime1(int[] arr, int m) {
 		if (arr == null || arr.length == 0) {
 			return -1;
 		}
+		//小根堆放入效率最高的服务员，每次跳出后更新该服务员下次的服务时间
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> (a[0] - b[0]));
 		int n = arr.length;
 		for (int i = 0; i < n; i++) {
@@ -26,7 +29,11 @@ public class Code07_MinWaitingTime {
 		}
 		return heap.peek()[0];
 	}
-
+	//这道题的二分非常讲究
+	// [2,3,5,7] 如果现在来到时间5，看看2的服务员完成了多少人，在6时间如果全用服务员2服务了多少人，0-2|2-4|4—6|6-8，因为是在时间6已经开始服务了所以6/2+1,
+	//服务员2在6时间服务了4个人，推出泛化结果某个服务员在n时刻服务了多少人 n/worktime + 1;
+	//假设把服务都交给服务员2做，看看做了多久，然后给7做，看看用了多久，确定使用时间的上届和下届
+	//然后在时间上是否能否cover住这些人
 	public static int minWaitingTime2(int[] arr, int m) {
 		if (arr == null || arr.length == 0) {
 			return -1;
@@ -43,7 +50,7 @@ public class Code07_MinWaitingTime {
 			mid = (left + right) / 2;
 			int cover = 0;
 			for (int num : arr) {
-				cover += (mid / num) + 1;
+				cover += (mid / num) + 1; //二分出来的时间 / 工作效率 + 1,和题解“讲究保持一致”
 			}
 			if (cover >= m + 1) {
 				near = mid;

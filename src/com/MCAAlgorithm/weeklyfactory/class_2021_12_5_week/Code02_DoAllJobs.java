@@ -62,6 +62,8 @@ public class Code02_DoAllJobs {
 		return done == m ? finishAll : -1;
 	}
 
+	//不要用这种方法！不要用这种方法！ 不要用这种方法
+	//不就是找到nexts描述二维数组么？这样太麻烦了，就是为了用数组而用数组，没意义！还是loudAndRich那样省事，不要在生成数组上浪费时间
 	public static int[][] nexts(int[][] depends, int m) {
 		Arrays.sort(depends, (a, b) -> a[1] - b[1]);
 		int n = depends.length;

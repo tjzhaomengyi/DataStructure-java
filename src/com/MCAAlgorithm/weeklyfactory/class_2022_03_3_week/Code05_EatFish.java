@@ -13,6 +13,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_03_3_week;
 // 返回2
 public class Code05_EatFish {
 
+
 	public static int minTurns1(int[] arr) {
 		int ans = 0;
 		for (;; ans++) {
@@ -52,6 +53,13 @@ public class Code05_EatFish {
 		return rest;
 	}
 
+	//单调栈，从后往前压栈，小根堆
+	// 6 5 1 2 3
+	// 小根堆1,0 | 2,0| 3,0
+	// 5进来，吃掉1， 5,1  2,0|3,0
+	// 然后还能吃2，5，2 3|0，就让5一直吃 5,3
+	// 然后6进来，6肯定能吃5这么多步，所以6,3 6在进来时候此时就可以把5吃掉，max(0,3)=3
+	//例子：9,0轮 栈3，7|4，5|6，9 （1）3，7出，turn=max(0,7),(2)4,5出来turn=max(7,5),(3)(6,9)出来 turn=max(7,9)=9都吃完了，9，9进栈
 	public static int minTurns2(int[] arr) {
 		int n = arr.length;
 		int[][] stack = new int[n][2];

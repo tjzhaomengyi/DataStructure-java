@@ -13,6 +13,11 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode-cn.com/contest/cnunionpay-2022spring/problems/I4mOGz/
 public class Code06_FinancialProduct {
 
+	//这个limit操作数量10^9，如果使用大根堆肯定超过数量限制
+	//大流程[2,5,5,7,7]，先吃7，有两个7和两个6的红利，落袋收益(7+6)*2，剩下[2,5,5,7,7]四个5的红利是4个（3，4，5），（3+4+5)*4
+	//最后一个红利4个2，8次交易
+	//细节：(1)limit可以把这个阶梯全部吃掉,把当前阶梯割完红利，在找下一个
+	//(2)如果是13，每组5个红利，13/5 + 13%5
 	public static long mod = 1000000007L;
 
 	public int maxInvestment(int[] arr, int limit) {
@@ -29,11 +34,11 @@ public class Code06_FinancialProduct {
 			int small = l == -1 ? 0 : arr[l];
 			int teams = n - l - 1;
 			int all = (big - small) * teams;
-			if (limit >= all) {
+			if (limit >= all) { //情况1：limit吃掉所有红利
 				ans += get(big, small + 1, teams);
 				ans %= mod;
 				limit -= all;
-			} else {
+			} else { //情况2：limit不能吃掉所有红利
 				int a = limit / teams;
 				ans += get(big, big - a + 1, teams) + (long) (big - a) * (long) (limit % teams);
 				ans %= mod;

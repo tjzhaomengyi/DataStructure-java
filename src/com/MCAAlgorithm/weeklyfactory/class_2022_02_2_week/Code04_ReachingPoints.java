@@ -22,6 +22,7 @@ public class Code04_ReachingPoints {
 	// s ( 5, 10)
 	// t (100, 65)
 	public static boolean reachingPoints2(int sx, int sy, int tx, int ty) {
+		//一直模，一直往上走
 		while (sx < tx && sy < ty) {
 			if (tx < ty) {
 				ty %= tx;
@@ -29,6 +30,7 @@ public class Code04_ReachingPoints {
 				tx %= ty;
 			}
 		}
+		//判断(tx,ty)是不是由(sx,sy)衍生出来的
 		// 1) startx >= tx
 		// 2) starty >= ty
 		return (sx == tx && sy <= ty && (ty - sy) % sx == 0) 

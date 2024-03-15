@@ -136,6 +136,7 @@ public class Code04_IgniteMinBombs {
 			colTreeMaps.add(new TreeMap<>());
 		}
 		int m = 0;
+		//登记炸弹
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				if (map[i][j] != 0) {
@@ -156,9 +157,9 @@ public class Code04_IgniteMinBombs {
 					TreeMap<Integer, Integer> colTreeMap = colTreeMaps.get(j);
 					int from = rowTreeMap.get(j);
 					int col = j - 1;
-					while (rowTreeMap.floorKey(col) != null && j - rowTreeMap.floorKey(col) <= map[i][j]) {
+					while (rowTreeMap.floorKey(col) != null && j - rowTreeMap.floorKey(col) <= map[i][j]) { //能找连着炸到的炸弹
 						col = rowTreeMap.floorKey(col);
-						edges.get(from).add(rowTreeMap.get(col));
+						edges.get(from).add(rowTreeMap.get(col));//家变
 						col--;
 					}
 					col = j + 1;
@@ -182,7 +183,7 @@ public class Code04_IgniteMinBombs {
 				}
 			}
 		}
-		StronglyConnectedComponents scc = new StronglyConnectedComponents(edges);
+		StronglyConnectedComponents scc = new StronglyConnectedComponents(edges);//搞出强连通分量，看看有几个集团
 		int sccn = scc.getSccn();
 		int[] in = new int[sccn + 1];
 		int[] out = new int[sccn + 1];

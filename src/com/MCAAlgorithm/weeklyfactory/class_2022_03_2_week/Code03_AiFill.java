@@ -26,8 +26,8 @@ public class Code03_AiFill {
 	public static class TrieNode {
 		public String word;
 		public int times;
-		public HashMap<String, TrieNode> nextNodes;
-		public TreeSet<TrieNode> nextRanks;
+		public HashMap<String, TrieNode> nextNodes;//到下级的路还有，下级节点
+		public TreeSet<TrieNode> nextRanks; //保存排序结果，当前节点保存一个有序表，保存下级节点个数的排序
 
 		public TrieNode(String w) {
 			word = w;
@@ -60,7 +60,7 @@ public class Code03_AiFill {
 					cur.nextRanks.add(next);
 				} else {
 					next = cur.nextNodes.get(word);
-					cur.nextRanks.remove(next);
+					cur.nextRanks.remove(next); //有序表的特点这里先删除，然后把节点次数++，然后放入有序表，这样会触发排列
 					next.times++;
 					cur.nextRanks.add(next);
 				}

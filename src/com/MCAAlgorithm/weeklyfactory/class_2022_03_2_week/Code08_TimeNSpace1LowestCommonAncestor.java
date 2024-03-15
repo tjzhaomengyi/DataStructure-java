@@ -3,6 +3,9 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_03_2_week;
 // 如何时间复杂度O(N)，额外空间复杂度O(1)，解决最低公共祖先问题?
 // 测试链接 : https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 public class Code08_TimeNSpace1LowestCommonAncestor {
+	//情况（1）a或者b是另一个的祖先，如果中了直接返回
+	//(2)把a和b分出左右，使用先序遍历，先把a或者b找出来，看谁是较左的节点，如果a是较左的节点，b肯定在a的父亲树的右侧，肯定不在a的父亲树的左侧
+	//b只能在左拐节点的右树上，利用morris遍历，查a的父亲右树下是否有b，利用morris的后续遍历
 
 	// 这个类不要提交
 	public static class TreeNode {
