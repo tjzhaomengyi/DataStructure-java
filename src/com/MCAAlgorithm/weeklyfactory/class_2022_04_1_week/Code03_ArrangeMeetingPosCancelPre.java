@@ -37,15 +37,15 @@ public class Code03_ArrangeMeetingPosCancelPre {
 		return ans;
 	}
 
-	// 最优解
-	// 会议有N个，时间复杂度O(N*logN)
+	// 最优解，这个解不是如何最好安排方案，而是出现冲突的就把前面的会议删除掉
+	// 会议有N个，时间复杂度O(N*logN),线段树
 	public static ArrayList<int[]> arrange2(int[][] meetings) {
 		int n = meetings.length;
 		// n << 1 -> n*2
 		int[] rank = new int[n << 1];
 		for (int i = 0; i < meetings.length; i++) {
 			rank[i] = meetings[i][0]; // 会议开头点
-			rank[i + n] = meetings[i][1] - 1; // 会议的结束点
+			rank[i + n] = meetings[i][1] - 1; // 会议的结束点,[3,5][5,6],[5,6]可以安排，要把会议转换成左闭右开的形式
 		}
 		Arrays.sort(rank);
 		// n*2
@@ -60,14 +60,15 @@ public class Code03_ArrangeMeetingPosCancelPre {
 			int from = rank(rank, cur[0]);
 			// cur[1] = 90 -> 89 -> 2
 			int to = rank(rank, cur[1] - 1);
-			if (st.sum(from, to) == 0) {
+			if (st.sum(from, to) == 0) { //从from到to没有会议安排，添加答案
 				ans.add(cur);
 			}
-			st.add(from, to, 1);
+			st.add(from, to, 1);//如果有会议把from到to的线段树加1
 		}
 		return ans;
 	}
 
+	//将会议时间扁平化，把会议具体时间转换成它在整个时间的排名
 	public static int rank(int[] rank, int num) {
 		int l = 0;
 		int r = rank.length - 1;
