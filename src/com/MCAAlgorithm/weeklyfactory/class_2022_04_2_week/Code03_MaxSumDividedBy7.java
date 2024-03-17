@@ -19,6 +19,8 @@ public class Code03_MaxSumDividedBy7 {
 		return Math.max(p1, p2);
 	}
 
+	//dp[i][j] 0到i上随意数字的累加和，累加和%7=5的累加和大小，（1）不要arr[i]位置的数，（2）要arr[i],并且sum%7=5,如果arr[i]=10,arr[i]%7=3
+	//因为目标是这个累加和%7=5，并且arr[i]%7=3,所以要找dp[i-1][2]的累加和为多少，就能得到目标
 	public static int maxSum2(int[] arr) {
 		if (arr == null || arr.length == 0) {
 			return 0;
@@ -36,7 +38,7 @@ public class Code03_MaxSumDividedBy7 {
 			int curMod = arr[i] % 7;
 			for (int j = 0; j < 7; j++) {
 				dp[i][j] = dp[i - 1][j];
-				int findMod = (7 - curMod + j) % 7;
+				int findMod = (7 - curMod + j) % 7;//找上一个余数
 				if (dp[i - 1][findMod] != -1) {
 					dp[i][j] = Math.max(dp[i][j], dp[i - 1][findMod] + arr[i]);
 				}

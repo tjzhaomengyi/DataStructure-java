@@ -33,6 +33,8 @@ public class Code05_TowLongestSubarraySame01Number {
 		return ans;
 	}
 
+	//把最左边的0和最右的0找到=》（1），
+	//或者把最左的1和最右的1找到这部分区间=》（2），（1）和（2）最长的肯定是最大的
 	public static int longest2(int[] arr) {
 		int leftZero = -1;
 		int rightZero = -1;

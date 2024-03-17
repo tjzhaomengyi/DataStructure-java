@@ -14,7 +14,7 @@ import java.util.Queue;
 // 返回一个长度为n的数组ans，表示每个任务完成的时间
 // 输入可以保证没有循环依赖
 public class Code04_AllJobFinishTime {
-
+	//拓扑排序 + 依次往下推时间【经典题目：在拓扑排序中作动态规划(就是往ans数组中推时间)】
 	public static int[] finishTime(int n, int[] time, int[][] matrix) {
 		ArrayList<ArrayList<Integer>> nexts = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
@@ -22,7 +22,7 @@ public class Code04_AllJobFinishTime {
 		}
 		int[] in = new int[n];
 		for (int[] line : matrix) {
-			nexts.get(line[1]).add(line[0]);
+			nexts.get(line[1]).add(line[0]);//line[1]是依赖的任务，line[0]是要执行的任务
 			in[line[0]]++;
 		}
 		Queue<Integer> zeroInQueue = new LinkedList<>();
@@ -34,9 +34,9 @@ public class Code04_AllJobFinishTime {
 		}
 		while (!zeroInQueue.isEmpty()) {
 			int cur = zeroInQueue.poll();
-			ans[cur] += time[cur];
+			ans[cur] += time[cur]; //把当前的时间加上，往后面推送时间
 			for (int next : nexts.get(cur)) {
-				ans[next] = Math.max(ans[next], ans[cur]);
+				ans[next] = Math.max(ans[next], ans[cur]);//看一下哪个项目最后完成
 				if (--in[next] == 0) {
 					zeroInQueue.add(next);
 				}

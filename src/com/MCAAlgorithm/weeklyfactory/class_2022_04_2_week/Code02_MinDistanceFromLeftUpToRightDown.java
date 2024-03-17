@@ -8,6 +8,8 @@ import java.util.PriorityQueue;
 // 如果移动前后的元素值相同，则耗费 1 ，否则耗费 2。
 // 问从左上到右下的最小耗费
 public class Code02_MinDistanceFromLeftUpToRightDown {
+	//用Dijstra，小根堆(cost,行,列),小跟对根据cost排序，小根堆弹出一个记一个cost，最后肯定找到最小的那个
+
 
 	// 一个错误的贪心
 	// 网上帖子最流行的解答，看似对，其实不行
@@ -49,7 +51,7 @@ public class Code02_MinDistanceFromLeftUpToRightDown {
 			int dis = cur[0];
 			int row = cur[1];
 			int col = cur[2];
-			if (poped[row][col]) {
+			if (poped[row][col]) { //弹出过的表示已经访问了，直接continue
 				continue;
 			}
 			// 第一次弹出！

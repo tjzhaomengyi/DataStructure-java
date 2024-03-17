@@ -10,12 +10,15 @@ import java.util.HashMap;
 // 返回所有选择数字的方案中，得到的x的价值之和
 public class Code01_SumOfValuesAboutPrimes {
 
+	//todo
+	//把质因子归类，含有质因子2有4个数，不含有2因子有6个数，把含有质因子一共2^4-1（不算空集），6的一共有2^6，
+	// 所以含有2这个因子的所有集和个数为：（2^4-1)*2^6
 	// 工具！
 	// 返回num质数因子列表(去重)
 	// 时间复杂度，根号(num)
-	public static ArrayList<Long> primes(long num) {
+	public static ArrayList<Long> primes(long num) { //如何计算质因子
 		ArrayList<Long> ans = new ArrayList<>();
-		for (long i = 2; i * i <= num && num > 1; i++) {
+		for (long i = 2; i * i <= num && num > 1; i++) { //103,当尝试到11的时候就不行了消不掉，所以当前的数就是质因子，i
 			if (num % i == 0) {
 				ans.add(i);
 				while (num % i == 0) {
@@ -48,7 +51,7 @@ public class Code01_SumOfValuesAboutPrimes {
 		HashMap<Long, Long> cntMap = new HashMap<>();
 		for (int num : arr) {
 			for (long factor : primes(num)) {
-				cntMap.put(factor, cntMap.getOrDefault(factor, 0L) + 1L);
+				cntMap.put(factor, cntMap.getOrDefault(factor, 0L) + 1L); //某个数的
 			}
 		}
 		int n = arr.length;
@@ -57,7 +60,7 @@ public class Code01_SumOfValuesAboutPrimes {
 		// others : 不含有这个因子的数，有多少个
 		for (long count : cntMap.values()) {
 			long others = n - count;
-			ans += (power(2, count) - 1) * power(2, others);
+			ans += (power(2, count) - 1) * power(2, others); //计算个数结果
 		}
 		return ans;
 	}

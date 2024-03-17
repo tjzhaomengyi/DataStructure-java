@@ -44,6 +44,9 @@ public class Code06_PerfectPairNumber {
 		}
 	}
 
+	//结论：如果是完美对的话，那么该数组每个位置的差值，和与该数组凑成完美对的数组的每个位置的差值互为相反数
+	// 5, 2, 3
+	// 4, 7, 6
 	public static long perfectPairs(int[][] matrix) {
 		long ans = 0;
 		// key : 字符串 特征，差值特征 : "_5_-2_6_9"

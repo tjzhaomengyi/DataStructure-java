@@ -16,6 +16,10 @@ import java.util.LinkedList;
 // 1 <= n <= 1000, 1<= 积分 <= 10000;
 public class Code07_MaxMoneyMostMin {
 
+	//建设积分正数，捣乱积分是除数
+	//建设 10    5     6            4
+	//捣乱 2     4     2            5
+	//奖金    10/4=2  5*10/2=25    60
 	// 暴力方法
 	// 为了验证
 	// a : 老板的贡献积分

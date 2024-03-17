@@ -31,6 +31,12 @@ public class Code06_TopMinSubsquenceSum {
 	}
 
 	//小根堆，出去一个进去两个，然后进堆两个，出堆一个，把每次要进的节点作为一个节点放入，另外一个几点是根节点+当前节点
+	//[1,1,2,5,10],生成原则，出去一个进来两个
+	//           1,0
+	//       1,1 || 2,1 (不要(1,0)，保留(1,0)，并加上(1,1))
+	//	2,2 || 3,2 ||2,2 || 3,2 (把1,1不要把2,2加进去||都要并加上2,2,||不要1,1把2,2放进去||把2,2放进来)
+	//5,3||7,3||......
+	//上面过程配合一个K大小的堆不断分裂
 	public static int[] topMinSum2(int[] arr, int k) {
 		Arrays.sort(arr);
 		//小根堆里面放的是 (最右的下标，集合的累加和)，累加和谁小放在上面
@@ -49,8 +55,8 @@ public class Code06_TopMinSubsquenceSum {
 			int sum = cur[1];
 			ans[i] = sum;
 			if (last + 1 < arr.length) {
-				heap.add(new int[] { last + 1, sum - arr[last] + arr[last + 1] });
-				heap.add(new int[] { last + 1, sum + arr[last + 1] });
+				heap.add(new int[] { last + 1, sum - arr[last] + arr[last + 1] });//不要arr[last]和下一个组合
+				heap.add(new int[] { last + 1, sum + arr[last + 1] });//要arr[last]把下一个arr[last+1]算进来
 			}
 		}
 		return ans;
