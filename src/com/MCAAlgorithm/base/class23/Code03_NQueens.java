@@ -32,7 +32,7 @@ public class Code03_NQueens {
 
 	public static boolean isValid(int[] record, int i, int j) {
 		// 0..i-1
-		for (int k = 0; k < i; k++) {
+		for (int k = 0; k < i; k++) { //在i行上把queen放在j位置是否合理，检测下之前行放过的情况
 			if (j == record[k] || Math.abs(record[k] - j) == Math.abs(i - k)) {
 				return false;
 			}

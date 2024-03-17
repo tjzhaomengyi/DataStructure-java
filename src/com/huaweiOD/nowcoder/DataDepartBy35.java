@@ -1,17 +1,10 @@
 package com.huaweiOD.nowcoder;
 
-import com.mikemyzhao.TreeOperations_2.bigshua.MinCameraCover_7;
-import jdk.nashorn.internal.runtime.arrays.ArrayLikeIterator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.util.LinkedList;
-import java.util.Scanner;
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * @Author: zhaomengyi

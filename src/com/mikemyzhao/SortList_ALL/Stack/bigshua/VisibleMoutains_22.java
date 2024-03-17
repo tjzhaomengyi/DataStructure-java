@@ -9,7 +9,8 @@ import java.util.Stack;
  * 数学结论：如果山峰值不同，一共有2n-3对山峰，
  * (刨除最高和次最高两座山峰可以把两侧分为n-2座山)每侧的每座山肯定有一对，所以是2(n-2),
  * 最后2n-3
- *  思路：这个有点像一个汉诺塔的细节问题，汉诺塔怎么从柱子里面一个个出来
+ *  思路：这个有点像一个汉诺塔的细节问题，汉诺塔怎么从柱子里面一个个出来.
+ *
  */
 public class VisibleMoutains_22 {
   //这道题考虑的是所有山峰都不同
@@ -69,7 +70,7 @@ public class VisibleMoutains_22 {
       index = nextIndex(index,N);//下一个
     }
 
-    //技巧：2、这个时候next 等于 maxIndex了转了一圈回来了
+    //将栈中元素清理掉还剩两个，倒数第三个和之前的都是这样算。
     while(stack.size() > 2){
       int times = stack.pop().times;
       res += getInternalSum(times) + 2*times;

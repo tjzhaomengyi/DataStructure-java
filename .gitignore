@@ -1,2 +1,10 @@
 
 bin/
+
+.idea/
+
+.settings/
+
+.metadata/
+
+out/

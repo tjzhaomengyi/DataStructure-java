@@ -12,7 +12,7 @@ public class MaxSubArrSumLessOrEqualK_14 {
   public static int getMaxLessOrEqualSubArr(int[] arr, int K){
     TreeSet<Integer> set = new TreeSet<>();
     set.add(0);
-    int max = Integer.MAX_VALUE;
+    int max = Integer.MIN_VALUE;
     int sum = 0;
     for(int i = 0; i < arr.length; i++){
       sum += arr[i];//当前累加和

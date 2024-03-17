@@ -79,10 +79,11 @@ public class RegexMatch {
     int m = s.length() + 1;
     int n = p.length() + 1;
 
-    boolean[][] dp = new boolean[m][n];
+    boolean[][] dp = new boolean[m][n]; //s取长度m是否横和p取长度n匹配
 
     dp[0][0] = true;
 
+    //p=a*匹配s为空的字符串
     for (int j = 2; j < n; j++) {
       if (p.charAt(j - 1) == '*') {
         dp[0][j] = dp[0][j - 2];

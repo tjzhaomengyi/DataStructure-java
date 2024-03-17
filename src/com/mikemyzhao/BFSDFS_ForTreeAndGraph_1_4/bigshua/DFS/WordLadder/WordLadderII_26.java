@@ -12,7 +12,9 @@ public class WordLadderII_26 {
   //数学结论：【图的题BFS求最短距离，DFS求路径】这个题用BFS查一个点出发到字典有效值的所有距离，用DFS求一个转换过程结果路径！
   public static List<List<String>> findLadders(String start, String end, List<String> list){
     //技巧：生成两个重要的表：(1)连接表 (2)start到每个点的距离表
-    list.add(start);//技巧：因为题目中说start可以不必是list字典中的一员，这他妈比不是坑么，你不在里面怎么找起点的连接点
+    if(!list.contains(start)) {
+      list.add(start);//技巧：因为题目中说start可以不必是list字典中的一员，这他妈比不是坑么，你不在里面怎么找起点的连接点
+    }
     HashMap<String, List<String>> nexts = getNexts(list);
     HashMap<String, Integer> distances = getDistances(start, nexts);
     //思路：3、使用DFS遍历出有效的路径

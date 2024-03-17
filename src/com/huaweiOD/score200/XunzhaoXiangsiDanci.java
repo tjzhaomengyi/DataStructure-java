@@ -1,6 +1,5 @@
 package com.huaweiOD.score200;
 
-import jdk.nashorn.internal.runtime.arrays.ArrayLikeIterator;
 
 import java.util.ArrayList;
 import java.util.Arrays;

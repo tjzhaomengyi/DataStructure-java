@@ -41,7 +41,7 @@ public class SkyLineProblem_4 {
     Arrays.sort(nodes, new NodeComparator());
     //key 高度， Value 次数
     TreeMap<Integer,Integer> mapHeightTimes = new TreeMap<>();//高度出现次数
-    TreeMap<Integer, Integer> mapXHeight = new TreeMap<>();
+    TreeMap<Integer, Integer> mapXHeight = new TreeMap<>();//每个位置的最大轮廓线
     for(int i = 0; i < nodes.length; i++){
       if(nodes[i].isAdd){
         if(!mapHeightTimes.containsKey(nodes[i].h)){

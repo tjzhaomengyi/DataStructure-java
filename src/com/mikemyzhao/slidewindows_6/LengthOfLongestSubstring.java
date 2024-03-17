@@ -1,7 +1,5 @@
 package com.mikemyzhao.slidewindows_6;
 
-import com.point2offerspecial.three_string.SlidingWindow.PTOS016_LengthOfLongestSubstring;
-
 import java.util.HashMap;
 
 /**
