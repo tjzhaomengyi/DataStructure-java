@@ -4,6 +4,10 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_04_1_week;
 // 找到非负数组中拥有"最大或的结果"的最短子数组
 public class Code02_MaxOrSmallestSubarray {
 
+	// 看这些数的最高位是哪位，比如小于等于7的数，或起来最大是7
+	//使用窗口0开头能扩到哪获得一个答案，如果全为1，记录一下，然后缩左边
+	//如何记录结果[2,4,6,1],使用位统计，加一个32位的int[]来计算每个位置有多少个1
+	//具体方法longest2
 	public static int longest1(int[] arr) {
 		if (arr == null || arr.length == 0) {
 			return 0;

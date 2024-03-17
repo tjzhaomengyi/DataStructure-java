@@ -20,6 +20,7 @@ import java.util.Arrays;
 // 体系学习班，代码46节，视频在47节，消箱子原题，RemoveBoxes
 public class Code05_PickKnumbersNearTowNumberMaxDiff {
 
+	//todo:用二分确定一下可能找到的最大差值，然后看看有没有这些个数
 	public static int maxNear(int[] arr, int k) {
 		if (arr.length < k) {
 			return -1;
@@ -42,6 +43,7 @@ public class Code05_PickKnumbersNearTowNumberMaxDiff {
 		return ans;
 	}
 
+	// 有没有超过K个数
 	public static boolean yeah(int[] arr, int k, int limit) {
 		int last = arr[0];
 		int pick = 1;
