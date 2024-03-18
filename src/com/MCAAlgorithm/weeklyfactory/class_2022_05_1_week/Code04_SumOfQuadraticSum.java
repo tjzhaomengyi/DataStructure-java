@@ -27,13 +27,15 @@ public class Code04_SumOfQuadraticSum {
 		return ans;
 	}
 
-	// 正式方法
+	// 正式方法，
+	// 这个方法就是从小于等于根号n后面开始二分得到结果，通过结果观察，200，对应6个的位置，左边*6  和 右边界 * 6 都不超过200
 	// 时间复杂度O(开平方根N + 开平方根N * logN)
 	public static long sum2(long n) {
 		// 100 -> 10
 		// 200 -> 14
 		long sqrt = (long) Math.pow((double) n, 0.5);
 		long ans = 0;
+		//从1到平方，直接硬算 ： i * i是平方，n/i是个数
 		for (long i = 1; i <= sqrt; i++) {
 			ans += i * i * (n / i);
 		}

@@ -36,21 +36,25 @@ public class Code02_ModifyOneNumberModXWays {
 		}
 		int ans = 0;
 		for (int num : arr) {
+			//如果x=3，剩下的数字%3=1，(sum-num)%3=1，所以目标的模=(x-mod)%x,再模一遍就是为了防止mod=0的情况
 			ans += cnt(p, x, num, (x - (int) ((sum - num) % x)) % x);
 		}
 		return ans;
 	}
 
-	// 当前数字num
-	// 1~p以内，不能是num的情况下，% x == mod的数字有几个
+	// 当前数字num，妈了个逼的这个题再调整每位1到P的时候不停的修正！！！
+	// 1~p以内随意选择数字，但是这个数字不能是num的情况下，这个数字% x == mod，这样的数字有几个
 	// O(1)
 	public static int cnt(int p, int x, int num, int mod) {
 		// p/x 至少有几个
 		// (p % x) >= mod ? 1 : 0
 		// 在不考虑变出来的数，是不是num的情况下，算一下有几个数，符合要求
-		int ans = (p / x) + ((p % x) >= mod ? 1 : 0) - (mod == 0 ? 1 : 0);
+		//（1）p/x求出来有几组，每一组肯定有一个符合要求的。
+		// （2）如果p%x大于等于mod说明还有一个，如果不够mod说明不够了
+		// （3）要求%3=0有几个，1到7有3,6两个，7/3+7%3-1=3-1,【作为修正。。。。】
+		int ans = (p / x) + ((p % x) >= mod ? 1 : 0) - (mod == 0 ? 1 : 0); //这里起始最好是分成mod为0和mod不为0两种情况给出答案，避免答案修正这么复杂
 		// 不能等于num！
-		return ans - ((num <= p && num % x == mod) ? 1 : 0);
+		return ans - ((num <= p && num % x == mod) ? 1 : 0); //还得再修正一下，如果num>P,修正个你麻痹改，如果num<=p并且这个num自己符合要求
 	}
 
 	// 为了测试

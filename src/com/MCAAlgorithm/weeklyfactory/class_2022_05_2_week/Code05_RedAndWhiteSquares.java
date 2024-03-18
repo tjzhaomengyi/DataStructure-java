@@ -13,7 +13,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_05_2_week;
 public class Code05_RedAndWhiteSquares {
 
 	// 暴力方法
-	// 时间复杂度(k * n * m * h);
+	// 时间复杂度(k * n * m * h)；
 	public static int[] blocks1(int n, int m, int h, int[][] ops) {
 		int k = ops.length;
 		int[][][] cube = new int[n][m][h];
@@ -50,8 +50,8 @@ public class Code05_RedAndWhiteSquares {
 		infect(cube, a, b, c + 1, change);
 	}
 
-	// 最优解
-	// O(k + n * m * h)
+	// 最优解，从二维引导到三维，并查集
+	// O(k + n * m * h)，看一下并查集砖块那道题
 	public static int[] blocks2(int n, int m, int h, int[][] ops) {
 		int k = ops.length;
 		int[][][] red = new int[n][m][h];
@@ -60,7 +60,7 @@ public class Code05_RedAndWhiteSquares {
 		}
 		UnionFind uf = new UnionFind(n, m, h, red);
 		int[] ans = new int[k];
-		for (int i = k - 1; i >= 0; i--) {
+		for (int i = k - 1; i >= 0; i--) { //时光倒流
 			ans[i] = uf.sets;
 			int x = ops[i][0];
 			int y = ops[i][1];
@@ -68,7 +68,7 @@ public class Code05_RedAndWhiteSquares {
 			if (--red[x][y][z] == 0) {
 				// x, y ,z 这个格子，变白，建立自己的小集合
 				// 然后6个方向，集合该合并合并
-				uf.finger(x, y, z);
+				uf.finger(x, y, z);//把这个格子先变白，合并格子
 			}
 		}
 		return ans;

@@ -11,7 +11,7 @@ import java.util.HashSet;
 public class Code03_FindDuplicateOnlyOne {
 
 	// 为了测试
-	// 绝对正确，但是直接遍历+哈希表，没有得分的方法
+	// 绝对正确，但是直接遍历+哈希表，没有得分的方法,这个傻逼数组从1开始
 	public static int right(int[] arr) {
 		HashSet<Integer> set = new HashSet<>();
 		for (int num : arr) {

@@ -4,13 +4,13 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_04_3_week;
 // 3.13 笔试
 // 给定一个数组，想随时查询任何范围上的最大值
 // 如果只是根据初始数组建立、并且以后没有修改，
-// 那么RMQ方法比线段树方法好实现，时间复杂度O(N*logN)，额外空间复杂度O(N*logN)
+// 那么RMQ方法比线段树方法好实现，生成的时间复杂度O(N*logN)，额外空间复杂度O(N*logN)
 public class Code02_RMQ {
-
+	//RMQ结构类似线段树，但是不支持更新，可以以O(1)的时间复杂度查询某个范围的最大值和最小值
 	public static class RMQ {
 		public int[][] max;
 
-		// 下标一定要从1开始，没有道理！就是约定俗成！
+		// RMQ的下标一定要从1开始（dp[i][j]的i），没有道理！就是约定俗成！和线段树一个德行
 		public RMQ(int[] arr) {
 			// 长度！
 			int n = arr.length;
@@ -23,7 +23,7 @@ public class Code02_RMQ {
 				// 1...1个
 				// 2...1个
 				// 3...1个
-				max[i][0] = arr[i - 1];
+				max[i][0] = arr[i - 1];//只有自己，从i下标开始的1一个数。。。。
 			}
 			for (int j = 1; (1 << j) <= n; j++) {
 				// i...连续的、2的1次方个数，这个范围，最大值
@@ -41,12 +41,14 @@ public class Code02_RMQ {
 			}
 		}
 
+		//
 		public int max(int l, int r) {
-			// l...r -> r - l + 1 -> 2的哪个次方最接近它！
+			// l...r -> r - l + 1 -> k表示2的哪个次方最接近它！通过r-l+1和k转换成从L开始后面有多少个的问题，哈哈哈
 			int k = power2(r - l + 1);
-			return Math.max(max[l][k], max[r - (1 << k) + 1][k]);
+			return Math.max(max[l][k], max[r - (1 << k) + 1][k]);//可以有交错，但是肯定正确，因为k不保证对应l到r的完整区间
 		}
 
+		//求小于等于m的2^n中的n
 		private int power2(int m) {
 			int ans = 0;
 			while ((1 << ans) <= (m >> 1)) {

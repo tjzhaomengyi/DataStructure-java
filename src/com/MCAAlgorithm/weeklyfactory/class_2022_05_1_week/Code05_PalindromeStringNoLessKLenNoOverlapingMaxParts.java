@@ -42,7 +42,7 @@ public class Code05_PalindromeStringNoLessKLenNoOverlapingMaxParts {
 	}
 
 	// 最优解
-	// 时间复杂度O(N)
+	// 时间复杂度O(N)，这里有个贪心，如果发现了大于等于k的回文子串，马上求后面的
 	public static int maxPalindromes2(String s, int k) {
 		if (s == null || s.length() == 0) {
 			return 0;

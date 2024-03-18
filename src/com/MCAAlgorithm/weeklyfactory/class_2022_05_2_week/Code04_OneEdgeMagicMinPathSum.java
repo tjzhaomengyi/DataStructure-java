@@ -58,7 +58,12 @@ public class Code04_OneEdgeMagicMinPathSum {
 		return ans;
 	}
 
-	// 最优解
+	// 最优解，
+	// 有abcd四个点把点扩充一下,把每个点之间都加一个反向边，并扩充点,a表示之前一条魔法路径都没走过到达的a，a'表示之前走过一次魔法路径到达的a
+	// 同理bcd三个点也这么处理，如果到达了b，我们就可以到a'和c'，如果到了b'。一旦走了魔法路径到了x',
+	//                     b
+	//   a    .........             ........c
+	//                     d
 	// 时间复杂度O(N * logN)
 	// N <= 2 * 10^5
 	public static int min2(int n, int[][] roads) {

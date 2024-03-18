@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class Code01_JumMinSameValue {
 
 	public static int minJumps(int[] arr) {
+		//DFS,因为是多方向的
 		int n = arr.length;
 		// 为了找某个值，有哪些位置，能快一些
 		// key : 某个值9，
@@ -24,14 +25,14 @@ public class Code01_JumMinSameValue {
 			if (!valueIndex.containsKey(arr[i])) {
 				valueIndex.put(arr[i], new ArrayList<>());
 			}
-			valueIndex.get(arr[i]).add(i);
+			valueIndex.get(arr[i]).add(i);//记录某个值在哪些位置
 		}
 		// i会有哪些展开：左，右，i通过自己的值，能蹦到哪些位置上去
 		// 宽度优先遍历，遍历过的位置，不希望重复处理
 		// visited[i] == false：i位置，之前没来过，可以处理
 		// visited[i] == true : i位置，之前来过，可以跳过
 		boolean[] visited = new boolean[n];
-		int[] queue = new int[n];
+		int[] queue = new int[n];//又来了，根本没必要，直接用系统的就完了
 		int l = 0;
 		int r = 0;
 		// 0位置加到队列里去
@@ -44,8 +45,9 @@ public class Code01_JumMinSameValue {
 		while (l != r) { // 队列里还有东西的意思！
 			// 此时的r记录！
 			// 0 1 2 | 3 4 5 6 7 8
-			// 当前层的终止位置
+			// 当前层的终止位置，按照层遍历的时候记录下当前队列中的最右节点
 			int tmp = r;
+			//按照层遍历
 			for (; l < tmp; l++) { // 遍历当前层！
 				int cur = queue[l];
 				if (cur == n - 1) {
@@ -69,7 +71,7 @@ public class Code01_JumMinSameValue {
 					}
 				}
 				// 重要优化！
-				valueIndex.get(arr[cur]).clear();
+				valueIndex.get(arr[cur]).clear();//优化，一旦跑过了，就不再跑了
 			}
 			jump++;
 		}

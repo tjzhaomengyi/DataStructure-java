@@ -10,7 +10,10 @@ import java.util.Arrays;
 // 2）填充的每一个数不能大于k
 public class Code03_ValidSortedArrayWays {
 
-	// 动态规划
+	//例子：_ _ 3 _ _ _ _ 8 _ _ ,k=10
+	// 每段方案是独立的，最终结果 a * b * c
+	// 动态规划：dp[i][j]表示有格子i，可以选择数字个数是j个，随意填不能降序，有多少种方法
+	// dp[4][7],方案1：如果第一个不是最小值dp[4][7]=dp[4][6](todo:不对这里应该找后面数，这里讲的不贵)；方案2：如果第一个格子用最小值，dp[4][7]=dp[3][7]
 	public static long ways1(int[] nums, int k) {
 		int n = nums.length;
 		// dp[i][j] : 一共i个格子，随意填，但是不能降序，j种数可以选
@@ -42,9 +45,10 @@ public class Code03_ValidSortedArrayWays {
 		return res;
 	}
 
-	// 数学方法
+	// 数学方法:数学结论：
 	// a ~ b范围的数字随便选，可以选重复的数，一共选m个
 	// 选出有序序列的方案数：C ( m, b - a + m )
+	// 3，4，5，6，7；填入4个格子中 等同于3、4、5、6、7、8、9、10排列组合选择四个 每个格子对应-0、-1、-2、-3，就是从3-10选4个数
 	public static long ways2(int[] nums, int k) {
 		long res = 1;
 		for (int i = 0, j = 0; i < nums.length; i++) {
@@ -63,7 +67,7 @@ public class Code03_ValidSortedArrayWays {
 		return res;
 	}
 
-	// 从一共a个数里，选b个数，方法数是多少
+	// 从一共a个数里，选b个数，方法数是多少，C(n,m)看下一这个方法总用
 	public static long c(int a, int b) {
 		if (a == b) {
 			return 1;

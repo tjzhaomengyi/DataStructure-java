@@ -6,6 +6,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_04_3_week;
 // 请问翻转后可以使得1的个数最多是多少？
 public class Code01_MaxOneNumbers {
 
+	//转换为子数组最大累加和问题，把0变成1，其他变成-1，目的是让子数组0的个数最多，然后求这个数组的子数组最大累加和
 	public static int maxOneNumbers1(int[] arr) {
 		int ans = 0;
 		for (int l = 0; l < arr.length; l++) {
@@ -38,7 +39,7 @@ public class Code01_MaxOneNumbers {
 			ans += num;
 		}
 		for (int i = 0; i < arr.length; i++) {
-			arr[i] = arr[i] == 0 ? 1 : -1;
+			arr[i] = arr[i] == 0 ? 1 : -1;//把0变成1，其他变成-1，目的是让0的个数最多
 		}
 		int max = Integer.MIN_VALUE;
 		int cur = 0;
