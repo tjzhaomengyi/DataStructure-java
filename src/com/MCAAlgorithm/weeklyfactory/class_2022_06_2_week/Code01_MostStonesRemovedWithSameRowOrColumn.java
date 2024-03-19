@@ -11,6 +11,7 @@ import java.util.HashMap;
 // 测试链接 : https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/
 public class Code01_MostStonesRemovedWithSameRowOrColumn {
 
+	//任何一个石头同行同列的话直接合并，调用union，建立一个行代表和一个列代表，然后每行遍历的时候和行代表合并，列遍历时候与列代表合并，看看最后几个集团
 	public static int removeStones(int[][] stones) {
 		int n = stones.length;
 		HashMap<Integer, Integer> rowPre = new HashMap<Integer, Integer>();
