@@ -28,7 +28,7 @@ public class Code02_MinSetForEveryRange {
 			events[i + n][0] = 1;
 			events[i + n][2] = ranges[i][1];
 		}
-		Arrays.sort(events, (a, b) -> a[2] - b[2]);
+		Arrays.sort(events, (a, b) -> a[2] - b[2]);//
 		// 容器
 		HashSet<Integer> tmp = new HashSet<>();
 		int ans = 0;

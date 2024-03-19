@@ -6,10 +6,10 @@ import java.util.TreeSet;
 // 来自学员问题
 // 给定一个数组arr，表示从早到晚，依次会出现的导弹的高度
 // 大炮打导弹的时候，如果一旦大炮定了某个高度去打，那么这个大炮每次打的高度都必须下降一点
-// 1) 如果只有一个大炮，返回最多能拦截多少导弹
+// 1) 如果只有一个大炮，返回最多能拦截多少导弹 最长递增子序列来解
 // 2) 如果所有的导弹都必须拦截，返回最少的大炮数量
 public class Code03_NumberOfCannon {
-
+	//只要有大炮能cover住这个高度，就直接用这个炮打，如果没有的话新开一门大炮
 	public static int numOfCannon(int[] arr) {
 		// key : 某个大炮打的结尾数值
 		// value : 有多少个大炮有同样的结尾数值
@@ -24,10 +24,12 @@ public class Code03_NumberOfCannon {
 		// 那么在表中：
 		// 7, 1
 		// 13, 2
-		TreeMap<Integer, Integer> ends = new TreeMap<>();
+		TreeMap<Integer, Integer> ends = new TreeMap<>();//防止不能添加重复高度的大炮,放入大炮高度和数量
 		for (int num : arr) {
 			if (ends.ceilingKey(num + 1) == null) {
-				ends.put(Integer.MAX_VALUE, 1);
+//				ends.put(Integer.MAX_VALUE, 1);//放入最大防空炮
+				ends.put(num - 1, 1);//找不到就新开一门，打完减少一个点，然后把炮放入
+				continue;
 			}
 			int ceilKey = ends.ceilingKey(num + 1);
 			if (ends.get(ceilKey) > 1) {

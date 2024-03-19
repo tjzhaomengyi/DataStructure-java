@@ -15,15 +15,15 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode-cn.com/problems/zui-xiao-tiao-yue-ci-shu/
 public class Code04_MinJumpUsePre {
 
-	// 宽度优先遍历
+	// 宽度优先遍历，左边去过的点不用再去了！
 	// N*logN
 	public int minJump(int[] jump) {
 		int n = jump.length;
 		int[] queue = new int[n];
 		int l = 0;
 		int r = 0;
-		queue[r++] = 0;
-		IndexTree it = new IndexTree(n);
+		queue[r++] = 0; //又来了，直接用一个LinkedList就得了
+		IndexTree it = new IndexTree(n); //
 		// 1...n初始化的时候 每个位置填上1
 		for (int i = 1; i < n; i++) {
 			it.add(i, 1);

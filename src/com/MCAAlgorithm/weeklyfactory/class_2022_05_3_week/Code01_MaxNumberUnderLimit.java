@@ -2,7 +2,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_05_3_week;
 
 import java.util.Arrays;
 
-// 来自字节
+// 来自字节【常考】,拼出小于limit的数字，【这题其实挺烦人的】
 // 输入:
 // 去重数组arr，里面的数只包含0~9
 // limit，一个数字
@@ -57,12 +57,12 @@ public class Code01_MaxNumberUnderLimit {
 		// 为了取数而设计的！
 		// 457
 		// 100
-		int offset = 1;
-		while (offset <= limit / 10) {
+		int offset = 1; //就是下标！！！！！表示数字从第几位取出来的68886 ,取第2个8，68000/1000%10
+		while (offset <= limit / 10) {//把offset涨到limit的最高位
 			offset *= 10;
 		}
 		int ans = process2(arr, limit, offset);
-		if (ans != -1) {
+		if (ans != -1) { //如果主函数和limit漫位都拼不成功，使用比limit少一位的数，拼成最大的就行
 			return ans;
 		} else {
 			offset /= 10;
@@ -77,35 +77,40 @@ public class Code01_MaxNumberUnderLimit {
 
 	// 可以选哪些数字，都在arr里，arr是有序的，[3,6,8,9]
 	// limit : <= limit 且尽量的大！  68886
-	// offset :                     10000
-	//                               1000
+	// offset :                     10000 来到了6来做决定
+	//                               1000 来到了8来做决定
 	//                                100
 	// offset 下标用！
-	public static int process2(int[] arr, int limit, int offset) {
+	public static int process2(int[] arr, int limit, int offset) { //单决策递归
 		// 之前的数字和limit完全一样，且limit所有数字都一样
-		if (offset == 0) {
+		if (offset == 0) { //68886,每一步都一样offset才能等于0
 			return limit;
 		}
 		// 当前的数字
 		// 68886
 		// 10000
 		// 6
-		int cur = (limit / offset) % 10;
+		int cur = (limit / offset) % 10; //当前的数字
 		// 6 arr中 <=6 最近的！
-		int near = near(arr, cur);
+		int near = near(arr, cur); //在数组中找小于最近的
 		if (near == -1) {
 			return -1;
-		} else if (arr[near] == cur) { // 找出来的数字，真的和当前数字cur一样!
+		} else if (arr[near] == cur) { // 找出来的数字，真的和当前数字cur一样!这个事就多了
 			int ans = process2(arr, limit, offset / 10);
 			if (ans != -1) {
-				return ans;
+				return ans; //后续目标达成
 			} else if (near > 0) { // 虽然后续没成功，但是我自己还能下降！还能选更小的数字
 				near--;
+				//前面数字 + 当前数字 + 剩下最大部分
 				return (limit / (offset * 10)) * offset * 10 + (arr[near] * offset) + rest(arr, offset / 10);
 			} else { // 后续没成功，我自己也不能再下降了！宣告失败，往上返回！
 				return -1;
 			}
-		} else { // arr[near] < cur
+		} else { // arr[near] < cur,拿出来的数小于当前位的cur
+			//65632,【3，6，8】 63888，
+			//p1=要把前面的数都取出来，如果是最高位，这个部分就是0，比如上面例子offset=1000，65632/(1000*10)=6,还原6*1000*10，所以是limit/(offset*10)
+			//p2=拿着找到的数继续拼arr[near]*offset
+			//p3=rest(arr,offset/10),剩下部分求最大即可
  			return (limit / (offset * 10)) * offset * 10 + (arr[near] * offset) + rest(arr, offset / 10);
 		}
 	}

@@ -160,7 +160,7 @@ public class Code01_SomeDPFromVT {
 		// 选
 		int p2 = 0;
 		if (arr[index][0] <= restLen) { // 剩余绳子够长，才能选当前方案
-			p2 = arr[index][1] + maxValue(arr, index, restLen - arr[index][0]);
+			p2 = arr[index][1] + maxValue(arr, index, restLen - arr[index][0]);//index这个方案可以继续选，这里不要在加for循环了，体系学习班21、22的硬币问题
 		}
 		return Math.max(p1, p2);
 	}
@@ -204,9 +204,9 @@ public class Code01_SomeDPFromVT {
 	// preEnd index
 	// [1, 3] [2, 4] [4, 7]
 	// 0 1 2
-	// maxLen(0, -1)
-	// 0（选） -> maxLen(1, 0)
-	// 在arr[index...]选择序列，之前选的，离index最近的序列，位置在preIndex
+	// maxLen(0, -1)//-1表示从来没选过
+	// 0号为选了（选） -> maxLen(1, 3)//index=1,preIndex=3，preIndex可以换成组的下标！！！maxLen(1,0)
+	// 在arr[index...]选择序列，之前选的，离index最近的序列，位置在preIndex，preIndex是上一个连接完序列的最后一个index,讲解中后来preIndex又修改成最后一个index对应的组序号下标
 	// 请返回，index...能链接起来的，序列数量的最大值
 	public static int maxLen(int[][] arr, int index, int preIndex) {
 		if (index == arr.length) {
@@ -219,7 +219,7 @@ public class Code01_SomeDPFromVT {
 		// 选
 		int p2 = 0;
 		// [3,17] index(9,24)
-		if (arr[preIndex][1] == arr[index][0]) { // 才能选
+		if (arr[preIndex][1] == arr[index][0]) { // 才能选，连接上才可以选
 			p2 = 1 + maxLen(arr, index + 1, index);
 		}
 		return Math.max(p1, p2);

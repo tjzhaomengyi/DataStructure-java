@@ -53,7 +53,10 @@ public class Code03_MaxIncreasingSubarrayCanDeleteContinuousPart {
 		return ans;
 	}
 
-	// 正式方法
+	// 正式方法，子数组！子数组！子数组！必须以i位置结尾删或者不删
+	//(1)要i-1,[i]>[i-1]，dp[i-1]+1
+	//(2)不要i-1,i-1左边的最大长度（并且一次删除也不用）再 + 1(arr[i]自己)，
+	// 如果不加线段树，每找到1个i就得找左边哪个数比arr[i]小，随时查询线段树的左侧的大小，把i-1左边的信息存入线段树，减少枚举行为
 	// 时间复杂度O(N*logN)
 	public static int maxLen2(int[] arr) {
 		if (arr.length == 0) {

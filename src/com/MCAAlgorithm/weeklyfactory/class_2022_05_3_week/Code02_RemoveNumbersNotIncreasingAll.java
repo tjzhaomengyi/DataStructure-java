@@ -3,8 +3,10 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_05_3_week;
 // 来自京东
 // 4.2笔试
 // 给定一个数组arr，长度为N，arr中所有的值都在1~K范围上
-// 你可以删除数字，目的是让arr的最长递增子序列长度小于K
+// 你可以删除数字，目的是让arr的最长递增子序列长度小于K （LIS[从左往右选不能改相对位置，可以不连续]）
 // 返回至少删除几个数字能达到目的
+// 【注意】找到这个套路递归就写出来了：这道题比较傻逼的地方就是这个1-k范围上长度小于k说明子序列不能连续，一旦连续就要考虑要不要删除当前这个节点，
+// 比如例子中1...3，现在碰上4，就要考虑删除或者不删除，如果是2或者5就直接保留因为5这里是个空洞！！！
 // N <= 10^4，K <= 10^2
 public class Code02_RemoveNumbersNotIncreasingAll {
 
@@ -54,35 +56,39 @@ public class Code02_RemoveNumbersNotIncreasingAll {
 		return max;
 	}
 
+	//arr[0.index-1]上凑齐了len长度的递增子序列，index和以后得可以做决策，前面不行了，参数k：
 	// arr[0...index-1]上，选择了一些数字，之前的决定！
 	// len长度了！len = 3 ： 1 2 3
 	// arr[index....]是能够决定的，之前的，已经不能再决定了
 	// 返回：让最终保留的数字，凑不足k长度的情况下，至少要删几个！
 	public static int zuo(int[] arr, int index, int len, int k) {
-		if (len == k) {
+		if (len == k) { //之前已经凑了k长度的递增子序列，这个是无效解，因为要求小于k
 			return Integer.MAX_VALUE;
 		}
-		// 凑的(1...len)还不到(1...k)
+		//从1...lenk长度，凑的(1...len)还不到(1...k)
 		if (index == arr.length) {
-			return 0;
+			return 0;//已经都选择完了，不需要再选了
 		}
-		// 没凑到 < k, 有数字!
+		// 没凑到 len < k, 有数字!
 		int cur = arr[index];
-		// 可能性1：保留
+		// cur有两种情况可能性1：保留
+		// （1）如果0到index-1获得的递增子序列是1到3，arr[index]=2或者3,那么就不删除，保留，这样可以省一次删除操作，因为前面已经有了1...3了这个2没有影响
+		// （2）如果0到index-1获得的递增子序列是1到3, arr[index]=5,也不删除，保留，
 		// 可能性2：删除
-		// 1...3 3
-		if (len >= cur || len + 1 < cur) {
-			return zuo(arr, index + 1, len, k);
+		// 1...3 3 ，这里想不出来
+		if (len >= cur || len + 1 < cur) { //凑足的数字大于等于当前的数字
+			return zuo(arr, index + 1, len, k);//保留
 		}
-		// 1..3  4
+
+		// 如果0到index-1获得的递增子序列是1到3，arr[index]=4
 		// len + 1  == cur
 		// 可能性1：保留
 		int p1 = zuo(arr, index + 1, len + 1, k);
 		// 可能性2：删除
 		int p2 = Integer.MAX_VALUE;
 		int next2 = zuo(arr, index + 1, len, k);
-		if(next2 != Integer.MAX_VALUE) {
-			p2 = 1 + next2;
+		if(next2 != Integer.MAX_VALUE) {//后续是有效解
+			p2 = 1 + next2; //删除的数字是当前删除一次和后续删除次数
 		}
 		return Math.min(p1, p2);
 	}
