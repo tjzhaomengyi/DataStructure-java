@@ -15,6 +15,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_06_1_week;
 // 本题测试链接 : https://leetcode.com/problems/where-will-the-ball-fall/
 public class Code01_WhereWillTheBallFall {
 
+	//对角线对应的格子方向是否一致，如果不一致，就被堵住
 	public static int[] findBall(int[][] grid) {
 		int n = grid.length;
 		int m = grid[0].length;
@@ -29,7 +30,7 @@ public class Code01_WhereWillTheBallFall {
 				// (i,j)  右上 -> 左下的格子  grid[i][j] == -1
 				// (i+1, j-1)
 				int jnext = j + grid[i][j];
-				if (jnext < 0 || jnext == m || grid[i][j] != grid[i][jnext]) {
+				if (jnext < 0 || jnext == m || grid[i][j] != grid[i][jnext]) {//如果下面行的格子不一致
 					ans[col] = -1;
 					break;
 				}

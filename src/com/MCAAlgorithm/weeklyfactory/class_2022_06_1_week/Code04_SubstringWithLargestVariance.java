@@ -6,12 +6,13 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_06_1_week;
 // 注意：必须同时有，最多字符和最少字符的字符串才是有效的
 // 测试链接 : https://leetcode.cn/problems/substring-with-largest-variance/
 public class Code04_SubstringWithLargestVariance {
-
+	//只看more和less字符，看看more和less是否一致，如果不一致，遍历整个字符串，除了more和less之外字符一律不看
 	public static int largestVariance1(String s) {
 		if (s == null || s.length() == 0) {
 			return 0;
 		}
 		int n = s.length();
+		//将字母转成ascii码
 		// a b a c b b a
 		// 0 1 0 2 1 1 0
 		int[] arr = new int[n];
@@ -22,23 +23,26 @@ public class Code04_SubstringWithLargestVariance {
 		// 26 * 26 * n O(N)
 		for (int more = 0; more < 26; more++) {
 			for (int less = 0; less < 26; less++) {
-				if (more != less) {
-					int continuousA = 0;
-					boolean appearB = false;
-					int max = 0;
-					// 从左到右遍历，
+				if (more != less) { //more和less不是同一个字符，并且要求more和less在这个子串里面都有
+					int continuousA = 0;//连续出现A的次数,aaabaab的continouousA=3=>2
+					boolean appearB = false;//是否有过B
+					int max = 0;//A和B最悬殊的值
+					// 从左到右遍历，整个串子拿来直接撸
 					for (int i = 0; i < n; i++) {
-						if (arr[i] != more && arr[i] != less) {
+						if (arr[i] != more && arr[i] != less) {//当前字符既不是more也不是less
 							continue;
 						}
+
+						////a, A=1,B=false,max=0 => aaab这个时刻出现了b，max=3个a-1个b=2，并且把连续contiousa=0清零 => aaabaa，此时contiousA继续统计，并且把最好结果max++！
 						if (arr[i] == more) { // 当前字符是more
-							continuousA++;
-							if (appearB) {
+							continuousA++; //没有碰到B的时候，A不停进行统计
+							if (appearB) { //B没有出现max不加，也不要动！！！！直到某个时刻出现了B,max长度++
 								max++;
 							}
 						} else { // 当前字符是B
-							max = Math.max(max, continuousA) - 1;
-							continuousA = 0;
+							//两种决策，前面和现在对比找长
+							max = Math.max(max, continuousA) - 1; //看这一段大还是前面统计的那段大！连续出现这一块可能比前面那块已经收上来的max更牛逼，减1表示减去当前这个B
+							continuousA = 0; //把b清了，思想原型：子数组累加和问题
 							appearB = true;
 						}
 						ans = Math.max(ans, max);
@@ -60,7 +64,7 @@ public class Code04_SubstringWithLargestVariance {
 		for (int i = 0; i < n; i++) {
 			arr[i] = s.charAt(i) - 'a';
 		}
-		// dp[a][b] = more a less b max
+		// dp[a][b] = 如果more是 a ，less是 b ，求max
 		// dp[b][a] = more b less a max
 		int[][] dp = new int[26][26];
 		// continuous[a][b] more a less b 连续出现a的次数

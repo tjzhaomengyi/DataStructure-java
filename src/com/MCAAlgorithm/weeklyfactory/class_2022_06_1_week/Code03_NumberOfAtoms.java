@@ -2,6 +2,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_06_1_week;
 
 import java.util.TreeMap;
 
+// 公式计算的变形问题终于来了！！！哈哈哈
 // 给你一个字符串化学式 formula ，返回 每种原子的数量 。
 // 原子总是以一个大写字母开始，接着跟随 0 个或任意个小写字母，表示原子的名字。
 // 如果数量大于 1，原子后会跟着数字表示原子的数量。如果数量等于 1 则不会跟数字。
