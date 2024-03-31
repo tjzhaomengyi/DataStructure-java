@@ -58,13 +58,13 @@ public class Code02_CutOrPoison {
 	public static int fast2(int[] cuts, int[] poisons, int hp) {
 		// 怪兽可能的最快死亡回合
 		int l = 1;
-		// 怪兽可能的最晚死亡回合
+		// 怪兽可能的最晚死亡回合，用毒1，hp=1，第一回合用毒，不掉血，第二回合死了
 		int r = hp + 1;
 		int m = 0;
 		int ans = Integer.MAX_VALUE;
 		while (l <= r) {
 			m = l + ((r - l) >> 1);
-			if (ok(cuts, poisons, hp, m)) {
+			if (ok(cuts, poisons, hp, m)) { //看看左边能不能搞定得更好
 				ans = m;
 				r = m - 1;
 			} else {
@@ -74,6 +74,9 @@ public class Code02_CutOrPoison {
 		return ans;
 	}
 
+	// 怪兽血量hp
+	// limit回合最多限制
+	// 一旦回合数确定该用刀还是毒直接确定！！！！！！
 	public static boolean ok(int[] cuts, int[] posions, long hp, int limit) {
 		int n = Math.min(cuts.length, limit);
 		for (int i = 0, j = 1; i < n; i++, j++) {

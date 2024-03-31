@@ -17,11 +17,32 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_ClosestTwoPoints1 {
+// 理论上，第二个找min的优化是个几何问题
+//先把所有点根据x点排序，分成两部分，每部分N/2，
+// 找到两侧真实距离的最短距离min，然后符合这些节点的按照y的坐标点从小达到排序，然后每个点进行考察，如果y方向的距离大于了min对应这个点上面的所有点都可以跳过
+// 在整合左右的时候就是找有没有可能找到比min更小的点，
+// 整合时候y方向的区域，以上方为例，y上方最多到"考察点y+min"，左右分别是"考察点x +/- min"，其实就是在以考察点为圆心，min/根号2
+//  ------min--------｜-------min--------
+// ｜           	 ｜					｜
+// ｜				 ｜					｜
+// ｜				 ｜					｜
+// ｜				 ｜					｜
+// ｜				 ｜					｜
+// ｜				 ｜					｜
+//2*min------------ 考察点 -------------2*min
+// ｜           	 ｜					｜
+// ｜				 ｜					｜
+// ｜				 ｜					｜
+// ｜				 ｜					｜
+// ｜				 ｜					｜
+// ｜				 ｜					｜
+//  ------min--------｜-------min--------
+// 优化来了：只要来找到距离"考察点"小于min的点，只需要在这个四个放个里面找到；只要来到一个点就把这个点的方圆min范围的点都挖掉，不考虑了！这样的点在这个格子里面只有六个
+public class  Code04_ClosestTwoPoints1 {
 
 	public static int N = 200001;
 
-	public static Point[] points = new Point[N];
+	public static Point[] points = new Point[N];//
 
 	public static Point[] deals = new Point[N];
 

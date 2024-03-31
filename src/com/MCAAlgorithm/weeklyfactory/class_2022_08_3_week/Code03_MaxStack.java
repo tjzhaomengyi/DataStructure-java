@@ -16,6 +16,7 @@ import java.util.HashMap;
 // 测试链接 : https://leetcode.cn/problems/max-stack/
 public class Code03_MaxStack {
 
+	//使用加强堆
 	class MaxStack {
 
 		public int cnt;

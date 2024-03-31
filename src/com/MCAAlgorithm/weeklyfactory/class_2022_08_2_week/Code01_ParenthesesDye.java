@@ -15,6 +15,20 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_08_2_week;
 // 0 <= arr[i] <= k
 public class Code01_ParenthesesDye {
 
+	//题目理解（ ？ ？ ？， k = 3，配对括号的颜色一定一样
+	// 1）（）（）
+	//    11 11
+	// 2） （）（）
+	//  11	22
+	// 3）（）（）
+	//	11	33
+	// 4） （（））
+	// 1111
+	//5）（（））
+	// 1 22 1
+	//6） （（））
+	// 1 33 1
+	// 有：（n-2a）/2 多个括号对可以根据提议进行染色，每一个括号对可以染色k种方案，所以总共方案一共k^[(n-2a)/2]种
 	// 暴力方法
 	// 为了验证
 	public static int ways1(int[] arr, int k) {
@@ -67,7 +81,7 @@ public class Code01_ParenthesesDye {
 	// 那么还剩n-(b*2)个字符
 	// 这n-(b*2)个字符，就是(n-(b*2))/2对括号
 	// 每对括号都可以自由发挥，所以，任何一个合法的组合，涂色方案为k^((n-(b*2))/2)
-	// 最终答案 : 合法括号组合数量 * k^((n-(b*2))/2)
+	// 最终答案 : 合法括号组合数量 * k^((n-(b*2))/2) //这个是数学上的题眼，最后直接给出来就行，其实就是求合法括号数的问题
 	public static int ways2(int[] arr, int k) {
 		int n = arr.length;
 		if ((n & 1) != 0) {
@@ -104,14 +118,14 @@ public class Code01_ParenthesesDye {
 	// process(arr, 0, 0)
 	public static int process(int[] arr, int i, int j) {
 		if (i == arr.length) {
-			return j == 0 ? 1 : 0;
+			return j == 0 ? 1 : 0; //终止位置是否合法
 		}
 		if (j < 0) {
-			return 0;
+			return 0; //做括号小于右括号数量
 		}
 		// 这个不写也行
 		// 锦上添花的剪枝条件
-		if (arr.length - i < j) {
+		if (arr.length - i < j) { //右侧待填写的数量根本不够j个
 			return 0;
 		}
 		// arr[i] != 0

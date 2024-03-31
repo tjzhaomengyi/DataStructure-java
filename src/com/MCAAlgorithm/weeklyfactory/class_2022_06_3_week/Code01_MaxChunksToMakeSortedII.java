@@ -19,8 +19,13 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_06_3_week;
 public class Code01_MaxChunksToMakeSortedII {
 
 	public int maxChunksToSorted(int[] arr) {
+		//5 4 3 6 7 5 8 8
+		// 5这里不能单独切，因为后面有3，切了之后3永远不能按照正常排序放在5的前面了
+		// 来到4，还是不行
+		// 来到3，后面的最小值是5，断连后不影响。
+		//结论如果想在某个数上切的话，一定要看后面是否有比自己还小的数，如果有这个数上就不能切
 		int n = arr.length;
-		int[] mins = new int[n];
+		int[] mins = new int[n];//每个点右边的最小值提前记录一下
 		// i ~ 最后位置上，最小值！
 		// 5  | 6...
 		// 17 | 18...
@@ -31,7 +36,7 @@ public class Code01_MaxChunksToMakeSortedII {
 		int ans = 1;
 		int max = arr[0];
 		for (int i = 1; i < n; i++) {
-			if (max <= mins[i]) {
+			if (max <= mins[i]) {//这个点可以切
 				ans++;
 			}
 			max = Math.max(max, arr[i]);

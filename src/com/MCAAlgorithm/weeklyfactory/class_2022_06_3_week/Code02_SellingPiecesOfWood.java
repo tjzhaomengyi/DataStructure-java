@@ -19,7 +19,7 @@ public class Code02_SellingPiecesOfWood {
 	// [3, 5, 7元]
 	// [2, 6, 5元]
 	// 100 * 100
-	// values -> 100 * 100
+	// values -> 100 * 100的规模，如果某个规格有报价，values[i][j]有值
 	// values[1][3] = 10
 	// values[3][5] = 7
 	// values[2][6] = 5
@@ -27,17 +27,19 @@ public class Code02_SellingPiecesOfWood {
 	// m * n这块木板，只能水平分割、垂直分割的情况下，能获得的最大总钱数是多少？
 	public static int zuo(int m, int n, int[][] values) {
 		// base case
-		if (m == 0 || n == 0) {
+		if (m == 0 || n == 0) { //横方向和纵方向的木块长度和宽度为0
 			return 0;
 		}
 		// m > 0 & n > 0木块还有面积！
 		// 普遍分析
 		// 可能性1：一刀也不切
-		int ans = values[m][n]; // 0元 >0元
+		// 可能性2：横向切一刀
+		// 可能性3：纵向切一刀
+		int ans = values[m][n]; // 0元 >0元 一刀也不切的答案
 		// 接下来的一系列可能性：水平方向上，都去试一试
 		for (int split = 1; split < m; split++) {
-			int up = zuo(split, n, values);
-			int down = zuo(m - split, n, values);
+			int up = zuo(split, n, values);//上一块的大小split * n
+			int down = zuo(m - split, n, values); //下一块的价格 （m-split）* n
 			ans = Math.max(ans, up + down);
 		}
 		// 垂直方向上，都去试一试
@@ -85,7 +87,7 @@ public class Code02_SellingPiecesOfWood {
 		// dp[10][20] ：没算过，-1
 		for (int i = 1; i <= m; i++) {
 			for (int j = 1; j <= n; j++) {
-				dp[i][j] = -1;
+				dp[i][j] = -1;//-1代表这个大小没有算过
 			}
 		}
 		return f2(m, n, values, dp);
@@ -111,8 +113,8 @@ public class Code02_SellingPiecesOfWood {
 
 	// 严格位置依赖的动态规划版本 + 优化
 	// 优化1 : 递归的形式，改成迭代形式，课上讲了
-	// 优化2 : prices中的单块收益直接填入dp表即可，如果有更好的分割方案，更新掉
-	// 优化3 : 分割只需要枚举一半即可
+	// 优化2 : prices中的单块收益直接填入dp表即可，如果有更好的分割方案，更新掉,不使用values数组
+	// 优化3 : 分割只需要枚举一半即可，1*3 + 2*3  和 2*3 + 1*3是一样的！！！！！所以就有了k<=(j>>1)和k<=(i>>1)
 	public static long sellingWood3(int m, int n, int[][] prices) {
 		// dp表！
 		long[][] dp = new long[m + 1][n + 1];
@@ -120,8 +122,9 @@ public class Code02_SellingPiecesOfWood {
 			// {3, 5, 100}
 			// 0 1 2
 			// dp[3][5] = 100
-			dp[p[0]][p[1]] = p[2];
+			dp[p[0]][p[1]] = p[2];//把每块的价格先给dp表
 		}
+		//两个for循环还是在枚举行列
 		for (int i = 1; i <= m; i++) {
 			for (int j = 1; j <= n; j++) {
 				// 垂直分割
@@ -129,8 +132,8 @@ public class Code02_SellingPiecesOfWood {
 				// dp[100][1] + dp[100][99]
 				// dp[100][2] + dp[100][98]
 				// ..
-				for (int k = 1; k <= (j >> 1); k++) {
-					dp[i][j] = Math.max(dp[i][j], dp[i][k] + dp[i][j - k]);
+				for (int k = 1; k <= (j >> 1); k++) {//分隔 ， k <= (j >> 1)没有优化前可写成k < j
+					dp[i][j] = Math.max(dp[i][j], dp[i][k] + dp[i][j - k]);//原本的值和当前使用k进行分割的结果
 				}
 				// 水平分割
 				// 100 * 100
@@ -140,7 +143,7 @@ public class Code02_SellingPiecesOfWood {
 				// 1) 1 * j + (i - 1) * i;
 				// 2) 2 * j + (i - 2) * j;
 				// k) k * j + (i - k) * j;
-				for (int k = 1; k <= (i >> 1); k++) {
+				for (int k = 1; k <= (i >> 1); k++) { //第三步优化前可以写成k <= (i >> 1)
 					dp[i][j] = Math.max(dp[i][j], dp[k][j] + dp[i - k][j]);
 				}
 			}

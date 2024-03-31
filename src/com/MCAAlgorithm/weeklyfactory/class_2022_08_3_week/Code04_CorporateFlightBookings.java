@@ -9,10 +9,13 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_08_3_week;
 // 测试链接 : https://leetcode.cn/problems/corporate-flight-bookings/
 public class Code04_CorporateFlightBookings {
 
+	//使用差分技巧，这个问题完全可以用线段树做，但是这个比线段树要轻量
+	// 【0 0 0 0 0】在【1-4】上加3，在差分数组上第一位+3，在【5】-3，【3 0 0 0 -3】，前缀和就是最终结果
+	// 要求在【2-3】加+3，差分数组在【2】+3， 在【4】-3，【3 2 0 -2 -3】，统一撸一遍前缀和，就是最后结果
 	public static int[] corpFlightBookings(int[][] bookings, int n) {
 		// 1 2 3 4 n
 		// 0 1 2 3 .. n n+1
-		int[] cnt = new int[n + 2];
+		int[] cnt = new int[n + 2];//差分数组，根据题意0位置不用，n+1位置防止越界
 		for (int[] book : bookings) {
 			// start book[0]
 			// end   book[1]

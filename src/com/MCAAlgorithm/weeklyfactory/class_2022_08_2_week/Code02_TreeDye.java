@@ -14,6 +14,8 @@ import java.util.Arrays;
 // 1 <= 节点数量 <= 10的5次方
 public class Code02_TreeDye {
 
+	//如果某个点只有一个边和它相连，就是叶节点，这个颜色无所谓，非叶节点和它相邻的两个节点要凑三种颜色
+	//先找头，只要孩子节点大于等于2，就可以当作头，每一层红黄蓝交替，另一侧是红蓝黄，本质就是在dfs上使用rule1和rule2进行染色
 	// 1 2 3 1 2 3 1 2 3
 	public static int[] rule1 = { 1, 2, 3 };
 
@@ -37,7 +39,7 @@ public class Code02_TreeDye {
 		// 选一个头节点！
 		int head = -1;
 		for (int i = 0; i < n; i++) {
-			if (graph.get(i).size() >= 2) {
+			if (graph.get(i).size() >= 2) {//找到头节点，只要孩子个数大于2，就可以做根节点
 				head = i;
 				break;
 			}
@@ -51,9 +53,9 @@ public class Code02_TreeDye {
 		} else {
 			// dfs 染色了！
 			colors[head] = 1;
-			dfs(graph, graph.get(head).get(0), 1, rule1, colors);
+			dfs(graph, graph.get(head).get(0), 1, rule1, colors);//第一个用rule1染色
 			for (int i = 1; i < graph.get(head).size(); i++) {
-				dfs(graph, graph.get(head).get(i), 1, rule2, colors);
+				dfs(graph, graph.get(head).get(i), 1, rule2, colors); //其他的用rule2染色即可
 			}
 		}
 		return colors;
@@ -71,9 +73,9 @@ public class Code02_TreeDye {
 			int level,
 			int[] rule, int[] colors) {
 
-		colors[head] = rule[level % 3];
+		colors[head] = rule[level % 3]; //每一层染什么颜色
 		for (int next : graph.get(head)) {
-			if (colors[next] == 0) {
+			if (colors[next] == 0) { //这个是父亲节点，已经染色过了，就不需要染色了，如果邻接表某个点染色过了colors[next]>0
 				dfs(graph, next, level + 1, rule, colors);
 			}
 		}

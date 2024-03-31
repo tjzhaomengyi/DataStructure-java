@@ -2,7 +2,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_07_1_week;
 
 import java.util.ArrayList;
 
-// 给定一个棵树
+// 给定一个棵树 dfn序号 + dfn每个节点统计自己孩子节点个数，通过这个个数判断另外一个dfn节点是否是自己的子节点，父节点的dfn序号肯定小于子节点的dfn序号
 // 树上每个节点都有自己的值，记录在数组nums里
 // 比如nums[4] = 10，表示4号点的值是10
 // 给定树上的每一条边，记录在二维数组edges里

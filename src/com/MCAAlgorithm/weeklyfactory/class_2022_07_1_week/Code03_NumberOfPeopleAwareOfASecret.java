@@ -23,14 +23,14 @@ public class Code03_NumberOfPeopleAwareOfASecret {
 		// 第1天的时候，可以分享秘密的人0个
 		dpKnow[1] = 1;
 		if (1 + forget <= n) {
-			dpForget[1 + forget] = 1;
+			dpForget[1 + forget] = 1; //A第一天知道秘密，forget=4，第五天A这个人要减掉
 		}
 		if (1 + delay <= n) {
-			dpShare[1 + delay] = 1;
+			dpShare[1 + delay] = 1; //A第一天知道秘密，delay=2，第三天A这个人能拉一个人进来，加一个人头
 		}
-		// 从第2天开始！i
+		// 从第2天开始！i，开始更新这三个数组！
 		for (int i = 2; i <= n; i++) {
-			// 第i天
+			// 第i天 知道秘密的人等于前一天知道秘密的的人 - 这一天忘记秘密的人 + 这一天分享给的人
 			// dpKnow[i - 1] - dpForget[i] + dpShare[i]
 			dpKnow[i] = (mod + dpKnow[i - 1] - dpForget[i] + dpShare[i]) % mod;
 			if (i + forget <= n) {
@@ -41,8 +41,10 @@ public class Code03_NumberOfPeopleAwareOfASecret {
 			if (i + delay <= n) {
 				// dpShare[i + delay - 1] + dpShare[i] - dpForget[i + delay]
 				// i + delay 天 , 100天后，会分享秘密的人
-				// 第i天，有一些新人，i + delay天分享，一部分, dpShare[i]
-				// 第二部分呢？i + delay - 1天，知道秘密并且会散播的人，- dpForget[i + delay]
+				// 第i+delay分享人数有两部分组成：
+				// 第一部分：第i天，有一些新人，这些新人会在i + delay天分享，这只是一部分, dpShare[i]，这部分人在i+delay前都不会散播。
+				// 第二部分：第i+delay天的时候还有一部分是在第i+delay那天没有忘记的那些人也会散播 所以就是
+				// i + delay - 1天中知道秘密并且会散播的人（光知道不行还要去散播），- dpForget[i + delay]这一天忘记的秘密的人
 				dpShare[i + delay] = (mod + dpShare[i + delay - 1] - dpForget[i + delay] + dpShare[i]) % mod;
 			}
 		}

@@ -12,80 +12,87 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_08_4_week;
 // 输出最小修改次数
 public class Code06_MinCostMostE {
 
-//	public static class Info {
-//		public int mostGoodE;
-//		public int minCost;
-//
-//		public Info(int good, int cost) {
-//			mostGoodE = good;
-//			minCost = cost;
-//		}
-//
-//	}
-//
-//	// i-2 -> prepre
-//	// i-1 -> pre
-//	// i...可以去成全 i-1 pre
-//	// 也可以不成全
-//	// i -> r e d 随意
-//	// 返回：i-1 yes or no + i.... 最多的好e，数量是多少
-//	// 最多的好e, 最小的代价
-//	// i 2 * 10^5
-//	// prepre r e d
-//	// pre r e d
-//	// 9 * 2 * 10^5
-//	// 10^6
-//	public static Info zuo(char[] s, int i, char prepre, char pre) {
-//		if (i == s.length) {
-//			return new Info(0, 0);
-//		}
-//
-//		// 可能性1 i-1 [i] -> r
-//		int cur1Value = prepre == 'd' && pre == 'e' ? 1 : 0;
-//		int cur1Cost = s[i] == 'r' ? 0 : 1;
-//		Info info1 = zuo(s, i + 1, pre, 'r');
-//		int p1Value = cur1Value + info1.mostGoodE;
-//		int p1Cost = cur1Cost + info1.minCost;
-//
-//		// 可能性2 i-1 [i] -> e
-//		int cur2Value = 0;
-//		int cur2Cost = s[i] == 'e' ? 0 : 1;
-//		Info info2 = zuo(s, i + 1, pre, 'e');
-//		int p2Value = cur2Value + info2.mostGoodE;
-//		int p2Cost = cur2Cost + info2.minCost;
-//
-//		// 可能性3 i-1 [i] -> d
-//		int cur3Value = prepre == 'r' && pre == 'e' ? 1 : 0;
-//		int cur3Cost = s[i] == 'd' ? 0 : 1;
-//		Info info3 = zuo(s, i + 1, pre, 'd');
-//		int p3Value = cur3Value + info3.mostGoodE;
-//		int p3Cost = cur3Cost + info3.minCost;
-//
-//		int mostE = 0;
-//		int minCost = Integer.MAX_VALUE;
-//
-//		if (mostE < p1Value) {
-//			mostE = p1Value;
-//			minCost = p1Cost;
-//		} else if (mostE == p1Value) {
-//			minCost = Math.min(minCost, p1Cost);
-//		}
-//
-//		if (mostE < p2Value) {
-//			mostE = p2Value;
-//			minCost = p2Cost;
-//		} else if (mostE == p2Value) {
-//			minCost = Math.min(minCost, p2Cost);
-//		}
-//
-//		if (mostE < p3Value) {
-//			mostE = p3Value;
-//			minCost = p3Cost;
-//		} else if (mostE == p3Value) {
-//			minCost = Math.min(minCost, p3Cost);
-//		}
-//		return new Info(mostE, minCost);
-//	}
+	//两个维度的目标：好e足够多、非e字母变的次数足够少
+	//1、可以贪心，如果是奇数，奇数为全改成e，剩下就看dr/rd哪个方法省；如果是偶数长度就复杂
+	//2、递归方法 ：f(i,prepre,pre)来到i位置字符，prepre是i-2做的决定，pre是i-1做的决定；例如re？，可以把？变成d/e/r都可以，但是前面两个确定
+	//【i-1】==e，可以成全，返回如果能成全，从i开始形成最多的好e，数量是多少，这个最多的好e的最小代价
+	/**课上讲解
+	public static class Info {
+		public int mostGoodE;
+		public int minCost;
+
+		public Info(int good, int cost) {
+			mostGoodE = good;
+			minCost = cost;
+		}
+
+	}
+
+	// i-2做的决定 -> prepre
+	// i-1做的决定 -> pre
+	// i...可以去成全 i-1 pre
+	// 也可以不成全 i-1 的字符
+	// i 可以变成-> r e d 三种变化随意
+	// 返回：i-1 被成全yes or 不被成全no + i.... 最多的好e，数量是多少
+	// 最多的好e, 最小的代价
+	// i 2 * 10^5
+	// prepre r e d
+	// pre r e d
+	// 9 * 2 * 10^5
+	// 10^6
+	public static Info zuo(char[] s, int i, char prepre, char pre) {
+		if (i == s.length) { //越界了无法成全
+			return new Info(0, 0);
+		}
+
+		// 可能性1 i-1 [i] -> r，i位置的字符变成r，这样就有可能成全i-1位置变成好e，这样的话cur1Value=1，否则cur1Value=0
+		int cur1Value = prepre == 'd' && pre == 'e' ? 1 : 0; //前面是可以成全，后面是不能成全
+		int cur1Cost = s[i] == 'r' ? 0 : 1; //变的这下的代价
+		Info info1 = zuo(s, i + 1, pre, 'r'); //后续的信息，往后递推
+		int p1Value = cur1Value + info1.mostGoodE;
+		int p1Cost = cur1Cost + info1.minCost;
+
+		// 可能性2 i-1 [i] -> e ，把i位置的字符变成e
+		int cur2Value = 0; //这个位置i调整不会给i-1的位置获得不到收益
+		int cur2Cost = s[i] == 'e' ? 0 : 1;
+		Info info2 = zuo(s, i + 1, pre, 'e');
+		int p2Value = cur2Value + info2.mostGoodE;
+		int p2Cost = cur2Cost + info2.minCost;
+
+		// 可能性3 i-1 [i] -> d，同可能性1的分析
+		int cur3Value = prepre == 'r' && pre == 'e' ? 1 : 0;
+		int cur3Cost = s[i] == 'd' ? 0 : 1;
+		Info info3 = zuo(s, i + 1, pre, 'd');
+		int p3Value = cur3Value + info3.mostGoodE;
+		int p3Cost = cur3Cost + info3.minCost;
+
+		int mostE = 0;
+		int minCost = Integer.MAX_VALUE;
+
+		//分别验证三个可能性对应的结果
+		if (mostE < p1Value) { //有好e
+			mostE = p1Value;
+			minCost = p1Cost;
+		} else if (mostE == p1Value) {
+			minCost = Math.min(minCost, p1Cost); //收益mostE是一样的，替换为最小代价Cost
+		}
+
+		if (mostE < p2Value) {
+			mostE = p2Value;
+			minCost = p2Cost;
+		} else if (mostE == p2Value) {
+			minCost = Math.min(minCost, p2Cost);
+		}
+
+		if (mostE < p3Value) {
+			mostE = p3Value;
+			minCost = p3Cost;
+		} else if (mostE == p3Value) {
+			minCost = Math.min(minCost, p3Cost);
+		}
+		return new Info(mostE, minCost);
+	}
+	 **/
 
 	public static int minCost(String str) {
 		int n = str.length();

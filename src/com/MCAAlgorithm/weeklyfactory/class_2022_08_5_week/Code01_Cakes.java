@@ -9,6 +9,10 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_08_5_week;
 // 返回先手赢还是后手赢
 public class Code01_Cakes {
 
+	/**
+	 * nim博弈
+	 */
+
 	// 草莓蛋糕a块
 	// 巧克力蛋糕b块
 	// 每次可以在任意一种上拿1~m块

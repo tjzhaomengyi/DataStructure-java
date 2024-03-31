@@ -17,21 +17,23 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_08_4_week;
 // 输出一行一个整数，表示最少花费时间，来使得两个数列相同。
 public class Code02_ChangeToSame {
 
+	// 从左到右
 	// A B
 	// zuo(A,B,0,0)
 	// A[ai.....] 对应 B[bi.....]
 	// 请变一样
 	// 返回最小代价
 	public static int zuo(int[] A, int[] B, int ai, int bi) {
-		if (ai == A.length && bi == B.length) {
+		if (ai == A.length && bi == B.length) { //俩人都到头了
 			return 0;
 		}
-		if (ai != A.length && bi == B.length) {
-			return A[ai] + zuo(A, B, ai + 1, bi);
+		if (ai != A.length && bi == B.length) { //bi到头了，
+			return A[ai] + zuo(A, B, ai + 1, bi); //把【ai】删除掉，然后后面去递归
 		}
-		if (ai == A.length && bi != B.length) {
+		if (ai == A.length && bi != B.length) { //ai到头了
 			return B[bi] + zuo(A, B, ai, bi + 1);
 		}
+		//简单递归的几个情况
 		// A[ai] 有数 B[bi] 有数
 		// 可能性1 ： 删掉A[ai]
 		int p1 = A[ai] + zuo(A, B, ai + 1, bi);
@@ -41,7 +43,8 @@ public class Code02_ChangeToSame {
 		// int p3 = A[ai] + B[bi] + zuo(A, B, ai + 1, bi + 1);
 		// 可能性4 ： 变！A[ai] -> B[bi] B[bi] -> A[ai]
 		int p4 = Math.abs(A[ai] - B[bi]) + zuo(A, B, ai + 1, bi + 1);
-		// 可能性5 ： A[ai] == B[bi]
+		// 可能性5 ： A[ai] == B[bi] ，被可能性p4覆盖了
+		// A[ai] + B[bi]肯定大于可能性p4的两者差值，所以直接不要了！
 		return Math.min(p1, Math.min(p2, p4));
 	}
 

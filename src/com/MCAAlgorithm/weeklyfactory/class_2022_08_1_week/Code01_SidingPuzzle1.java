@@ -63,11 +63,12 @@ public class Code01_SidingPuzzle1 {
 		return ans;
 	}
 
+	//给定一个初始状态，给出转换的下一个状态
 	public static int nexts(int from) {
 		// 301245
 		//  10000
 		// a = 3
-		int a = from / b6;
+		int a = from / b6; //取出最高位
 		// b = 0
 		int b = (from / b5) % 10;
 		// c = 1
@@ -78,7 +79,7 @@ public class Code01_SidingPuzzle1 {
 		int e = (from / b2) % 10;
 		// f = 5
 		int f = from % 10;
-		if (a == 0) {
+		if (a == 0) { //第一位只有两个邻居可以变化
 			nexts[0] = from + (b - a) * b6 + (a - b) * b5;
 			nexts[1] = from + (d - a) * b6 + (a - d) * b3;
 			return 2;

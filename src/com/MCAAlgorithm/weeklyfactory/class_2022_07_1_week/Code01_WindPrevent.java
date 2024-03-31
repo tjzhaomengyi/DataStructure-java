@@ -73,18 +73,19 @@ public class Code01_WindPrevent {
 //		return ans;
 //	}
 
+	//每行按照列上使用k-1和上面一行和下面一行构成窗口
 	public static int bestHeight2(int[][] matrix, int k) {
 		int n = matrix.length;
 		int m = matrix[0].length;
 		int[][] windowMaxs = new int[m][n];
 		int[][] windowLR = new int[m][2];
 		for (int i = 0; i < k; i++) {
-			addRow(matrix, m, i, windowMaxs, windowLR);
+			addRow(matrix, m, i, windowMaxs, windowLR);//先让窗口加1行
 		}
 		int ans = bottleNeck(matrix, m, windowMaxs, windowLR);
 		for (int i = k; i < n; i++) {
 			addRow(matrix, m, i, windowMaxs, windowLR);
-			deleteRow(m, i - k, windowMaxs, windowLR);
+			deleteRow(m, i - k, windowMaxs, windowLR);//统计完新来的行后删除前面那行
 			ans = Math.max(ans, bottleNeck(matrix, m, windowMaxs, windowLR));
 		}
 		return ans;

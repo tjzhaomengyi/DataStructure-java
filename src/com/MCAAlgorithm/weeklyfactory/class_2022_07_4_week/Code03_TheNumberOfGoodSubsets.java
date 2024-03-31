@@ -17,7 +17,7 @@ public class Code03_TheNumberOfGoodSubsets {
 	// 2, 3, 5, 6, 7, 10, 11, 13, 14,
 	// 15, 17, 19, 21, 22, 23, 26, 29, 30
 	public static int[] primes = {
-			//        11 7 5 3 2
+			//        11 7 5 3 2，下面每一个表示对应2、3、5、7、11这些质数因子
 			// 2       0 0 0 0 1
 			// 2 5     0 0 1 0 1
 			0, // 0 00000000
@@ -27,7 +27,7 @@ public class Code03_TheNumberOfGoodSubsets {
 			0, // 4 00000000
 			4, // 5 00000100
 			3, // 6 00000011
-			8, // 7 00001000
+			8, // 7 00001000 ，7有哪些质数因子，只有7
 			0, // 8 00000000
 			0, // 9 00000000
 			5, // 10 00000101
@@ -48,7 +48,7 @@ public class Code03_TheNumberOfGoodSubsets {
 		for (int num : nums) {
 			counts[num]++;
 		}
-		status[0] = 1;
+		status[0] = 1; //空集有1个
 		for (int i = 0; i < counts[1]; i++) {
 			status[0] = (status[0] << 1) % mod;
 		}
@@ -61,18 +61,20 @@ public class Code03_TheNumberOfGoodSubsets {
 					// from 11111111
 					// 枚举所有的状态 from
 					// from & curPrimesStatus == 0
-					if ((from & curPrimesStatus) == 0) {
+					//如果当前状态是532，只有5没有32，这个时候进来了6，那么就可以组成好子集
+					//532 当前状态为101 出现了a次，3出现了K次，这样就要a*k次形成111的情况
+					if ((from & curPrimesStatus) == 0) { //当前的状态不能有这个状态，一旦出现这个状态当前这个数再加进来就不合法了
 						// to
-						int to = from | curPrimesStatus;
+						int to = from | curPrimesStatus; //要变成的状态
 						status[to] = (int) (((long) status[to] + ((long) status[from] * counts[i])) % mod);
-//						// status[to] += status[from] * counts[i];
+//						// status[to] += status[from] * counts[i];//不带模的写法
 					}
 				}
 			}
 		}
 		int ans = 0;
 		for (int s = 1; s < (1 << 10); s++) {
-			ans = (ans + status[s]) % mod;
+			ans = (ans + status[s]) % mod;//所有状态都加起来，就是最后能获得多少好子集
 		}
 		return ans;
 	}

@@ -10,6 +10,7 @@ import java.util.List;
 // 测试链接 : https://leetcode.cn/problems/employee-free-time/
 public class Code04_EmployeeFreeTime {
 
+	//扫描线算法，和天际线问题类似，把所有的时间放入
 	// 不要提交这个类
 	public static class Interval {
 		public int start;

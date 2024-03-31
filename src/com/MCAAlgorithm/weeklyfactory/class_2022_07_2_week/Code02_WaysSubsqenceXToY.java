@@ -91,6 +91,7 @@ public class Code02_WaysSubsqenceXToY {
 	// 思路来自：大厂刷题班，17节，Code05，DistinctSubseqValue问题
 	// 如果字符串长度为m，位置数量n
 	// 时间复杂度O(m * n)
+	// 能够让小人以L/R结尾不同路径数
 	public static int ways2(String s, int n, int x, int y) {
 		// all[i] : 让小人来到i位置的不同字面值的子序列数量
 		int[] all = new int[n + 1];

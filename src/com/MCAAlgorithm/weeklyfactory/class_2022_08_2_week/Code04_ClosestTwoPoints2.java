@@ -24,9 +24,9 @@ public class Code04_ClosestTwoPoints2 {
 
 	public static Point[] points = new Point[N];
 
-	public static Point[] merge = new Point[N];
+	public static Point[] merge = new Point[N];//merge的help数组
 
-	public static Point[] deals = new Point[N];
+	public static Point[] deals = new Point[N];//在中线附近的点收集
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -65,12 +65,13 @@ public class Code04_ClosestTwoPoints2 {
 		}
 		int mid = (right + left) / 2;
 		double midX = points[mid].x;
-		ans = Math.min(nearest(left, mid), nearest(mid + 1, right));
+		ans = Math.min(nearest(left, mid), nearest(mid + 1, right)); // 分析中的min
 		int p1 = left;
 		int p2 = mid + 1;
 		int mergeSize = left;
 		int dealSize = 0;
-		while (p1 <= mid && p2 <= right) {
+		//每次在排x的时候顺手把y轴方向也排了，不需要再x排序后再在y轴单独进行排序
+		while (p1 <= mid && p2 <= right) { //这里加一个merge排序，将时间复杂度从o(n*logn平方)降低到O(n*logn)
 			merge[mergeSize] = points[p1].y <= points[p2].y ? points[p1++] : points[p2++];
 			if (Math.abs(merge[mergeSize].x - midX) <= ans) {
 				deals[dealSize++] = merge[mergeSize];
@@ -94,6 +95,7 @@ public class Code04_ClosestTwoPoints2 {
 		for (int i = left; i <= right; i++) {
 			points[i] = merge[i];
 		}
+		//这里最多其实只有六个点，一旦两个y点的y轴距离大于等于min(ans)赶紧break跳走
 		for (int i = 0; i < dealSize; i++) {
 			for (int j = i + 1; j < dealSize; j++) {
 				if (deals[j].y - deals[i].y >= ans) {

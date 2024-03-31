@@ -20,6 +20,8 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_08_4_week;
 // 测试链接 : https://leetcode.cn/problems/minimum-fuel-cost-to-report-to-the-capital/
 import java.util.ArrayList;
 
+//给出的graph是一个无向图的表示，使用dfn序号防止重复遍历，也可以用set防止重复遍历
+//其实这个三个数组就是把dfn，size和cost从多叉数递归套路拆了，可以用多叉树递归套路
 public class Code05_TravelMinFuel {
 
 	public static int cnt = 0;
@@ -31,6 +33,7 @@ public class Code05_TravelMinFuel {
 			graph.add(new ArrayList<>());
 		}
 		for (int i = 0; i < a.length; i++) {
+			//两边都链接，无向图
 			graph.get(a[i]).add(b[i]);
 			graph.get(b[i]).add(a[i]);
 		}
@@ -38,20 +41,21 @@ public class Code05_TravelMinFuel {
 		// 根据题目描述，办公室一定是0号点
 		// 所有员工一定是往0号点汇聚
 
+		//dfn和size数组都是为了生成cost数组服务
 		// a 号，dfn[a] == 0 没遍历过！
 		// dfn[a] != 0 遍历过！
-		int[] dfn = new int[n + 1];
+		int[] dfn = new int[n + 1]; //dfn序号数组
 		// a为头的树，一共有10个节点
 		// size[a] = 0
 		// size[a] = 10
-		int[] size = new int[n + 1];
+		int[] size = new int[n + 1]; //以任何一个节点以自己为头，有多少个子节点，包括自己
 		// 所有居民要汇总吗？
 		// a为头的树，所有的居民是要向a来汇聚
 		// cost[a] : 所有的居民要向a来汇聚，总油量的耗费
 		int[] cost = new int[n + 1];
-		cnt = 0;
-		dfs(graph, 0, dfn, size, cost);
-		return cost[0];
+		cnt = 0; //开始分配dfn，把序号归0
+		dfs(graph, 0, dfn, size, cost);//从办公室0开始往下遍历，cur是本来的编号，不是dfn序号
+		return cost[0]; //最后大家都要去到0（办公室）
 	}
 
 	// 图 ： graph
@@ -59,14 +63,15 @@ public class Code05_TravelMinFuel {
 	// 从cur开始，请遍历
 	// 遍历完成后，请把dfn[cur]填好！size[cur]填好！cost[cur]填好
 	public static void dfs(ArrayList<ArrayList<Integer>> graph, int cur, int[] dfn, int[] size, int[] cost) {
-		dfn[cur] = ++cnt;
-		size[cur] = 1;
+		dfn[cur] = ++cnt; //cnt从1开始，把当前的节点执行dfn编号
+		size[cur] = 1; //当前节点的子节点（要把自己包括进来）有多少个，当前只有自己，所以先设置为1
+		//使用孩子节点填写出来
 		for (int next : graph.get(cur)) {
-			if (dfn[next] == 0) {
+			if (dfn[next] == 0) { //如果在dfn的序号不为0，说明这个节点已经填写过了，没有填写dfn序号的节点才是没有遍历过的，才是cur节点的子节点
 				dfs(graph, next, dfn, size, cost);
 				size[cur] += size[next];
-				cost[cur] += cost[next];
-				cost[cur] += (size[next] + 4) / 5;
+				cost[cur] += cost[next]; // cur -> next -> a,b,c,cur节点先要"继承"next节点之前的花费！！！所以要+cost[next]
+				cost[cur] += (size[next] + 4) / 5; //+4/5就是向上取整，是最后一下的花费,size[next]+4)/5（表示next到cur到底有几趟车）,是纯next自己到cur节点的花费
 			}
 		}
 	}

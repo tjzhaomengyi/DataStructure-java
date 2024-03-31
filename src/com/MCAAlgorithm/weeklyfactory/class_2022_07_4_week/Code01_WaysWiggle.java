@@ -128,8 +128,8 @@ public class Code01_WaysWiggle {
 			return 0;
 		}
 		int n = arr.length;
-		boolean[] rightUp = new boolean[n];
-		boolean[] rightDown = new boolean[n];
+		boolean[] rightUp = new boolean[n]; //右上升
+		boolean[] rightDown = new boolean[n];//右下降上升
 		rightUp[n - 1] = true;
 		rightDown[n - 1] = true;
 		for (int i = n - 2; i >= 0; i--) {
@@ -158,7 +158,7 @@ public class Code01_WaysWiggle {
 //			leftDown = curLeftDown;
 			tmp = leftUp;
 			// 7 4
-			leftUp = arr[l] > arr[i] && leftDown;
+			leftUp = arr[l] > arr[i] && leftDown;//这两个数组可以省略掉
 			leftDown = arr[l] < arr[i] && tmp;
 		}
 		// 单独算一下 删掉n-1位置数的时候

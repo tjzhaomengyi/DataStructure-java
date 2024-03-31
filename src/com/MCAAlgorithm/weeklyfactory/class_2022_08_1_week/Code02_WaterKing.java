@@ -9,17 +9,19 @@ public class Code02_WaterKing {
 	public static int waterKing(int[] arr) {
 		int cand = 0;
 		int hp = 0;
+		//下面就是一次删除两个数的全过程
+		//血量只要是0就表示当前没有候选
 		for (int i = 0; i < arr.length; i++) {
-			if (hp == 0) {
+			if (hp == 0) { //没有候选，直接把当前的数立为候选
 				cand = arr[i];
 				hp = 1;
-			} else if (arr[i] == cand) {
+			} else if (arr[i] == cand) { //如果是候选，血量+1
 				hp++;
-			} else {
+			} else { //如果不是候选，血量-1
 				hp--;
 			}
 		}
-		if (hp == 0) {
+		if (hp == 0) { //血量为0表示当前没有候选
 			return -1;
 		}
 		hp = 0;

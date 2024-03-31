@@ -39,12 +39,16 @@ public class Code01_MinimumWindowSubsequence {
 //	//     si
 //	// t = abcd
 //	//     0
-//	// 最后的？，s[si...?] 整出来t的整体
+//	// 最后的？，s[si...?] 整出来t的整体，返回最小值
 //	// 如果从si出发，就没有t的整体，返回-1
 //	public static int findEnd(char[] s, char[] t, int si) {
-//		
+//		if(s[i]==t[0]){
+//			int findEnd = findEnd(s, t, i);
+	//
+// 		}
 //	}
 
+	//来到字符串的某个位置，直接告诉我下面跳到哪里
 	public static void main(String[] args) {
 		String s = "xxaxxbxxcxx";
 		// 0 8
@@ -57,48 +61,55 @@ public class Code01_MinimumWindowSubsequence {
 		char[] t = target.toCharArray();
 		int len = Integer.MAX_VALUE;
 		for (int i = 0; i < s.length; i++) {
-			// 0 > t
+			// 0 > t，可能从s的i位置开始来吧t全部消化掉
 			// 1 > t
 			// 2 > t
 			int end = zuo(s, t, i, 0);
 			if (end != Integer.MAX_VALUE) {
-				int cur = end - i;
+				int cur = end - i;//长度等于结束位置的下一位end 减去 i尝试的位置
 				len = Math.min(len, cur);
 			}
 		}
 		return len;
 	}
 
+
+
+	//最终解：从暴力递归到动态规划
 	// s[si.....]
 	// t[ti....]
-	// 把t的整体，都配出来，s在哪能尽早结束！的下个位置
-	// s = x x a x x b x x c x a b c
-	// 0 1 2 3 4 5 6 7 8 9 10 11 12
+	// 函数返回的是！把t的整体，都配出来，s在哪能尽早结束！的下个位置，
+	// 例子s = x x a x x b x x c x a b c
+	//        0 1 2 3 4 5 6 7 8 9 10 11 12
 	// t = a b c
 	// 0 1 2
-	// s[1...] t[0...]
-	// s[4...] t[1...] 8
-	// s[4...] t[0...] 12
+	// s[1...] t[0...] 8
+	// s[4...] t[1...] 8  ，x b x x c x a b c 和 bc配
+	// s[4...] t[0...] 12 ，x b x x c x a b c 和 abc配
 	public static int zuo(char[] s, char[] t, int si, int ti) {
 		if (ti == t.length) { // 配完了！
 			return si;
 		}
 		// ti < t.length;
-		if (si == s.length) {
+		if (si == s.length) {//ti还没遍历完成，si已经遍历完了，说明没有找到这个符合ti的si子串
 			return Integer.MAX_VALUE;
 		}
-		// 都有字符
+		// 都有字符，谁都有字符啊，就是s[si]有字符，t[ti]也有字符
 		// 可能性1：根本不让s[si]去消化掉t[ti]
 		int p1 = zuo(s, t, si + 1, ti);
 		// 可能性2：让s[si]去消化掉t[ti]
 		int p2 = Integer.MAX_VALUE;
-		if (s[si] == t[ti]) {
+		if (s[si] == t[ti]) {//如果要消化掉这个字符，要求这两个字符相等
 			// si ti
 			p2 = zuo(s, t, si + 1, ti + 1);
 		}
 		return Math.min(p1, p2);
 	}
 
+
+	//s: abbac
+	//生成一个有序表！！，放入每个字符的位置下标，这样就可以查询每个字母大于等于的下一个位置可以直接查询
+	//时间复杂度O(N*M*LogN),这种方法可以解决字符数量问题
 	public String minWindow1(String s, String t) {
 		char[] str = s.toCharArray();
 		char[] target = t.toCharArray();
@@ -151,12 +162,18 @@ public class Code01_MinimumWindowSubsequence {
 		return si;
 	}
 
+
+	//思路：构建一个离他最近的位置
+	//例子：s.....c  x  b  a
+	//		    97 98 99 100
+	// 对100位置来说最近的a在100，对于b位置来说最近的a在100、最近的b是99，加工出一个最近位置的查询表n*26，时间复杂度O(N*M)
+	// 问题：如果这个字符不是26个字母,这种方法就不行了
 	public String minWindow2(String s, String t) {
 		char[] str = s.toCharArray();
 		char[] target = t.toCharArray();
 		int n = str.length;
 		int[] last = new int[26];
-		int[][] near = new int[n][26];
+		int[][] near = new int[n][26]; //一张大表
 		for (int i = 0; i < n; i++) {
 			Arrays.fill(near[i], -1);
 		}
@@ -202,6 +219,7 @@ public class Code01_MinimumWindowSubsequence {
 		return si;
 	}
 
+
 	public String minWindow3(String s, String t) {
 		char[] str = s.toCharArray();
 		char[] target = t.toCharArray();
@@ -231,6 +249,7 @@ public class Code01_MinimumWindowSubsequence {
 		return Math.min(r1, r2);
 	}
 
+	// todo:从minwindow1()的暴力递归方法转换成动态规划
 	public String minWindow4(String s, String t) {
 		char[] str = s.toCharArray();
 		char[] target = t.toCharArray();

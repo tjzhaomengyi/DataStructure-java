@@ -14,7 +14,7 @@ import java.util.ArrayList;
 // 才安排的水王问题重讲
 // 测试链接 : https://leetcode.cn/problems/online-majority-element-in-subarray/
 public class Code03_OnlineMajorityElementInSubarray {
-
+	//线段树不能搞定重数，但是可以找到水王数的候选
 	class MajorityChecker {
 
 		SegmentTree st;
@@ -28,7 +28,7 @@ public class Code03_OnlineMajorityElementInSubarray {
 
 		public int query(int left, int right, int threshold) {
 			int candidate = st.query(left, right);
-			return cq.realTimes(left, right, candidate) >= threshold ? candidate : -1;
+			return cq.realTimes(left, right, candidate) >= threshold ? candidate : -1; //找到候选
 		}
 
 		class SegmentTree {
@@ -56,10 +56,10 @@ public class Code03_OnlineMajorityElementInSubarray {
 					int lh = hp[rt << 1];
 					int rh = hp[rt << 1 | 1];
 					if (lc == rc) {
-						candidate[rt] = lc;
+						candidate[rt] = lc; //如果左边的候选等于右边的候选，当前候选血量更新
 						hp[rt] = lh + rh;
 					} else {
-						candidate[rt] = lh >= rh ? lc : rc;
+						candidate[rt] = lh >= rh ? lc : rc; //如果左右不同血量，选大的血量
 						hp[rt] = Math.abs(lh - rh);
 					}
 				}
@@ -100,7 +100,7 @@ public class Code03_OnlineMajorityElementInSubarray {
 
 		class CountQuicker {
 
-			// v : i1 i14 i15
+			// v : i1 i14 i15 ，每一个值出现的位置
 			ArrayList<ArrayList<Integer>> cnt;
 
 			public CountQuicker(int[] arr) {

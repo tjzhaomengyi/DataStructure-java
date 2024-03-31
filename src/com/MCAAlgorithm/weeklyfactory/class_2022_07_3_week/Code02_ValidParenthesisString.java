@@ -11,6 +11,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_07_3_week;
 // 测试链接 : https://leetcode.cn/problems/valid-parenthesis-string/
 public class Code02_ValidParenthesisString {
 
+
 	public static boolean valid(String str) {
 		char[] s = str.toCharArray();
 		int n = s.length;
@@ -21,6 +22,7 @@ public class Code02_ValidParenthesisString {
 		return zuo(s, 0, 0, dp);
 	}
 
+	//c如果小于0，当前遍历的不合法
 	public static boolean zuo(char[] s, int i, int c, int[][] dp) {
 		if (i == s.length) {
 			return c == 0;
@@ -88,7 +90,7 @@ public class Code02_ValidParenthesisString {
 	// 时间复杂度O(N)，额外空间复杂度O(1)
 	public static boolean checkValidString2(String s) {
 		char[] str = s.toCharArray();
-		int max = 0;
+		int max = 0;//左括号和右括号的最大差值
 		int min = 0;
 		for (char x : str) {
 			if (x == '(') {

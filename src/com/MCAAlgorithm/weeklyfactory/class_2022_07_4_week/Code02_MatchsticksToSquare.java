@@ -24,7 +24,7 @@ public class Code02_MatchsticksToSquare {
 	}
 
 	// 所有火柴都在arr里
-	// 哪些火柴用了、哪些火柴没用，的状态都在status里
+	// 哪些火柴用了、哪些火柴没用，的状态都在status里，如果使用了对应位标记为1
 	// sum: 当前耕耘的这条边，长度已经达成了sum
 	// len: 固定参数，每条边必须都达成这个长度
 	// edges: 还剩几条边，没填完
@@ -34,16 +34,17 @@ public class Code02_MatchsticksToSquare {
 	// 15位状态，2^15 -> 32...
 	public static boolean process(int[] arr, int status, long sum, long len, int edges) {
 		if (edges == 0) {
+			//如果有7个火柴，7个1111
 			return status == (1 << arr.length) - 1 ? true : false;
 		}
 		// 剩下边 edges > 0
 		boolean ans = false;
 		for (int i = 0; i < arr.length; i++) { // 当前可以选择的边，全试一遍！
 			// 当前的i就是火柴编号！
-			if ((status & (1 << i)) == 0) {
+			if ((status & (1 << i)) == 0) {//这个位置火柴没有用过
 				if (sum + arr[i] <= len) {
 					// 当前的边已经耕耘长度sum + 当前边的长度 不能超过len！
-					if (sum + arr[i] < len) {
+					if (sum + arr[i] < len) { //凑了当前边但是还是不够len
 						ans = process(arr, status | (1 << i), sum + arr[i], len, edges);
 					} else { // sum + arr[i] == len
 						ans = process(arr, status | (1 << i), 0, len, edges - 1);
@@ -57,6 +58,7 @@ public class Code02_MatchsticksToSquare {
 		return ans;
 	}
 
+	// 这道题看似三个变量 status、sum和edges，其实只有status变量来决定，可以通过status来推出sum和edges
 	// 利用数组里的火柴，必须都使用
 	// 能不能拼出正方形
 	public static boolean yesOrNo2(int[] arr) {
@@ -77,6 +79,7 @@ public class Code02_MatchsticksToSquare {
 		return process2(arr, 0, 0, len, 4, dp);
 	}
 
+	//process2()方法在process方法中增加一个dp缓存
 	// 所有火柴都在arr里
 	// 哪些火柴用了、哪些火柴没用，的状态都在status里
 	// sum: 当前耕耘的这条边，长度已经达成了sum

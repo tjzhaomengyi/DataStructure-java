@@ -36,28 +36,29 @@ public class Code05_LongestOneLetterManyNumberString {
 		int n = str.length;
 		// 窗口内有几个小写字母了
 		int letters = 0;
-		// 窗口的右边界
+		// 窗口的右边界，老生常谈的右边界设定
 		// [left, right)
 		int right = 0;
 		int ans = 0;
 		// for枚举了每一个窗口的开始位置，0... 1...... 2.....
 		for (int left = 0; left < n; left++) {
 			while (right < n) { // right不能越界，一旦越界不用再往右了
-				if (letters == 1 && str[right] >= 'a' && str[right] <= 'z') {
+				if (letters == 1 && str[right] >= 'a' && str[right] <= 'z') { //窗口里面已经有英文小写字母了，现在又来一个，跳过
 					break;
 				}
-				// letters == 0 str[right]是数字
-				if (str[right] >= 'a' && str[right] <= 'z') {
+				// letters == 0
+				if (str[right] >= 'a' && str[right] <= 'z') { //当前位置是小写
 					letters++;
 				}
-				right++;
+				right++; //right往外扩展
 			}
-			// [left.....right)
+			// [left.....right)窗口区间
 			// [left.....right-1]
 			if (letters == 1) {
 				ans = Math.max(ans, right - left);
 			}
-			if (str[left] >= 'a' && str[left] <= 'z') {
+			//右侧完事了，左侧收，中等面试，课里面弟弟
+			if (str[left] >= 'a' && str[left] <= 'z') { //左边缩小，缩窗口
 				letters--;
 			}
 		}

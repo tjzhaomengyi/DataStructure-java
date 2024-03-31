@@ -8,6 +8,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_06_4_week;
 // 测试链接 : https://leetcode.cn/problems/minimize-max-distance-to-gas-station/
 public class Code04_MinimizeMaxDistanceToGasStation {
 
+	//让任意相邻两个加油站的距离尽量小，比如给1点和3点的加油站，当然是放在2最好，偏离一点其中一个就会高，k是允许的加油站
 	public static double minmaxGasDist(int[] stations, int K) {
 		// 精度
 		double accuracy = 0.0000001D;
@@ -15,10 +16,10 @@ public class Code04_MinimizeMaxDistanceToGasStation {
 		double r = 100000000D;
 		double m = 0;
 		double ans = 0;
-		while (r - l > accuracy) {
+		while (r - l > accuracy) {//给我二分到死，就是最后最小的结果，到达精度停止
 			m = (l + r) / 2;
-			if (ok(m, stations, K)) {
-				r = m;
+			if (ok(m, stations, K)) { //一直二分到要求的京都
+				r = m; //找到合适的距离往左侧找更小的
 				ans = m;
 			} else {
 				l = m;
@@ -34,7 +35,7 @@ public class Code04_MinimizeMaxDistanceToGasStation {
 	public static boolean ok(double limit, int[] stations, int K) {
 		int used = 0;
 		for (int i = 1; i < stations.length; i++) {
-			used += (int) ((stations[i] - stations[i - 1]) / limit);
+			used += (int) ((stations[i] - stations[i - 1]) / limit);//前一个加油站和后一个加油站的距离，让相邻两个点不超过limit
 			if (used > K) {
 				return false;
 			}

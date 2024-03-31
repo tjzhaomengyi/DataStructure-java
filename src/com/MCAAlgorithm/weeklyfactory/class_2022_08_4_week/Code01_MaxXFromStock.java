@@ -11,16 +11,17 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_08_4_week;
 // 时间复杂度O(N)
 public class Code01_MaxXFromStock {
 
+	//记录i+arr[i]的最大值
 	public static int maxX(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return -1;
 		}
 		// 0 + arr[0]
-		int preBest = arr[0];
+		int preBest = arr[0]; //arr[k]+k
 		int ans = 0;
 		for (int i = 1; i < arr.length; i++) {
-			ans = Math.max(ans, arr[i] - i + preBest);
-			preBest = Math.max(preBest, arr[i] + i);
+			ans = Math.max(ans, arr[i] - i + preBest); //arr[i]+preBest - i 即可
+			preBest = Math.max(preBest, arr[i] + i); //prebest更新
 		}
 		return ans;
 	}

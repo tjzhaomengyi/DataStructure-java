@@ -12,26 +12,27 @@ import java.util.Arrays;
 public class Code04_ShortestImpossibleSequenceOfRolls {
 
 	// 所有数字1~k
+	//如果1到k种都得有，必须就要收集一套从1到k，如果收集1套，看看能不能收集第二套，如果第二套全了，说明2组全了；然后看看能不能收集第三套。。。。
 	public static int shortestSequence(int[] rolls, int k) {
 		// 1~k上，某个数字是否收集到了！
 		// set[i] == true
 		// set[i] == false
 		boolean[] set = new boolean[k + 1];
-		// 当前这一套，收集了几个数字了？
-		int size = 0;
+		int size = 0;// 当前这一套，收集了几个数字了？
 		int ans = 0;
+		//一套一套做
 		for (int num : rolls) {
-			if (!set[num]) {
+			if (!set[num]) { //即使有重复的也没有用，因为这套要收集全
 				set[num] = true;
 				size++;
 			}
 			if (size == k) {
 				ans++;
-				Arrays.fill(set, false);
+				Arrays.fill(set, false);//现在所有数字清空
 				size = 0;
 			}
 		}
-		return ans + 1;
+		return ans + 1; //ans我们都已经获得了，ans+1不能获得
 	}
 
 }

@@ -16,7 +16,8 @@ import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class Code04_MaxPalindromeNumber {
-
+	//每次在大于一次出现的数且值最大的里面拿出两个放在两边，两次以下的怼中间；边界条件，就是最开始的时候不能是0
+	//使用一个优先级队列，数值谁大谁放在上面
 	public static String largestPalindromic(String s) {
 		if (s == null || s.equals("")) {
 			return "";

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 // 测试链接 : https://leetcode.cn/problems/special-binary-string/
 public class Code04_SpecialBinaryString {
 
+	//括号有效性问题 + 公式计算问题（嵌套递归）
+	// 每个小部分先搞出自己这部分最大的，然后整体把字典序大的放在前面，123的序列可以调整成213/231/321。。任何序列
 	public static String makeLargestSpecial(String s) {
 		ArrayList<String> arr = new ArrayList<>();
 		// 主！

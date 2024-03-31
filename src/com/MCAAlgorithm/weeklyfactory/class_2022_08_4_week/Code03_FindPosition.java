@@ -30,11 +30,12 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
+//以某个点按照其x，y坐标为半径，r=min（x，y），然后以这个半径r圆周上的某个点进行bfs看看到B的曼哈顿距离仍然是17（假设），然后看这个点到A和C的距离是不是也是17
 public class Code03_FindPosition {
 
 	public static int[] find(int n, 
 			int[] a, int[] b, int[] c,
-			int ad, int bd, int cd) {
+			int ad, int bd, int cd) { //ad、bd、cd是之间的满曼哈顿距离
 		
 		int[] x1 = null;
 		int r1 = Integer.MAX_VALUE;
@@ -42,6 +43,7 @@ public class Code03_FindPosition {
 		int r2 = 0;
 		int[] x3 = null;
 		int r3 = 0;
+		//根据距离把要使用的r找出来
 		if (ad < r1) {
 			x1 = a;
 			r1 = ad;
@@ -78,6 +80,7 @@ public class Code03_FindPosition {
 			// cur x1为圆心，r1为半径的圆周上
 			cur = queue.poll();
 			if (
+					//如果不越界，并且距离为r2，也是r3，赶紧放入候选
 					cur[0] >= 1 && cur[0] <= n 
 					&& 
 					cur[1] >= 1 && cur[1] <= n 
@@ -87,7 +90,7 @@ public class Code03_FindPosition {
 					distance(cur[0], cur[1], x3) == r3) {
 				ans.add(cur);
 			}
-			if (ans.size() == 2) {
+			if (ans.size() == 2) { //结论：围着小半径找的时候一旦有两个，肯定就找全了，拿着比较去就行了
 				break;
 			}
 			add(cur[0] - 1, cur[1] - 1, x1, r1, queue, visited);
