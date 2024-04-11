@@ -42,45 +42,49 @@ public class Code01_SortGame {
 		return ans;
 	}
 
-	// 正式方法
+	// 正式方法 ： 单调栈 + 有序表
 	// 时间复杂度O(M) + O(N*logN)
+	// op表示操作[0]表示要排序的长度 [1]表示从小到大，或者从大到小
+	// 小根堆，把[0]小的放在上面，按照顺序从前撸到最后，如果进来的不合理就弹出栈中的，让栈合理。
+	// 准备一个有序表，让他支持能够加入重复数字，每次每次把间隔的范围不动填回结果即可
 	public static int[] game2(int[] arr, int[][] op) {
 		int n = arr.length;
 		int m = op.length;
-		int[] stack = new int[m];
+		int[] stack = new int[m]; //单调栈，他又自己折腾数组，太烦了
 		int r = 0;
 		for (int i = 0; i < m; i++) {
-			while (r != 0 && op[stack[r - 1]][0] <= op[i][0]) {
+			while (r != 0 && op[stack[r - 1]][0] <= op[i][0]) { //不满足要求的，从栈中删除
 				r--;
 			}
-			stack[r++] = i;
+			stack[r++] = i; //加入操作的下标，具体操作可以通过下标反查操作
 		}
 		int[] ans = new int[n];
 		int ansi = n - 1;
 		int l = 0;
-		for (; ansi >= op[stack[l]][0]; ansi--) {
+		for (; ansi >= op[stack[l]][0]; ansi--) { //没有操作的数字，倒着填进去
 			ans[ansi] = arr[ansi];
 		}
 		TreeSet<Number> sorted = new TreeSet<>(new NumberComparator());
-		for (int i = 0; i < op[stack[l]][0]; i++) {
-			sorted.add(new Number(arr[i], i));
+		for (int i = 0; i < op[stack[l]][0]; i++) { //操作的数放入有序表中
+			sorted.add(new Number(arr[i], i));//这里直接在sorted里面排序好
 		}
-		while (l != r) {
+		while (l != r) { //如果栈不为空
 			// 当前处理的指令
-			int[] cur = op[stack[l++]];
+			int[] cur = op[stack[l++]];//从栈底部往上取操作
 			if (l != r) {
-				int[] next = op[stack[l]];
+				int[] next = op[stack[l]]; //cur上面的那个数拿出来
 				int num = cur[0] - next[0];
-				if (cur[1] == 0) {
+				//在结果里从后往前填写
+				if (cur[1] == 0) { //如果是从小到大
 					for (int i = 0; i < num; i++) {
-						ans[ansi--] = sorted.pollLast().value;
+						ans[ansi--] = sorted.pollLast().value; //
 					}
 				} else {
 					for (int i = 0; i < num; i++) {
 						ans[ansi--] = sorted.pollFirst().value;
 					}
 				}
-			} else {
+			} else { //最后的福根，根据最后一个操作填写好
 				if (cur[1] == 0) {
 					while (!sorted.isEmpty()) {
 						ans[ansi--] = sorted.pollLast().value;
@@ -95,6 +99,7 @@ public class Code01_SortGame {
 		return ans;
 	}
 
+	//裸的有序表TreeSet不支持重复的数字
 	public static class Number {
 		public int value;
 		public int index;

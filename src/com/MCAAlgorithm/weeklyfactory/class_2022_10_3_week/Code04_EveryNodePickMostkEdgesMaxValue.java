@@ -13,63 +13,73 @@ import java.util.Arrays;
 // 返回不违反要求的情况下，你挑选边所能达到的最大权值累加和
 public class Code04_EveryNodePickMostkEdgesMaxValue {
 
-//	public static class Edge {
-//		public int to;
-//		public int weight;
-//
-//		public Edge(int t, int w) {
-//			to = t;
-//			weight = w;
-//		}
-//	}
-//
-//	public static int bestSum(int n, int[][] edges, int k) {
-//		ArrayList<ArrayList<Edge>> graph = new ArrayList<>();
-//		for (int i = 0; i < n; i++) {
-//			graph.add(new ArrayList<>());
-//		}
-//		for (int[] edge : edges) {
-//			int a = edge[0];
-//			int b = edge[1];
-//			int w = edge[2];
-//			graph.get(a).add(new Edge(b, w));
-//			graph.get(b).add(new Edge(a, w));
-//		}
-//		Info info = process(graph, 0, -1);
-//		return info.no;
-//	}
-//
-//	public static class Info {
-//		public int no;
-//		public int yes;
-//
-//		public Info(int a, int b) {
-//			no = a;
-//			yes = b;
-//		}
-//	}
-//
-//	public static Info process(ArrayList<ArrayList<Edge>> graph, int cur, int father) {
-//		ArrayList<Info> childsInfo = new ArrayList<>();
-//		for (Edge edge : graph.get(cur)) {
-//			if (edge.to != father) {
-//				childsInfo.add(process(graph, edge.to, cur));
-//			}
-//		}
-//		// 孩子所有的信息，都在childsInfo
-//		// 整合了！
-//		// 父亲不跟当前节点相连
-//		int no = 0;
-//		// 先把所有后代不连的加起来
-//		// 挑选k个加成最大的
-//		// 加成：连的边 + yes - no 
-//		int yes = 0;
-//		// 先把所有后代不连的加起来
-//		// 挑选k-1个加成最大的
-//		// 加成：连的边 + yes - no 
-//
-//		return new Info(no, yes);
-//	}
+	//课上版本
+	public static class Edge {
+		public int to;
+		public int weight;
+
+		public Edge(int t, int w) {
+			to = t;
+			weight = w;
+		}
+	}
+
+	public static int bestSum(int n, int[][] edges, int k) {
+		ArrayList<ArrayList<Edge>> graph = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			graph.add(new ArrayList<>());
+		}
+		for (int[] edge : edges) {
+			int a = edge[0];
+			int b = edge[1];
+			int w = edge[2];
+			graph.get(a).add(new Edge(b, w));
+			graph.get(b).add(new Edge(a, w));
+		}
+		Info info = process(graph, 0, -1);
+		return info.no;
+	}
+
+	public static class Info {
+		public int no;
+		public int yes;
+
+		public Info(int a, int b) {
+			no = a;
+			yes = b;
+		}
+	}
+
+	//father表示cur节点的父节点
+	public static Info process(ArrayList<ArrayList<Edge>> graph, int cur, int father) {
+		ArrayList<Info> childsInfo = new ArrayList<>();
+		for (Edge edge : graph.get(cur)) { //遍历相连的所有的边
+			if (edge.to != father) { //如果下级节点转到father，因为是无向图，0：{(1,w)} ,1:{(0,w)}
+				childsInfo.add(process(graph, edge.to, cur));
+			}
+		}
+
+		//例子 ：a为根节点，bcde分别是a子节点，k=2只能选连两个，b{No:100,Yes:80,edge:10},c{No:70,Yes:60,edge:20}
+		// d{No:80,Yes:75,edge:20}l,e{No:30,Yes:25,edge:25};
+		// b=100不连，c=60+20连，d=75+20连，e=25+25连，选两个收益最大的，如何计算收益：要根据收益来确定最终留谁，从可以连的里面找
+		// b=80-70=10，c=95-80=15，d=50-30=20，所以选c和d。带来的收益大，所以不要b，即使不要b，b也能拿到70的收益！！【这里贪心了】
+
+
+		// 孩子所有的信息，都在childsInfo
+		// 整合了！
+		// 父亲不跟当前节点相连
+		//这里在课上的代码省略了
+		int no = 0;
+		// 先把所有后代不连的加起来
+		// 挑选k个加成最大的
+		// 加成：连的边 + yes - no
+		int yes = 0;
+		// 先把所有后代不连的加起来
+		// 挑选k-1个加成最大的
+		// 加成：连的边 + yes - no
+
+		return new Info(no, yes);
+	}
 
 	// 暴力方法
 	// 为了验证

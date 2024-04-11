@@ -5,7 +5,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_09_4_week;
 // 当你决定在某个位置操作一次
 // 那么该位置的行和列整体都会变成1，不管之前是什么状态
 // 返回让所有值全变成1，最少的操作次数
-// 1 < n < 10，没错！原题就是说n < 10, 不会到10！最多到9！
+// 1 < n < 10，没错！原题就是说n < 10, 不会到10！最多到9！【这个如果10*10就是过不了，一秒多，直接超时】
 public class Code02_SetAllOneMinTimes {
 
 //	public static int minTimes(int[][] matrix) {
@@ -13,12 +13,12 @@ public class Code02_SetAllOneMinTimes {
 //		int m = matrix[0].length;
 //		int[] arr = new int[n];
 //		for (int i = 0; i < n; i++) {
-//			int status = 0;
+//			int status = 0; //i行所有的status
 //			for (int j = 0; j < m; j++) {
 //				// 0列 1列 2列 3列
 //				// 1 0 1 1
 //				// 1101
-//				if (matrix[i][j] == 1) {
+//				if (matrix[i][j] == 1) { //如果i行j列是1，直接或进去，
 //					status |= 1 << m;
 //				}
 //			}
@@ -30,36 +30,38 @@ public class Code02_SetAllOneMinTimes {
 //	// arr替代了原来的二维数组！
 //	// n行，m列，固定
 //	// 目前来到i行、j列
-//	// rowStatus : 之前哪些行点过鼠标
+//	// rowStatus : 之前哪些行点过鼠标,也是用数的位状态来表示
 //	// colStatus : 之前哪些列点过鼠标
 //	// i 行变化 ： 9  * 9 * 2^9 * 2^9 * 9 = 191,102,976
 //	public static int zuo(int[] arr, int n, int m, int i, int j, int clickRows, int clickCols) {
-//		if (i == n) {
-//			for (int row = 0; row < n; row++) {
-//				if ((clickRows & (1 << row)) != 0) {
+//		1、行遍历结束
+//		if (i == n) { //来到了第n行越界了，那么就检查之前的操作是否合法！检查clickRows和clickCols能不能让所有的行列都变1
+//			for (int row = 0; row < n; row++) { //一行一行检验
+//				if ((clickRows & (1 << row)) != 0) { //row行在clickRows中为1，表示点过了这一行，继续验证
 //					continue;
 //				}
-//				// row行，没点过鼠标
-//				int merge = arr[row] | clickCols;
-//				int full = (1 << m) - 1;
-//				if (merge != full) {
+//				// 如果没有满足，说明！说明！说明！row行，没点过鼠标；那么如何判断这行整体是否都为1
+//				int merge = arr[row] | clickCols;//row：11001101 或上哪些列点过鼠标（10110010）！只要有0说明之前做的结果是失败的！！！！
+//				int full = (1 << m) - 1; //这个是没有0的状态，这一行全填满1！！！
+//				if (merge != full) { //merge结果和full结果不一致，说明这个操作是无效的！
 //					return Integer.MAX_VALUE;// 表示无效
 //				}
 //			}
-//			return 0;
+//			return 0;//上面的结果都整好了，这一步不需要操作，步数为0
 //		}
-//		if (j == m) {
+	// 如果行没有到头，列终止了，另起一行，递归下一行
+//		if (j == m) { //列到头了，新启一行
 //			return zuo(arr, n, m, i + 1, 0, clickRows, clickCols);
 //		}
-//		// i,j 正常的行、正常的列
+//		// i,j 正常的行、正常的列，行没有到头，列没有到头
 //		// 当前就是不点鼠标
 //		int p1 = zuo(arr, n, m, i, j + 1, clickRows, clickCols);
 //		// 当前就是点鼠标
 //		int p2 = Integer.MAX_VALUE;
 //		int next = zuo(arr, n, m, i, j + 1,
-//				clickRows | (1 << i), clickCols | (1 << j));
-//		if(next != Integer.MAX_VALUE) {
-//			p2 = 1 + next;
+//				clickRows | (1 << i), clickCols | (1 << j));//这一行一列都发生了改变
+//		if(next != Integer.MAX_VALUE) { //如果后续操作可以找到合理的，那么我们结算点击的这次
+//			p2 = 1 + next; //这一行点了一下 + 后续点的
 //		}
 //		return Math.min(p1, p2);
 //	}
@@ -171,6 +173,7 @@ public class Code02_SetAllOneMinTimes {
 		return ans;
 	}
 
+	// 用一个数组来代替这个二维表示，每个数用位代表状态
 	// 正式方法 + 贪心
 	public static int setOneMinTimes3(int[][] matrix) {
 		int n = matrix.length;

@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.weeklyfactory.class_2022_09_3_week;
 
-// 来自360
+// 来自360，动态开点线段树（大厂刷题班47节）
 // 有n个黑白棋子，它们的一面是黑色，一面是白色
 // 它们被排成一行，位置0~n-1上。一开始所有的棋子都是黑色向上
 // 一共有q次操作，每次操作将位置标号在区间[L，R]内的所有棋子翻转
@@ -58,7 +58,8 @@ public class Code01_BlackWhiteChess {
 		}
 	}
 	
-	
+
+
 	// n = 10^18
 	// DynamicSegmentTree dst = new DynamicSegmentTree(n);
 	// int[] c1 = {4, 4000万}  dst.reverse(c1[0], c1[1]) -> dst.blacks
@@ -119,6 +120,7 @@ public class Code01_BlackWhiteChess {
 			if (cur.right == null) {
 				cur.right = new Node(rn);
 			}
+			//这道题的核心就这点，修改线段树模型
 			if (cur.change) {
 				cur.left.change = !cur.left.change;
 				cur.left.sum = ln - cur.left.sum;

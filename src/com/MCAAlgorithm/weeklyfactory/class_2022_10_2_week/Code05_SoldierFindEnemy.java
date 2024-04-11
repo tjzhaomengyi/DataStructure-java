@@ -73,7 +73,7 @@ public class Code05_SoldierFindEnemy {
 		return ans;
 	}
 
-	// 正式方法
+	// 正式方法，原来的点是（i，j），现在扩充四个方向的状态（i，j，4）代表当前点面向的四个方向
 	// Dijkstra算法
 	public static int minCost2(char[][] map, int a, int b) {
 		int n = map.length;

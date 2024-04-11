@@ -69,42 +69,48 @@ public class Code02_EntryRoomGetMoney {
 	// 正式方法
 	// 时间复杂度O(N)的动态规划
 	// 利用图来优化枚举
+	// 用room二维数组表示房间号和房间物品的价值
+	// 1、根据房间号排序
+	// 2、从右往左挂节点[2 5 6 7 12 20]建图，20不停除2就能回到父节点20/2=10没有，10/2=5有，说明5节点下有孩子20；推到下一个12/2=6有，
+	// 6/2=3，3/2=1 1/2=0，5/2=2
+	// 得到挂载节点2-》5-》20，6-》12，根-》7 ，三条路，然后选择一条路返回
 	public static int maxMoney2(int n, int[] p, int[] w) {
 		int[][] rooms = new int[n][2];
 		for (int i = 0; i < n; i++) {
 			rooms[i][0] = p[i];
 			rooms[i][1] = w[i];
 		}
-		Arrays.sort(rooms, (a, b) -> a[0] - b[0]);
-		HashMap<Integer, Integer> first = new HashMap<>();
+		Arrays.sort(rooms, (a, b) -> a[0] - b[0]); //房间好排序
+		HashMap<Integer, Integer> first = new HashMap<>();//first表示房间号对应在rooms排序的下标
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
 			int to = rooms[i][0];
 			while (to > 0) {
 				if (first.containsKey(to)) {
-					graph.get(first.get(to)).add(i);
+					graph.get(first.get(to)).add(i); //建立图，根据rooms数组的下标把图建立起来
 					break;
-				} else {
-					to >>= 1;
+				} else { //如果起始的节点中没有/2继续找根，找到room[i][0]这个房间的根节点
+					to >>= 1; //每次除2
 				}
 			}
-			graph.add(new ArrayList<>());
+			graph.add(new ArrayList<>());//不管找到没找到，都把自己加入图中；如果to一直找不到根节点，那么只能是当前节点自己做根
 			if (!first.containsKey(rooms[i][0])) {
-				first.put(rooms[i][0], i);
+				first.put(rooms[i][0], i); //把自己的房号放在first节点中
 			}
 		}
+		//todo：拿宝藏，dfs
 		int ans = 0;
-		int[] dp = new int[n];
-		for (int i = n - 1; i >= 0; i--) {
-			int post = 0;
-			for (int next : graph.get(i)) {
-				if (rooms[next][0] == rooms[i][0]) {
-					dp[i] += dp[next];
+		int[] dp = new int[n];//以i号房间开始最多可以拿多少宝藏
+		for (int i = n - 1; i >= 0; i--) { //从后往前的的一个dp过程
+			int post = 0;//后续房间宝藏价值
+			for (int next : graph.get(i)) { //往下拿房间号
+				if (rooms[next][0] == rooms[i][0]) { //是同一个房子，就拿自己
+					dp[i] += dp[next]; //自己
 				} else {
-					post = Math.max(post, dp[next]);
+					post = Math.max(post, dp[next]); //post 或者后续
 				}
 			}
-			dp[i] += post + rooms[i][1];
+			dp[i] += post + rooms[i][1];//post+当前room的宝藏价值
 			ans = Math.max(ans, dp[i]);
 		}
 		return ans;

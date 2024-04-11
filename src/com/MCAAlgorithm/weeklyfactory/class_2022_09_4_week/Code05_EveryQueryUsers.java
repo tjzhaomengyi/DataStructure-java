@@ -45,17 +45,18 @@ public class Code05_EveryQueryUsers {
 		return ans;
 	}
 
-	// 正式方法
+	// 正式方法：使用位图
+	//n人数，m是试验数量
 	public static int[] record2(int n, int m, int q, int[][] A, int[][] B) {
 		// n 一共有多少人
 		// 任何一个实验，需要几个整数，能表示所有人谁出现谁没出现？
-		int parts = (n + 31) / 32;
+		int parts = (n + 31) / 32; // 需要多少个整数 向上取整：（a + b - 1） / b
 		// m    0 ~ m -1
 		// [i]  [.........]
-		int[][] bitMap = new int[m][parts];
+		int[][] bitMap = new int[m][parts];//每一个试验最多parts个数来表示所有最多可能的n个人
 		for (int i = 0; i < n; i++) {
 			// i 人的编号 : a b c
-			for (int exp : A[i]) {
+			for (int exp : A[i]) { //A[i]这个人参加了哪些试验，exp是试验编号，i/32这个人在的parts，i%32这个人在这个数的位置
 				bitMap[exp][i / 32] |= 1 << (i % 32);
 			}
 		}
@@ -68,7 +69,7 @@ public class Code05_EveryQueryUsers {
 			for (int j = 0; j < parts; j++) {
 				int status = 0;
 				for (int exp : B[i]) {
-					status |= bitMap[exp][j];
+					status |= bitMap[exp][j]; //或上所有的状态，然后求里面有几个1
 				}
 				all += countOnes(status);
 			}

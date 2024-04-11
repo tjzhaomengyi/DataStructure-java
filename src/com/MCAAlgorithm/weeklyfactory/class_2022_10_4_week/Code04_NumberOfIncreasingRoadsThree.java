@@ -64,6 +64,10 @@ public class Code04_NumberOfIncreasingRoadsThree {
 		return ans;
 	}
 
+	// IndexTree + 使用多棵IndexTree解法
+	// 1、根据开始时间排序
+	// 2、准备三个indextree，indextreee1表示长度为1、以某个方案结尾的方案有多少个，indextree2表示长度为2、以某个方案结尾的方案有多少个个
+	// 3、开始找到一个假如方案是【6，9】，如果indextree1里面有1-20范围有20个【整体递推过程看Code04_indexTree递推过程.png】
 	public static int num2(int[][] roads) {
 		int n = roads.length;
 		int[] sorted = new int[n << 1];

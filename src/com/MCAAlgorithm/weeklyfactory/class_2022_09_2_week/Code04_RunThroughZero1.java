@@ -10,6 +10,9 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_09_2_week;
 // 0 <= 修改机会 <=10^6
 public class Code04_RunThroughZero1 {
 
+	//划分去两种（1）1单独+12混合 （2）全是2，这两个区域，
+	//00 111222 0 1221 00 22 00 1221 0 ，3个（1）区域，1个（2）区域
+	//然后用贪心去消除，先删除连着的2，然后把剩下的1删除
 	public static int best1(int[] arr) {
 		int zero = 0;
 		int two = 0;

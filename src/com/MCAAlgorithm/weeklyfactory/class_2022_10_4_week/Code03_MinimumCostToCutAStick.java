@@ -12,31 +12,36 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/minimum-cost-to-cut-a-stick/
 public class Code03_MinimumCostToCutAStick {
 
-//	public static int zuo(int[] cuts, int n) {
-//		return f(cuts, 0, cuts.length - 1);
-//	}
-//
-//	// cuts : 3 9 13 19 21 
-//	//        0 1  2  3  4
-//	// 0,1       3,4 
-//	// cuts[l....r]
-//	// 0...4 都切完！最小花费是多少
-//	// 1) 第一刀切在cuts[0]  3
-//	// 2) 第一刀切在cuts[1]  9
-//	// 3) 第一刀切在cuts[2]  9
-//	public static int f(int[] cuts, int l, int r) {
-//
-//	}
+	//n=6，【1，3，5】 6 + 5 + 3 = 14的代价，如果改变顺序【3，1，5】，6 + 3 + 3 = 12
+	// 思路：类似打气球问题，这个是枚举在哪个位置来切
+	public static int zuo(int[] cuts, int n) {
+		return f(cuts, 0, cuts.length - 1);
+	}
+
+	// cuts : 3 9 13 19 21
+	//        0 1  2  3  4
+	// 0,1       3,4
+	// cuts[l....r]
+	// 0...4 都切完！最小花费是多少
+	// 1) 第一刀切在cuts[0]  3
+	// 2) 第一刀切在cuts[1]  9
+	// 3) 第一刀切在cuts[2]  9
+	//思路：如果剩最后一个点成本是多少，是它左边的刀位置和它右边刀位置的差，例子【1，15，17，23，29】，如果让15、17、23这哥三确定最后的长度是多少
+	// 它们这三个要割的整个长度是29-1 = 28
+	// 根据这个思路，如果n=20我们在数组中添加0和20，两个位置【0，1，5，9，20】
+	public static int f(int[] cuts, int l, int r) {
+		return 0;
+	}
 
 	public static int minCost(int n, int[] cuts) {
 		int m = cuts.length;
 		Arrays.sort(cuts);
 		int[] arr = new int[m + 2];
-		arr[0] = 0;
+		arr[0] = 0;  //补开头
 		for (int i = 1; i <= m; ++i) {
 			arr[i] = cuts[i - 1];
 		}
-		arr[m + 1] = n;
+		arr[m + 1] = n;//补结尾
 		int[][] dp = new int[m + 2][m + 2];
 		for (int i = 1; i <= m; i++) {
 			for (int j = 1; j <= m; j++) {
@@ -57,12 +62,12 @@ public class Code03_MinimumCostToCutAStick {
 			return dp[l][r];
 		}
 		int ans = Integer.MAX_VALUE;
-		for (int k = l; k <= r; k++) {
-			//    左  |   右
+		for (int k = l; k <= r; k++) { //枚举第一刀的位置
+			//    左  |   右 的成本
 			ans = Math.min(ans, process(arr, l, k - 1, dp) + process(arr, k + 1, r, dp));
 		}
-		ans += arr[r + 1] - arr[l - 1];
-		dp[l][r] = ans;
+		ans += arr[r + 1] - arr[l - 1]; // 加上自己的成本
+		dp[l][r] = ans; //挂缓存
 		return ans;
 	}
 }

@@ -91,6 +91,8 @@ public class Code03_AddToSorted {
 	// 方法3
 	// 最优解 + 动态开点线段树
 	// 时间复杂度O(N*logN)
+	// 思路：1、如果某个数的右侧数有比它小的，一定要把右侧的数抬到这个数
+	// 2、使用线段树修改某个范围上，避免重复修改，然后计算多多少,怎加了多少个1，就是最后结果算多少个结果
 	public static int minOp3(int[] arr) {
 		int n = arr.length;
 		int m = 0;

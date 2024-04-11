@@ -21,6 +21,7 @@ import java.util.Arrays;
 // 1 <= m <= 30000
 // 0 <= ai, bi <= 10^9
 // 输出描述 输出一个整数，表示小美合理完成任务能得到的最大收益
+// 又是一个线段树问题
 public class Code02_MoveCityGetMoney {
 
 	// 暴力方法
@@ -43,6 +44,7 @@ public class Code02_MoveCityGetMoney {
 	// a[i] : 恰好在！收益
 	// b[i] : 赶过去！收益
 	// 返回 : i....... 小美获得的最大收益
+	// 9 * 10^8 的dp表肯定不行
 	public static int process1(int cur, int i, int m, int[] c, int[] a, int[] b, int[][] dp) {
 		if (i == m) {
 			return 0;
@@ -66,12 +68,17 @@ public class Code02_MoveCityGetMoney {
 
 	// 正式方法
 	// 时间复杂度O(N*logN)
+	// 直接用线段树查询之前最好的收益，然后把当前这座城市的收益加上，
+	// 第一种可能性：线段树上每个节点记录停在当前城市获得的最大收益是多少（不管前面是怎么处理的）
+	// 第二种可能性：动都不动，直接获得收益
+	// 线段树值的初始设置，每个位置开始的时候是系统最小。小美在的初始位置初始化为0。系统最小就是让正常的初始位置正常"显示出来"
 	public static int maxPorfit2(int n, int m, int k, int[] c, int[] a, int[] b) {
 		SegmentTree st = new SegmentTree(n);
-		st.update(k, 0);
+		st.update(k, 0); //初始在k这座城市
 		int ans = 0;
 		for (int i = 0; i < m; i++) {
-			// c[i]
+			// c[i]，可能性1：可以从外地赶过来，可以从0到c[i]-1这些城市赶过来，还可以从c[i]+1到n-1这些城市赶过来，赶过来的成本是b[i]
+			// 可能性2：直接挺着，获得停留收益a[i],不做或者做
 			int curAns = Math.max(Math.max(st.max(0, c[i] - 1), st.max(c[i] + 1, n - 1)) + b[i],
 					st.max(c[i], c[i]) + a[i]);
 			ans = Math.max(ans, curAns);

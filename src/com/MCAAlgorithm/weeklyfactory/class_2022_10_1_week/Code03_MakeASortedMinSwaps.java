@@ -42,11 +42,11 @@ public class Code03_MakeASortedMinSwaps {
 	// 这就是一个三维动态规划，自己改！
 	// ai 是N范围
 	// bi 是M范围
-	// pre 只有0、1两种值
+	// pre 只有0、1两种值，表示ai-1是不是从b拿走的，如果是1，那么ai-1肯定拿的是bi-1的数字
 	// 所以时间复杂度O(N*M*logM)
 	// 这个logM怎么来的，二分来的，看代码！
 	public static int process(int[] A, int[] B, int ai, int bi, int pre) {
-		if (ai == A.length) {
+		if (ai == A.length) { //前面已经有序了
 			return 0;
 		}
 		// 之前的数是什么

@@ -26,6 +26,7 @@ import java.io.IOException;
 
 public class Code01_MaxPrimePairs {
 
+	//KM算法：直接套模板
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -48,7 +49,7 @@ public class Code01_MaxPrimePairs {
 		int[][] ans = new int[n][n];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
-				ans[i][j] = isPrime(arr[i] + arr[j]) ? 1 : 0;
+				ans[i][j] = isPrime(arr[i] + arr[j]) ? 1 : 0; //填那个男女的格子
 			}
 		}
 		return ans;

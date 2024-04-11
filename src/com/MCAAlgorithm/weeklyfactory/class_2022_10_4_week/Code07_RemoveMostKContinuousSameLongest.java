@@ -51,22 +51,25 @@ public class Code07_RemoveMostKContinuousSameLongest {
 		}
 	}
 
-	// 正式方法
+	// 正式方法，每一个数值给一个窗口都折腾自己的，如果不够用，改变次数超过k个，那么就把窗口的左边界扔掉
 	// 时间复杂度O(N)
 	public static int longest2(int[] arr, int k) {
-		HashMap<Integer, LinkedList<Integer>> valueIndies = new HashMap<>();
+		HashMap<Integer, LinkedList<Integer>> valueIndies = new HashMap<>();//linkedlist方便左边弹出
 		int ans = 1;
-		for (int i = 0; i < arr.length; i++) {
+		for (int i = 0; i < arr.length; i++) {//每个数遍历，然后以每个数建立窗口
 			int value = arr[i];
 			if (!valueIndies.containsKey(value)) {
-				valueIndies.put(value, new LinkedList<>());
+				valueIndies.put(value, new LinkedList<>());//以每个数建立窗口
 			}
 			LinkedList<Integer> indies = valueIndies.get(value);
+			//窗口不为空，且边界已经不够用了，把头部弹出，i=30，peek=24，30-24+1，此时30位置的值和24位置的值一样，
+			// 说明从24-29有多少个数，再减去和【24】一样的数量*（即indies的大小）就是这部分要改变的大小，
+			// 这个大小如果大于k，把首部弹出
 			while (!indies.isEmpty() && i - indies.peekFirst() - indies.size() > k) {
 				indies.pollFirst();
 			}
 			indies.addLast(i);
-			ans = Math.max(ans, indies.size());
+			ans = Math.max(ans, indies.size());//每步算出一个答案
 		}
 		return ans;
 	}

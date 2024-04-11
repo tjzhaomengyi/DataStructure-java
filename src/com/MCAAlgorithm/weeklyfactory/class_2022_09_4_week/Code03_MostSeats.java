@@ -2,7 +2,8 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_09_4_week;
 
 import java.util.Arrays;
 
-// 来自华为
+// 来自华为 轮廓线问题！轮廓线问题！这个轮廓线左边表示当前行做出的状态决定，右边表示上面行的状态！！就是课上递归中的那个status，从做往右递推改变
+// 这就是轮廓线问题
 // 给定一个二维数组map，代表一个餐厅，其中只有0、1两种值
 // map[i][j] == 0 表示(i,j)位置是空座
 // map[i][j] == 1 表示(i,j)位置坐了人
@@ -29,78 +30,102 @@ import java.util.Arrays;
 // 数据范围 : 1 <= 矩阵的行、列 <= 20
 public class Code03_MostSeats {
 
-//	public static int maxPeople(int[][] matrix) {
-//		int n = matrix.length;
-//		int m = matrix[0].length;
-//		for (int i = 0; i < n; i++) {
-//			for (int j = 0; j < m; j++) {
-//				if (matrix[i][j] == 1) {
-//					if (i > 0 && matrix[i - 1][j] == 1) {
-//						return -1;
-//					}
-//					if (i < n - 1 && matrix[i + 1][j] == 1) {
-//						return -1;
-//					}
-//					if (j > 0 && matrix[i][j - 1] == 1) {
-//						return -1;
-//					}
-//					if (j < m - 1 && matrix[i][j + 1] == 1) {
-//						return -1;
-//					}
-//				}
+	//课上憋的
+	public static int maxPeople(int[][] matrix) {
+		int n = matrix.length;
+		int m = matrix[0].length;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				//四个方向看看不行的情况
+				if (matrix[i][j] == 1) {
+					if (i > 0 && matrix[i - 1][j] == 1) {
+						return -1;
+					}
+					if (i < n - 1 && matrix[i + 1][j] == 1) {
+						return -1;
+					}
+					if (j > 0 && matrix[i][j - 1] == 1) {
+						return -1;
+					}
+					if (j < m - 1 && matrix[i][j + 1] == 1) {
+						return -1;
+					}
+				}
+			}
+		}
+		int[] arr = new int[n];
+		for (int i = 0; i < n; i++) {
+			int status = 0;
+			for (int j = 0; j < m; j++) {
+				if (matrix[i][j] == 1) {
+					status |= 1 << j;
+				}
+
+				arr[i] = status;
+			}
+		}
+		return zuo(arr, n, m, 0, 0, 0);
+
+	}
+
+	//status是上一行的状态，arr保存每一行的状态，要通过status来改变状态
+	// status的含义是当前来到i行j列的位置，假如j来到2位置 ab|c(?)def,ab是已经确定的状态，c是当前要确定的，def是要借助status-》nextStatus往下推的
+	//注意：关于arr和stattus的解释：
+	// 【安排人的时候一定不会改变arr的方案，是改变status的状态（在status中从左到右做决定！！！）！！！！
+	// 如果arr改变了后续的动态规划所有状态都改变了，只能用status的状态往下递推！！！！！！】
+	public static int zuo(int[] arr, int n, int m, int i, int j, int status) {
+		if (i == n) {
+			return 0;
+		}
+		if (j == m) {
+			return zuo(arr, n, m, i + 1, 0, status);
+		}
+		// 怎么判断已经无效了
+		if ((arr[i] & status) != 0) {
+			return -1;
+		}
+
+
+		// 来到了正常的(i,j)位置，因为下面会查，所以只查三个位置
+		int left = status(status, j - 1, m); //左边看status的情况就行，因为如果上一行j-1位置是1，那么当前行的j-1位置肯定不能是1
+		int up = status(status, j, m); //上面
+		int right = status(arr[i], j + 1, m);//右边的状态需要根据arr[i]当前行的状态来决定
+		int cur = status(arr[i], j, m);//上、左和右都拿出来了，把当前的状态也拿出来
+		// 当前位置不安排新人了
+		int p1 = -1;
+//		if(left == 1 || up == 1 || right == 1 || cur == 1){
+//			if(cur == 0){ //如果当前位置没有人
+//				//status：10100
 //			}
+//			p1 = zuo(arr, n, m, i, j + 1, status | (1 << cur));
 //		}
-//		int[] arr = new int[n];
-//		for (int i = 0; i < n; i++) {
-//			int status = 0;
-//			for (int j = 0; j < m; j++) {
-//				if (matrix[i][j] == 1) {
-//					status |= 1 << j;
-//				}
-//
-//				arr[i] = status;
-//			}
-//		}
-//		return zuo(arr, n, m, 0, 0, 0);
-//
-//	}
-//
-//	public static int zuo(int[] arr, int n, int m, int i, int j, int status) {
-//		if (i == n) {
-//			return 0;
-//		}
-//		if (j == m) {
-//			return zuo(arr, n, m, i + 1, 0, status);
-//		}
-//		// 怎么判断已经无效了
-//		if ((arr[i] & status) != 0) {
-//			return -1;
-//		}
-//		// (i,j)
-//		int left = status(status, j - 1, m);
-//		int up = status(status, j, m);
-//		int right = status(arr[i], j + 1, m);
-//		int cur = status(arr[i], j, m);
-//		// 当前位置不安排新人了
-//		int p1 = -1;
-//		if (cur == 0) { // 原始的该位置无人
-//			int nextStatus = status ^ (up << j);
-//			p1 = zuo(arr, n, m, i, j + 1, nextStatus);
-//		} else {  // 原始的该位置有人
-//			int nextStatus = (status | (1 << j));
-//			p1 = zuo(arr, n, m, i, j + 1, nextStatus);
-//		}
-//		// 当前位置安排新人
-//		int p2 = -1;
-//		if(left == 0 && up == 0 && right == 0 && cur == 0) {
-//			int nextStatus = (status | (1 << j));
-//			int next = zuo(arr, n, m, i, j + 1, nextStatus);
-//			if(next != -1) {
-//				p2 = 1 + next;
-//			}
-//		}
-//		return Math.max(p1, p2);
-//	}
+		if (cur == 0) { // 不安排新人的第一种情况：原始的该位置无人，我就不安排
+			int nextStatus = status ^ (up << j);//如果up=1，异或完j位置的status位就变成0，如果up=0异或完当前行j位置的status还是0
+			p1 = zuo(arr, n, m, i, j + 1, nextStatus); //去吧往j后继续推
+		} else {  // 不安排新人的第二种情况：原始的该位置有人
+			int nextStatus = (status | (1 << j)); //不管原来状态是什么，直接把j位置或上1，继续往后做【这里和下面正式代码的意思一样】
+			p1 = zuo(arr, n, m, i, j + 1, nextStatus);
+		}
+		// 当前位置安排新人
+		int p2 = -1;
+		if(left == 0 && up == 0 && right == 0 && cur == 0) { //四个位置都是0，安排人！！！！
+			int nextStatus = (status | (1 << j));
+			int next = zuo(arr, n, m, i, j + 1, nextStatus);
+			if(next != -1) {
+				p2 = 1 + next; // 当前位置安排了人，后续也可以安排好
+			}
+		}
+		return Math.max(p1, p2);
+	}
+
+	//理解：说白了这个函数就是来帮助调用位置来判断上左右是否能让调用位置放一个人的！！！
+	//这个函数用来判断i列位置在status中的状态，如果i越界为0，然后用status与1判断是否为0，与结果为0的话，说明i位置的值为0
+	//status：100100 返回为0表示可以安排人，
+	public static int status(int status, int i, int m) {
+		//如果调用位置上面一行的位置是i在不合理位置，那么调用位置可以放入人，返回0 ；
+		// 如果status上一行的i列是0那么也可以放入人
+		return (i < 0 || i == m || (status & (1 << i)) == 0) ? 0 : 1;
+	}
 
 	// 为了测试，普通方法
 	// 普通的状态压缩动态规划
@@ -239,9 +264,7 @@ public class Code03_MostSeats {
 		return ans;
 	}
 
-	public static int status(int status, int i, int m) {
-		return (i < 0 || i == m || (status & (1 << i)) == 0) ? 0 : 1;
-	}
+
 
 	public static int[][] randomMatrix(int n, int m, double oneP) {
 		int[][] ans = new int[n][m];

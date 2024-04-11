@@ -10,6 +10,8 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_10_4_week;
 // 1 <= 行、列 <= 400
 public class Code02_MostTrailingZerosTurnLeftOfRightAtMostOnce {
 
+	//数一下5的因子数量和2的因子数量
+	// 枚举内部的点，因为只让拐一次或者不拐，所以这个四个方向上混合出一个整体就能得到最终结果
 	public static int mostTrailingZeros(int[][] matrix) {
 		int n = matrix.length;
 		int m = matrix[0].length;
@@ -38,7 +40,7 @@ public class Code02_MostTrailingZerosTurnLeftOfRightAtMostOnce {
 		int ans = 0;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				// 来到(i,j)
+				// 来到(i,j)，上下左右有几个2/5的因子个数
 				int l2 = j == 0 ? 0 : leftF2[i][j - 1];
 				int l5 = j == 0 ? 0 : leftF5[i][j - 1];
 				int r2 = leftF2[i][m - 1] - leftF2[i][j];

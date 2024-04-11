@@ -71,6 +71,8 @@ public class Code03_RobotAndClothes {
 		return ans;
 	}
 
+	// 如果点量收不完第一件衣服直接-1；如果只用第一个机器人收衣服，可以先确定收所有衣服的最长时间，
+	// f（[],endtime),在endtime收完所有衣服需要的电量，如果endtime=1000，找到500可以收完/收不完，剩下的去二分
 	// 正式方法
 	// 时间复杂度O( N^2 * log(rates[0] * n))
 	// 揭示了大的思路，可以继续用线段树优化枚举，详情看fast3
@@ -80,6 +82,7 @@ public class Code03_RobotAndClothes {
 	// 如果一定要在time时间内捡完所有衣服，请返回使用最少的电量
 	// 如果minPower，这个函数能实现
 	// 那么只要二分出最小的答案即可
+	// b是总电量
 	public static int fast2(int n, int b, int[] powers, int[] rates) {
 		if (n == 0) {
 			return 0;
@@ -89,7 +92,7 @@ public class Code03_RobotAndClothes {
 		}
 		// 最小时间只可能在[1, rates[0] * n]范围上
 		int l = 1;
-		int r = rates[0] * n;
+		int r = rates[0] * n; //就用第0台机器人收完所有衣服，这个是使用时间的上限
 		int m = 0;
 		int ans = -1;
 		// 二分答案
@@ -100,7 +103,7 @@ public class Code03_RobotAndClothes {
 		// 如果这个最小电量 > 总电量，说明m时间不可行，右侧继续二分答案
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (minPower2(powers, rates, m) <= b) {
+			if (minPower2(powers, rates, m) <= b) { //如果小于给的电量
 				ans = m;
 				r = m - 1;
 			} else {
@@ -120,32 +123,30 @@ public class Code03_RobotAndClothes {
 		return process2(powers, rates, 0, time, dp);
 	}
 
-	// i....这么多的衣服
-	// 在time时间内一定要收完
-	// 返回最小电量
-	// 如果怎么都收不完，返回系统最大值
+	// i....这么多的衣服，i位置往右的范围收衣服，在time时间内一定要收完，需要的最小电量，返回最小电量
+	// 如果怎么都收不完，返回系统最大值，参数time是固定值
 	// N^2
 	public static int process2(int[] powers, int[] rates, int i, int time, int[] dp) {
 		int n = powers.length;
-		if (i == n) {
+		if (i == n) { //终止位置，返回0
 			return 0;
 		}
-		if (dp[i] != -1) {
+		if (dp[i] != -1) { //-1表示还没有计算当前i位置可以得到最终最小电量是多少
 			return dp[i];
 		}
-		// i.....
+		// i.....，来到i位置收衣服
 		// 收当前i位置这一件衣服的时间
-		int usedTime = rates[i];
+		int usedTime = rates[i]; //启动i位置的机器人，收当前这件衣服
 		int nextMinPower = Integer.MAX_VALUE;
-		for (int j = i; j < n && usedTime <= time; j++) {
-			// i...i i+1....
-			// i......i+1 i+2...
-			// i...........i+2 i+3...
+		for (int j = i; j < n && usedTime <= time; j++) { //使用i位置机器人往i以后收衣服的可能性，然后再卡一下time的时间限制
+			// i...i i+1.... i位置往后收1件
+			// i......i+1 i+2... i位置往后收2件
+			// i...........i+2 i+3... i位置往后收3件
 			// i....j j+1....
-			nextMinPower = Math.min(nextMinPower, process2(powers, rates, j + 1, time, dp));
+			nextMinPower = Math.min(nextMinPower, process2(powers, rates, j + 1, time, dp)); //枚举j
 			usedTime += rates[i];
 		}
-		int ans = nextMinPower == Integer.MAX_VALUE ? nextMinPower : (powers[i] + nextMinPower);
+		int ans = nextMinPower == Integer.MAX_VALUE ? nextMinPower : (powers[i] + nextMinPower);//当前的电量+后续电量
 		dp[i] = ans;
 		return ans;
 	}
@@ -188,7 +189,7 @@ public class Code03_RobotAndClothes {
 			} else {
 				int j = Math.min(i + (time / rates[i]) - 1, n - 1);
 				// for.... logN 
-				int next = st.min(i + 1, j + 1);
+				int next = st.min(i + 1, j + 1); //O(logN)的复杂度，直接查范围
 				int ans = next == Integer.MAX_VALUE ? next : (powers[i] + next);
 				dp[i] = ans;
 			}

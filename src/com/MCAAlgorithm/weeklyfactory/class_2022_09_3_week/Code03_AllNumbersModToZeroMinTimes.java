@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.weeklyfactory.class_2022_09_3_week;
 
-// 来自美团
+// 来自美团，有点恶心
 // 某天，小美在玩一款游戏，游戏开始时，有n台机器，
 // 每台机器都有一个能量水平，分别为a1、a2、…、an，
 // 小美每次操作可以选其中的一台机器，假设选的是第i台，
@@ -15,6 +15,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_09_3_week;
 // 1 <= n <= 30000，2 <= m <= 30000, 0 <= ai <= 10^12。
 public class Code03_AllNumbersModToZeroMinTimes {
 
+	//打表，用bfs求
 	public static int[] times(int n, int m, int[] arr) {
 		// map[i] : i这个余数变成余数0，需要至少操作几次？
 		int[] map = new int[m];
@@ -36,6 +37,7 @@ public class Code03_AllNumbersModToZeroMinTimes {
 		return ans;
 	}
 
+	//构建余数表，map是余数表0操作0次，什么数操作一次可以到9，（8+10^0）%10 = 9
 	public static void bfs(int m, int[] map) {
 		boolean[] visited = new boolean[m];
 		visited[0] = true;

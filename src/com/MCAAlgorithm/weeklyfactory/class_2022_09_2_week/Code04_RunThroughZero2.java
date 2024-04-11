@@ -150,6 +150,9 @@ public class Code04_RunThroughZero2 {
 		return ans;
 	}
 
+	//划分去两种（1）1单独+12混合 （2）全是2，这两个区域，
+	//00 111222 0 1221 00 22 00 1221 0 ，3个（1）区域，1个（2）区域
+	//然后用贪心去消除，先删除连着的2，然后把剩下的1删除
 	public static int cost2(int[] arr, int left, int right) {
 		if (arr[left] == 2 && right2x[left] > right) {
 			return 2;

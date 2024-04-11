@@ -25,11 +25,13 @@ public class Code04_ShortestPathToGetAllKeys {
 	// 
 	// @ . . . . #
 	// . . B . . B
+	//用位状态表示拥有哪几把钥匙，因为最多六把钥匙，所以把每个格子扩充一下状态，是什么状态到达的这个格子，相当于把每个格子扩充n倍，每个格子承担2^6
+
 	public int shortestPathAllKeys(String[] grid) {
 		int n = grid.length;
 		char[][] map = new char[n][];
 		for (int i = 0; i < grid.length; i++) {
-			map[i] = grid[i].toCharArray();
+			map[i] = grid[i].toCharArray(); //先把字符串转成map
 		}
 		int m = map[0].length;
 		return dijkstra(map, n, m);
@@ -41,12 +43,12 @@ public class Code04_ShortestPathToGetAllKeys {
 		int keys = 0;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				if (map[i][j] == '@') {
+				if (map[i][j] == '@') { //找到@符号说明从这个开始
 					startX = i;
 					startY = j;
 				}
 				if (map[i][j] >= 'a' && map[i][j] <= 'z') {
-					keys++;
+					keys++; //先统计下钥匙数量
 				}
 			}
 		}
@@ -55,18 +57,18 @@ public class Code04_ShortestPathToGetAllKeys {
 		// 如果有5把钥匙
 		// limit = 0000..00011111
 		// 也就是说，所有钥匙都凑齐的状态，就是limit
-		int limit = (1 << keys) - 1;
+		int limit = (1 << keys) - 1; //统计拿钥匙的状态
 		// 用堆来维持走过的点(dijkstra标准操作)
-		// 维持的信息是一个个小的4维数组，arr
+		// 维持的信息是一个个小的4维数组，arr，修改标准的Dijkstra算法，增加收集钥匙的状态
 		// arr[0] : 当前来到的x坐标
 		// arr[1] : 当前来到的y坐标
 		// arr[2] : 当前收集到的钥匙状态
 		// arr[3] : 从出发点到当前的距离
 		// 堆根据距离的从小到大组织，距离小根堆
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[3] - b[3]);
-		boolean[][][] visited = new boolean[n][m][1 << keys];
+		boolean[][][] visited = new boolean[n][m][1 << keys]; //行号列号，状态数，三个信息表示一个点！！！！，visited的第三位表示从0到111或者更多的状态所以是1<<keys个状态
 		// startX, startY, 000000
-		heap.add(new int[] { startX, startY, 0, 0 });
+		heap.add(new int[] { startX, startY, 0, 0 }); //起始位置，什么钥匙都没有，距离是
 		while (!heap.isEmpty()) {
 			int[] cur = heap.poll();
 			int x = cur[0];
@@ -74,7 +76,7 @@ public class Code04_ShortestPathToGetAllKeys {
 			int s = cur[2];
 			int w = cur[3];
 			if (s == limit) {
-				return w;
+				return w; //钥匙全了！
 			}
 			if (visited[x][y][s]) {
 				continue;
@@ -111,7 +113,7 @@ public class Code04_ShortestPathToGetAllKeys {
 			// A    s & (1 << 0) != 0
 			// B    s & (1 << 1) != 0
 			// D    s & (1 << 3) != 0
-			// 
+			// s对应位置必须是1才能开这个锁！！！并且这个位置没有访问过
 			if (!visited[x][y][s] && (s & (1 << (map[x][y] - 'A'))) != 0) {
 				heap.add(new int[] { x, y, s, w + 1 });
 			}
@@ -119,11 +121,11 @@ public class Code04_ShortestPathToGetAllKeys {
 			// 要么是钥匙 a b c 
 			// 要么是空房间 .
 			// 要么是初始位置 @
-			if (map[x][y] >= 'a' && map[x][y] <= 'z') {
-				s |= 1 << (map[x][y] - 'a');
+			if (map[x][y] >= 'a' && map[x][y] <= 'z') { //是钥匙
+				s |= 1 << (map[x][y] - 'a'); //拿钥匙，变s状态
 			}
 			if (!visited[x][y][s]) {
-				heap.add(new int[] { x, y, s, w + 1 });
+				heap.add(new int[] { x, y, s, w + 1 }); //直接走放入heap
 			}
 		}
 	}

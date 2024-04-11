@@ -61,18 +61,23 @@ public class Code04_DreamCity {
 	// tree[][]
 	// i棵树，初始重量 ， tree[i][0]
 	// i棵树，每天的增长重量 ，tree[i][1]
+	// m 棵肯定都砍了，如何安排这些m棵树谁先砍谁后砍，贪心：先砍增长量小的，增长量大的后砍
 	public static int maxWeight(int n, int m) {
-		Arrays.sort(tree, 0, n, (o1, o2) -> o1[1] - o2[1]);
-		dp[0][0] = tree[0][0];
+		Arrays.sort(tree, 0, n, (o1, o2) -> o1[1] - o2[1]); //贪心，让增量从小到大安排。在0到n的左闭右开区间进行排序
+		//剩下的是m棵树的一个背包问题
+		dp[0][0] = tree[0][0]; //0到i棵树tree数组上，来到j天选择哪棵树
 		for (int i = 1; i < n; i++) {
-			dp[i][0] = Math.max(dp[i - 1][0], tree[i][0]);
+			dp[i][0] = Math.max(dp[i - 1][0], tree[i][0]);  //0列填好，0...i棵树砍第一天砍谁好，不砍第i棵树，和砍第i棵树
 		}
 		for (int j = 1; j < m; j++) {
-			dp[0][j] = dp[0][j - 1] + tree[0][1];
+			dp[0][j] = dp[0][j - 1] + tree[0][1]; //就一棵树，到了第j天只能砍这棵树
 		}
 		for (int i = 1; i < n; i++) {
 			for (int j = 1; j < m; j++) {
+				//不要第i棵树--dp[i-1][j];
+				//就在第j天砍第i棵树，收益是tree[i][0]初始重量 + 生长重量tree[i][1] * j
 				dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - 1] + tree[i][0] + tree[i][1] * j);
+
 			}
 		}
 		return dp[n - 1][m - 1];

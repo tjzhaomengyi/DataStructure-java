@@ -35,7 +35,7 @@ public class Code06_StoreManager {
 	public static class Store {
 		// 每一个价格，对应的数量
 		HashMap<Integer, Integer> priceNums;
-		// 价格组成的小根堆
+		// 价格组成的小根堆，treemap也可以 ，treemap的key是价格，根据key从小到大排序
 		PriorityQueue<Integer> heap;
 
 		public Store() {

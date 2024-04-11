@@ -5,6 +5,7 @@ import java.util.Arrays;
 // 来自美团
 // 有三个题库A、B、C，每个题库均有n道题目，且题目都是从1到n进行编号
 // 每个题目都有一个难度值
+// A【3 2 5】，B【6 4 7】，C【10 12 2】
 // 题库A中第i个题目的难度为ai
 // 题库B中第i个题目的难度为bi
 // 题库C中第i个题目的难度为ci
@@ -21,6 +22,7 @@ import java.util.Arrays;
 // 第四行为n个正整数c1, c2,...... cn，其中ci表示题库C中第i个题目的难度值
 // 1 <= n <= 20000, 1 <= ai, bi, ci <= 10^9。
 public class Code04_ExaminationPaperWays {
+
 
 	// 暴力方法
 	// 时间复杂度O(N^3)
@@ -45,6 +47,12 @@ public class Code04_ExaminationPaperWays {
 		return ans;
 	}
 
+	// A【2 3 6 6 7】
+	// B【2 5 9 12 17】
+	// C【10 15 30 31 45】
+	// 从B中看哪道题可以作为倒数第二道题，把后续全部都列出来。借助L和R下标这两个下标不需要回退
+	// 从A中看哪道题可以作为第一题，B中范围是多少。3作为第一题，只有5。这个范围题的难度用前缀和数组
+	// +上前缀和
 	// 正式方法
 	// 时间复杂度O(N * logN)
 	public static int ways2(int[] a, int[] b, int[] c) {
@@ -63,6 +71,7 @@ public class Code04_ExaminationPaperWays {
 			}
 			help[i] = Math.max(r - l - 1, 0);
 		}
+		//加工前缀和
 		for (int i = 1; i < n; i++) {
 			help[i] += help[i - 1];
 		}

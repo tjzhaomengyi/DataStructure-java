@@ -34,7 +34,16 @@ public class Code05_RemoveSubstringRestPalindrome {
 		return true;
 	}
 
-	// 正式方法
+	//思路：删除掉l..r这一段，str[0..l-1]到str[r+1..]是否对称
+	// 剩下的中间部分利用manacher算法回文半径数组任何一个中心点剩下部分是否能够覆盖到中间这部分长度，时间复杂度O（1）
+	// 伪代码：
+	// for（int l = 0; l < str.length; l++){
+	//  for(int r = l; r < str.length; r++){
+	//  	【l 到 r】这一段是不是回文，【0。。l-1】拼【r+1。。】是不是回文
+	//   }
+	// }
+
+	// 正式方法 Manacher
 	// 时间复杂度O(N^2)
 	public static int good2(String str) {
 		if (str.length() == 1) {
@@ -51,16 +60,16 @@ public class Code05_RemoveSubstringRestPalindrome {
 		}
 		int ans = 0;
 		for (int l = 0; l < n; l++) {
-			for (int r = l; r < n; r++) {
-				if (l < n - r - 1) {
+			for (int r = l; r < n; r++) { //删掉l到r的部分，剩下是否为混文
+				if (l < n - r - 1) { //左边<右边长度
 					if (range >= l && check(pArr, r + 1, n - l - 1)) {
 						ans++;
 					}
-				} else if (l > n - r - 1) {
+				} else if (l > n - r - 1) { //左边长度>右边长度
 					if (range >= n - r - 1 && check(pArr, n - r - 1, l - 1)) {
 						ans++;
 					}
-				} else {
+				} else { //两侧相等
 					if (range >= l) {
 						ans++;
 					}

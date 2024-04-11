@@ -8,3 +8,5 @@ bin/
 .metadata/
 
 out/
+
+.output/

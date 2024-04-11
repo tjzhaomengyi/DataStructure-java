@@ -27,6 +27,7 @@ public class Code05_IsGraphBipartite {
 		return true;
 	}
 
+	//每个人讨厌的合并成一个集合，，然后看看每个组的表示里相互讨厌的是否在一个集合里
 	public static class UnionFind {
 		private int[] f;
 		private int[] s;

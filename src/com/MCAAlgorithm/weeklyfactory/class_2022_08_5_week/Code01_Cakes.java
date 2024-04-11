@@ -10,7 +10,11 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_08_5_week;
 public class Code01_Cakes {
 
 	/**
-	 * nim博弈
+	 * 一、nim博弈结论（在不同堆里拿东西，随便拿个数，可以把某一堆直接拿走，谁先拿完谁赢）：把所有硬币的数量异或在一起，如果不等于0，先手A肯定赢；如果等于0，先手A肯定输，后手B赢。
+	 * 解析：A的目标是希望B看到所有堆都为0，A就赢了。转换成异或就是A在自己的回合所有数异或起来不是0就行（堆里面有东西）；B每次遇到的值异或起来是0；如果能做到这样A肯定赢
+	 * 本质是拿走某个数量的东西（只要不是0个），这个数的奇偶性改变，如果拿0个在上面的目标A和B交换
+	 * 二、巴什博弈：两个人拿一堆硬币，AB每次在硬币堆里拿小于等于m数量的硬币，谁最后拿完谁赢；结论：A让剩余硬币凑m+1的整数倍，最后就可以赢
+	 * 例子：m-7，30个，（1）A拿30-6=24 。。。。最后剩下8个，肯定A去拿
 	 */
 
 	// 草莓蛋糕a块
@@ -22,7 +26,7 @@ public class Code01_Cakes {
 	// 暴力方法
 	// 为了验证
 	public static String whoWin1(int a, int b, int m) {
-		if (m >= Math.max(a, b)) { // nim博弈
+		if (m >= Math.max(a, b)) { // 这个是nim博弈
 			return a != b ? "先手" : "后手";
 		}
 		if (a == b) {
@@ -62,10 +66,10 @@ public class Code01_Cakes {
 	// 先看nim博弈
 	public static String whoWin2(int a, int b, int m) {
 		if (m >= Math.max(a, b)) { // nim博弈
-			return a != b ? "先手" : "后手";
+			return a != b ? "先手" : "后手"; //a!=b表示a异或b不为0，那么直接先手赢
 		}
-		// m < max(a,b)
-		if (a == b) {
+		// m < max(a,b) 不是自由拿的情况
+		if (a == b) { //也可以堪称nim博弈，a异或b=0了，直接后手赢
 			// 蛋糕一样多
 			// 先手必输，因为先手不管拿什么，拿多少
 			// 后手都在另一堆上，拿同样多的蛋糕
@@ -73,7 +77,7 @@ public class Code01_Cakes {
 			// 最终先手必输，后手必赢
 			return "后手";
 		}
-		// 如果 a != b
+		// 如果 a != b，变成差值的巴什博弈，
 		// 关注a和b的差值，
 		// 谁最先遇到差值为0，谁输
 		// 那么这就是巴什博奕

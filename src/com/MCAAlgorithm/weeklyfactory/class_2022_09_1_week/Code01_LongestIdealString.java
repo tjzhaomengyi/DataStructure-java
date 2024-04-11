@@ -10,6 +10,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_09_1_week;
 // 注意：字母表顺序不会循环
 // 例如，'a' 和 'z' 在字母表中位次的绝对差值是 25，而不是 1 。
 // 测试链接 : https://leetcode.cn/problems/longest-ideal-subsequence/
+// 一道线段树问题
 public class Code01_LongestIdealString {
 
 	// 二维动态规划的解

@@ -4,21 +4,21 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_09_1_week;
 // 给你一个长度为n的数组，并询问q次
 // 每次询问区间[l,r]之间是否存在小于等于k个数的和大于等于x
 // 每条查询返回true或者false
-// 1 <= n, q <= 10^5
+// 1 <= n, q <= 10^5 直接堵死暴力的方法
 // k <= 10
 // 1 <= x <= 10^8
 import java.util.PriorityQueue;
 
 public class Code04_QueryTopKSum {
 
-	
+	//加强线段树，给出范围上前k大信息和这个范围的累加和
 	public static class SegmentTree {
 
 		private int n;
 		private int k;
-		// private int[] max;
+		// private int[] max; //老线段树，一个范围的一个最大值
 		// private int[][] max = new int[][10];
-		private int[][] max;
+		private int[][] max; //一个范围上n个max
 		private int[][] query;
 
 		public SegmentTree(int[] arr, int K) {

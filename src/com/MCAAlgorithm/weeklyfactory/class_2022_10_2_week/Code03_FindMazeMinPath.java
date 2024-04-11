@@ -24,6 +24,7 @@ import java.util.PriorityQueue;
 
 public class Code03_FindMazeMinPath {
 
+	//复习一遍Dijkstra
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -57,12 +58,13 @@ public class Code03_FindMazeMinPath {
 	// list = [0,0] , [1,0], [1,1]...[3,3]
 	// [3,3] -> [0,0]
 	public static ArrayList<int[]> dijkstra(int n, int m, int[][] map) {
-		// (a,b) -> (c,d)
+		// (a,b) -> (c,d)last的cd表格记录是从谁来的
 		// last[c][d][0] = a
 		// last[c][d][1] = b
 		// 从哪到的当前(c,d)
-		int[][][] last = new int[n][m][2];
-		// int[] arr = {c,d,w}
+		int[][][] last = new int[n][m][2];//记录最短路径的关键信息就是这个，剩下的交给Dijkstra就行了
+		// Dijkstra算法标准堆，但是这里有记录信息，原始的Dijkstra算法没有位置信息
+		// int[] arr = {c,d,w} 表示从（0，0）点走到（c，d）的代价，以距离从小到大排序
 		//              0 1 距离
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[2] - b[2]);
 		boolean[][] visited = new boolean[n][m];
@@ -88,7 +90,7 @@ public class Code03_FindMazeMinPath {
 		}
 		int x = n - 1;
 		int y = m - 1;
-		while (x != 0 || y != 0) {
+		while (x != 0 || y != 0) { //把last信息遍历一遍得到最终结果，借助Dijkstra算法直接把最短路径带出来了！
 			ans.add(new int[] { x, y });
 			int lastX = last[x][y][0];
 			int lastY = last[x][y][1];
@@ -111,16 +113,16 @@ public class Code03_FindMazeMinPath {
 	public static void add(int x, int y,
 			int i, int j, int w,
 			int n, int m, 
-			int[][] map, 
+			int[][] map,
 			boolean[][] visited,
 			PriorityQueue<int[]> heap,
 			int[][][] last) {
-		if (i >= 0 && i < n 
-				&& j >= 0 && j < m
-				&& map[i][j] == 0 
-				&& !visited[i][j]) {
-			heap.add(new int[] { i, j, w + 1 });
-			last[i][j][0] = x;
+		if (i >= 0 && i < n //不能越界
+				&& j >= 0 && j < m //不能越界
+				&& map[i][j] == 0  // 是路不能是挡板
+				&& !visited[i][j] ) { //没有访问过
+			heap.add(new int[] { i, j, w + 1 }); //可以走这条路
+			last[i][j][0] = x;//并且在last记录过来的信息，这个
 			last[i][j][1] = y;
 		}
 	}

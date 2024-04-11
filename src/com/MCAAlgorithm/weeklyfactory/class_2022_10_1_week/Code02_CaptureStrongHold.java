@@ -20,6 +20,13 @@ import java.util.List;
 // 测试链接 : https://leetcode.cn/problems/s5kipK/
 public class Code02_CaptureStrongHold {
 
+	//点双连通分量：一定是在无向图中，指的是存在两个以上集团 断开任何两个点的连线后，各自剩下的部分仍然是强连通图（彼此能够相互叨叨），可以是共享点
+	// 点双连同分量的叶节点和非叶节点，以及割点
+	// a      b      c
+	//   。
+	// 。  d       e
+	//  。
+	//e       f      g
 	public static long minimumCost(int[] cost, int[][] roads) {
 		int n = cost.length;
 		if (n == 1) {
@@ -29,7 +36,7 @@ public class Code02_CaptureStrongHold {
 		DoubleConnectedComponents dc = new DoubleConnectedComponents(n, m, roads);
 		long ans = 0;
 		// dcc {a,b,c} {c,d,e}
-		if (dc.dcc.size() == 1) {
+		if (dc.dcc.size() == 1) { //只有一个点双连通分量
 			ans = Integer.MAX_VALUE;
 			for (int num : cost) {
 				ans = Math.min(ans, num);
@@ -40,18 +47,18 @@ public class Code02_CaptureStrongHold {
 				int cutCnt = 0;
 				int curCost = Integer.MAX_VALUE;
 				for (int nodes : set) {
-					if (dc.cut[nodes]) {
+					if (dc.cut[nodes]) { //统计割点数量
 						cutCnt++;
 					} else {
-						curCost = Math.min(curCost, cost[nodes]);
+						curCost = Math.min(curCost, cost[nodes]); //如果不是割点，统计一下代价
 					}
 				}
-				if (cutCnt == 1) {
-					arr.add(curCost);
+				if (cutCnt == 1) { //如果是叶的点双连通分量，考虑进去，如果不是叶的点双连通分量（中间割点形成的双连通分量），不统计
+					arr.add(curCost); //可以考虑攻克的
 				}
 			}
-			arr.sort((a, b) -> a - b);
-			for (int i = 0; i < arr.size() - 1; i++) {
+			arr.sort((a, b) -> a - b); //攻克代价小的
+			for (int i = 0; i < arr.size() - 1; i++) { //只攻克m-1个即可，根据题意
 				ans += arr.get(i);
 			}
 		}
@@ -80,6 +87,7 @@ public class Code02_CaptureStrongHold {
 			creatDcc(n);
 		}
 
+		//链式前向星的表示方法
 		private void init(int n, int m) {
 			head = new int[n];
 			Arrays.fill(head, -1);
@@ -119,9 +127,12 @@ public class Code02_CaptureStrongHold {
 			}
 		}
 
+		// 开始遍历得到dfn序号的时候放入栈中，
+		//点双连通分量扎口袋过程，如果遍历的到点的low值小于等于当前点的dfn序号，往上回退（都是递归过程），直到发现某个点的low=dfn序号，就是口袋入口
+		//然后开始把大于入口的点弹出，但是口袋节点不出，等着它的大哥再把它弹出
 		private void tarjan(int x) {
 			dfn[x] = low[x] = ++dfnCnt;
-			stack[top++] = x;
+			stack[top++] = x;//遍历到谁把谁放入栈中，把小于当前low的值点都弹出形成该点组成点双连通分量
 			int flag = 0;
 			if (x == root && head[x] == -1) {
 				dcc.add(new ArrayList<>());
@@ -133,10 +144,10 @@ public class Code02_CaptureStrongHold {
 					// y是下级节点
 					int y = to[i];
 					if (dfn[y] == 0) { // y点没遍历过！
-						tarjan(y);
-						if (low[y] >= dfn[x]) { // 正在扎口袋
-							flag++;
-							if (x != root || flag > 1) {
+						tarjan(y); //递归tarjan去
+						if (low[y] >= dfn[x]) { // 正在扎口袋，如果下级节点的low大于等于x的dfn，x就可以扎起口袋
+							flag++; //发现了扎起口袋的支路，并且只要扎起口袋的点就是割点，但是头节点至少要扎起两个口袋才是割点，只有一个口袋的头节点不是割点
+							if (x != root || flag > 1) { //收集割点信息
 								cut[x] = true;
 							}
 							List<Integer> curAns = new ArrayList<>();
@@ -147,12 +158,12 @@ public class Code02_CaptureStrongHold {
 								curAns.add(z);
 							}
 							curAns.add(y);
-							curAns.add(x);
+							curAns.add(x); //但是
 							dcc.add(curAns);
 						}
 						low[x] = Math.min(low[x], low[y]);
 					} else { // y点已经遍历过了！
-						low[x] = Math.min(low[x], dfn[y]);
+						low[x] = Math.min(low[x], dfn[y]); //调整x的low序号
 					}
 				}
 			}

@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.weeklyfactory.class_2022_08_5_week;
 
-// 来自Amazon
+// 来自Amazon，难题
 // 定义一个概念叫"变序最大和"
 // "变序最大和"是说一个数组中，每个值都可以减小或者不变，
 // 在必须把整体变成严格升序的情况下，得到的最大累加和
@@ -48,6 +48,7 @@ public class Code03_SubarrayMakeSrotedMaxSum {
 		return cur + next;
 	}
 
+	// 子数组结尾讨论的方法
 	// 正式方法
 	// 时间复杂度O(N)
 	public static long maxSum2(int[] arr) {

@@ -24,7 +24,7 @@ public class Code01_RobotDeliverGoods {
 	// from[i] : 第i件货，在哪个楼层拿货，固定
 	// to[i] : 第i件货，去哪个楼层送货，固定
 	// k : 一共有几件货，固定
-	// status : 00110110
+	// status : 00110110 1表示哪些货物送过了，0表示还没送
 	// last : 在送过的货里，最后送的是第几号货物
 	// 返回值: 送完的货，由status代表，
 	// 而且last是送完的货里的最后一件，后续所有没送过的货都送完，
@@ -35,19 +35,19 @@ public class Code01_RobotDeliverGoods {
 	// 0000010000000 -1
 	// 0000001111111
 	public static int zuo(int status, int last, int k, int[] from, int[] to) {
-		if (status == (1 << k) - 1) { // 所有货送完了，回到1层去了
-			return to[last] - 1;
-		} else { // 不是所有货都送完！
+		if (status == (1 << k) - 1) { // 所有货送完了，回到1层去了 ，如果是7个货物，每位都为1，就是全送完了
+			return to[last] - 1; //最后一个货消耗的时间， 到的位置 然后 - 1
+		} else { // 当前不是所有货都送完！
 			int ans = Integer.MAX_VALUE;
-			for (int cur = 0; cur < k; cur++) {
+			for (int cur = 0; cur < k; cur++) { //到底送哪件货
 				// status : 0010110
 				//            1   
 				if ( (status & (1 << cur)) == 0) { // 当前cur号的货物，可以去尝试
 					// to[last]  
 					//    cur号的货，to[last] -> from[cur] 
-					int come = Math.abs(to[last] - from[cur]);
-					int delive = Math.abs(to[cur] - from[cur]);
-					int next = zuo(status | (1 << cur), cur, k, from, to);
+					int come = Math.abs(to[last] - from[cur]);//从last的to位置来到cur货物所在位置的代价
+					int delive = Math.abs(to[cur] - from[cur]);//把当前cur货物送走的代价
+					int next = zuo(status | (1 << cur), cur, k, from, to);//后续代价
 					int curAns = come + delive + next;
 					ans = Math.min(ans, curAns);
 				}
