@@ -47,18 +47,25 @@ public class Code05_PickBestToGetInValue {
 	// 时间复杂度O(N*logN)
 	// (a[i] + a[j]) ^ 2 + b[i] + b[j]
 	// a[i]^2 + b[i] + 2a[i]a[j] + a[j]^2 + b[j]
-	// a[i] * ( a[i] + b[i]/a[i] + 2a[j] + (a[j]^2 + b[j])/a[i])
+	// a[i] * ( a[i] + b[i]/a[i] + 2a[j] + (a[j]^2 + b[j])/a[i]) //把括号中的东西弄出最小
 	// 令S(j) = 2a[j]
 	// 令T(j) = a[j]^2 + b[j]
 	// 那么对于i来说，就是选择j，让下面得到最小值
 	// a[i] * ( a[i] + b[i]/a[i] + S(j) + T(j)/a[i])
 	// 选择最小的S(j) + T(j)/a[i]，就得到了答案
 	// 剩下的一切都是围绕这个
+	// 思路：1、怎么来选S和T，把S排序，ai不变，随着S和T下标同时向后推，后面的指标可能会出现比前面指标要好的情况，ai固定
+	//  S 【20 10 5】  ｜ 【5 5】   ｜ 【5   3】
+	//  T 【30 5 15】  ｜ 【20 80】 ｜ 【20 40】
+	//  ai(s前-s后）>= T后-T前）/（
+	//  2、把【S[i],T[i]】位置先入栈，根据a[i]的值来决定单调栈中的进出规则，随着a[i]变大，可以从单调栈中给出结果
+	//  就是单调栈中的每个元素表示该元素在a[i]大于等于某个值的时候，该元素求出的结果更小
+	//  a[i]值大的先求
 	public static long[] inValues2(int[] a, int[] b) {
 		int n = a.length;
 		// i a[i] b[i]
 		// i s[i] t[i]
-		long[][] st = new long[n][2];
+		long[][] st = new long[n][2]; //加工出s和t
 		for (int i = 0; i < n; i++) {
 			st[i][0] = 2L * a[i];
 			st[i][1] = (long) a[i] * a[i] + b[i];
@@ -67,7 +74,7 @@ public class Code05_PickBestToGetInValue {
 		// 下面的比较器定义稍复杂，因为java里排序会严格检查传递性
 		// 所以策略参考了S和T，其实只需要根据S值从大到小排序即可
 		Arrays.sort(st, (x, y) -> x[0] != y[0] ? (x[0] > y[0] ? -1 : 1) : (x[1] <= y[1] ? -1 : 1));
-		int[] stack = new int[n];
+		int[] stack = new int[n]; //栈
 		int r = 0;
 		for (int i = 0; i < n; i++) {
 			// s 大 -> 小
@@ -75,8 +82,9 @@ public class Code05_PickBestToGetInValue {
 			long s = st[i][0];
 			long t = st[i][1];
 			while (r > 0 
-					&& tail(st, stack, r) >= // 栈顶，和栈顶再下一个 ai大到什么程度，栈顶更好!
+					&& tail(st, stack, r) >= // 栈顶，和栈顶再下一个 ai 大到什么程度，栈顶更好! 因为上面分析过：ai越大，目标值可能越小
 					// 当前记录，当ai大到什么程度，比栈顶好
+					//a[i]大于等于5的时候
 					better(st[stack[r - 1]][0], st[stack[r - 1]][1], s, t)) {
 				r--;
 			}

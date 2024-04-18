@@ -13,18 +13,19 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_11_5_week;
 // 测试链接 : https://leetcode.cn/problems/zigzag-conversion/
 public class Code02_ZigZagConversion {
 
+	//
 	public static String convert(String s, int row) {
 		int n = s.length();
 		if (row == 1 || row >= n) {
 			return s;
 		}
-		int t = 2 * (row - 1);
+		int t = 2 * (row - 1); //先拿到第一行和最后一行间隔的周期
 		char[] ans = new char[n];
 		int fill = 0;
 		for (int i = 0; i < row; i++) {
-			for (int j = i, nextColTop = t; j < n; j += t, nextColTop += t) {
+			for (int j = i, nextColTop = t; j < n; j += t, nextColTop += t) { //j=i，nextColTop记录下一行记录的东西
 				ans[fill++] = s.charAt(j);
-				if (i >= 1 && i <= row - 2 && nextColTop - i < n) {
+				if (i >= 1 && i <= row - 2 && nextColTop - i < n) { //i在1到row-2行这个区域需要在周期里面填东西
 					ans[fill++] = s.charAt(nextColTop - i);
 				}
 			}

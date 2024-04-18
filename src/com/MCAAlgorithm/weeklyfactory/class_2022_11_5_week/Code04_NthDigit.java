@@ -2,11 +2,25 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_11_5_week;
 
 // 给你一个整数 n ，
 // 请你在无限的整数序列 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ...]
-// 中找出并返回第 n 位上的数字。
+// 中找出并返回第 n 位上的数字。这个傻逼题就没说人话
+// 解释：得这么看1234567891011，第3位是3，第11位是0
 // 测试链接 : https://leetcode.cn/problems/nth-digit/
-// 1 <= n <= 2^31 - 1
+// 1 <= n <= 2^31 - 1，
+// 	一位数		2位数字		3位数字
+//  1-9     	10-99	    100-999
+// 上面三种情况每种情况一个数有1/2/3位数字可以表示9个数，90个数和900个数，那么它们每个区间总共有多少位
+//  解决9位         90 * 2       900 * 3
+// 思路：1 每个位置可以处理多少位，
 public class Code04_NthDigit {
-
+	//思路：1、n是几位数，这个表是累加的
+	// 比如：6889889，例子来1647，滑动到3位数2889，肯定是3位数，1647-189=1458，求一下三位数里面是第几个，从100开始第1458位是什么
+	// 思路2：看看这个1458位来自哪个数字，这个思路特别朴实，来自于哪个整数？用位运算来解决这个问题
+	// 开头是1有多少个数100-199，100个这样的数，所以是3*100=300，搞定300位，所以开头不是1。
+	// 开头是2有多少个数，也是100个，这样1和2两股一共200个，一次类推，开头是4的时候是100-499 = 500 ，500 *3 = 1500正好卡住，所以只能卡到4开头的数，最后这个数是5开头
+	// 之前的123帮着搞定了多少位（100-199｜200-299｜300-399 ｜400-499） 300 * 4 = 1200，接下来算是4开头的第几位数1458-1200 = 258，
+	// 258位是下一步想求的，待求的数是以5开头：5XX，对应的258位是哪个数
+	// 思路3：一旦第一位确定了，那么我们要从0开始这个数50xx有哪些？501到509，10个数*每个数字搞定3位=30位
+	// 51X，510-519 ，30位
 	public static final long[] under = { 
 			0L,    // 0位数，一共能解决几个位
 			9L,    // 1位数，一共能解决几个位
@@ -15,11 +29,12 @@ public class Code04_NthDigit {
 			38889L,
 			488889L,
 			5888889L,
-			68888889L,
-			788888889L,
+			68888889L, //7
+			788888889L, //6889889，肯定来自8位数
 			8888888889L,
 			98888888889L };
 
+	//帮助拿位数的
 	public static final int[] help = {
 			0,
 			1,    // 1
@@ -36,32 +51,59 @@ public class Code04_NthDigit {
 	public static int findNthDigit(int n) {
 		int len = 0;
 		for (int i = 1; i < under.length; i++) {
-			if (under[i] >= n) {
+			if (under[i] >= n) { //思路：1看看刚大于谁，就是几位数
 				len = i;
 				break;
 			}
 		}
 		// 算出几位够用！
 		// 5位数够用！
-		// nth - 1~4位所有的整数，帮忙搞定的数字个数
+		// nth - 1~4位所有的整数，帮忙搞定的数字个数，就是n - under[len - 1];
 		return number(0, len, help[len], help[len], (int) (n - under[len - 1]));
 	}
 
-	// path : 路径 左(低) <- 右(高)
-	// len : n -> 5位数 len = 5 固定！
+	// todo：这个有点像那个职工技能的问题，一定要看懂这个递归，非常好使【课上讲了挺久】
+	// path : 路径 左(低) <- 右(高）【这里就是为了方便取】，这个path是反着的：比如每位求出来是51643，但是path位置是4615，目的就是在每次求最高位的时候好弄，比如拿最高位5的时候 / 1 % 10就行，
+	// 第二位拿1的时候 / 10^1 % 10就行了，总之，借助help数组就行了
+	// len : n -> 5位数 len = 5 固定！调用者给固定的
 	// offset : 10000 目前要决定的是高1位
-	// 1000 目前要决定的是高2位
-	// 10 目前要决定的是高2位
-	// 可变
-	// all : 10000 固定
-	// nth : 第几个
+	// 			 1000 目前要决定的是高2位
+	// 			   10 目前要决定的是倒数第2位
+	// 可变，现在到了第几位
+	// all : 10000 固定，
+	// nth : 第几个，剩余找的位
+	// 返回这位数字是什么
 	public static int number(int path, int len, int offset, int all, int nth) {
-		if (offset == 0) {
-			return (path / help[nth]) % 10;
+		if (offset == 0) { //offset没有位了，最低位了
+			///path位置倒着的好处，每次找到对应位置直接模10
+			return (path / help[nth]) % 10;//在path中拿第几位，path：6 1 2 3 5 对应真实数字：53216
 		} else {
-			int j = (nth - 1) / (len * offset);
-			int cur = (offset == all ? 1 : 0) + j;
-			return number(cur * (all / offset) + path, len, offset / 10, all, nth - j * len * offset);
+			int cur = 0;
+			int minus = 0;
+			//思路：如果offset是all表示正在决定最高位的数字，那么肯定要从1开始；否则的话是从中间部分开始，尝试数字从0开始
+			// i就是开始尝试的数字
+			// j是股数，开头数字往高走，几股也往高走一位
+			for(int i = offset == all ? 1 : 0, j = 1; i <= 9; i++, j++){
+				//i=1，j=1 ，股数1 * 此时的offset（10000-19999）*len【len表示10000有多少位】
+				long under = (long) j * len * offset; //搞定了多少位
+				if(under >= nth){ //一旦这个数大于等于要找的位，break掉卡住i和j
+					cur = i;
+					break;
+				}
+				minus = (int)under;//不大的话，minus尽量去变大！！返回搞定了多少位
+			}
+			// cur *（all / offset）+ path，
+			// 思路：这句说了个啥，5位数，all=10000，offset=10000，假设当前数字决定了3（第5位），path一开始是0，
+			//  all/offset=3*（10000/ 10000） + path【0】 = 3，这样这个path就是倒着的了！把cur放在高位
+			// offset / 10，offset决定了一位，所以offset消去一位
+			// nth-minus还需要多少位要去搞定，例子：1458-1200，nth-1200
+			// len这个数是几位就是几位，不变
+			// all对应len的位数，也是不变的
+			return number(cur * (all / offset) + path, len, offset / 10, all, nth - minus);//继续递归
+			//拉到代码仓库的写法
+			//int j = (nth - 1) / (len * offset);
+			//int cur = (offset == all ? 1 : 0) + j;
+			//return number(cur * (all / offset) + path, len, offset / 10, all, nth - j * len * offset);
 		}
 	}
 

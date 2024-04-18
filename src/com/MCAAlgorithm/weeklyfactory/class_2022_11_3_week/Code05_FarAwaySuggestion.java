@@ -21,7 +21,7 @@ import java.util.TreeSet;
 // 0 1 2 3 4 5 6 7 8 9
 // X                 X
 // b.hello()，虽然座位4和座位5，离最近人的距离都是4(最远)
-// 这种情况，根据描述，分配座位编号最小的座位，返回4，此时
+// 这种情况，根据描述，分配座位编号 最小 的座位，返回4，此时
 // 0 1 2 3 4 5 6 7 8 9
 // X       X         X
 // b.hello()，座位2、座位6、座位7，都是离最近人的距离最远的(2)
@@ -36,8 +36,15 @@ import java.util.TreeSet;
 // 测试连接 : https://leetcode.cn/problems/exam-room/
 public class Code05_FarAwaySuggestion {
 
-	class ExamRoom {
+	//todo：这题代码要再看看
+	//思路：1、进来人
+	// 准备一个栈【开始，结束，能提供的距离】以距离排序的大根堆，开始的时候把【0，9，10】放入栈中，第一个人来，弹出，修改把【1，9，9】进栈，能提供9的距离
+	// 再来人，修改【1，8，4】0和9位置有人，只能提供4的距离把这个放到大根队中，再进来人把4位置占人，【1，3，2】【5，8，2】进栈，以距离相等的时候，以开始位置小的放在上面。
+	// 再进来人 2 分配 【5，8，2】【1，1，1】【3，3，1】，再进来【1，1，1】【3，3，1】【5，5，1】【7，8，1】
+	// 结论：每次提供作为的时候只弹出最上面的肯定符合
+	// 2、离开人 如果离开人 准备i一个【6，6，1】；找到小于6最近的和大于6最近的，然后merge【5，5，1】【7，8，1】并把这个区间合并【5，8，2】进去
 
+	class ExamRoom {
 		// 空闲座位的类
 		// 比如，一共8个空间
 		// 0 1 2 3 4 5 6 7
@@ -54,7 +61,7 @@ public class Code05_FarAwaySuggestion {
 		public  class FreeSpace {
 			public int start;
 			public int end;
-			public int far;
+			public int far; //提供的距离
 
 			public FreeSpace(int a, int b, int c) {
 				start = a;
@@ -69,7 +76,7 @@ public class Code05_FarAwaySuggestion {
 		// far越远，越早使用
 		// far一样，start越小，越早使用
 		// 需要看体系学习班，有序表、比较器的内容
-		public TreeSet<FreeSpace> seats;
+		public TreeSet<FreeSpace> seats; //所有的座位
 		// 所有空闲区间，根据开头位置从小到大的一个有序表
 		// 方便定位，举个例子
 		// 比如所有的空闲区间为：
@@ -90,7 +97,7 @@ public class Code05_FarAwaySuggestion {
 		// 23~56 60~60 64~78
 		// 不能合并，因为这三段无法通过60~60连起来
 		// 但是如果能连接的话，这么做就很方便了
-		public TreeSet<FreeSpace> heads;
+		public TreeSet<FreeSpace> heads; //某个区间以谁开头谁结尾提供多少距离，离开的时候可查这个表floor和ceil，到时候合并
 		// 那些座位已经使用了，都在这个哈希表里
 		public HashSet<Integer> used;
 
@@ -99,9 +106,9 @@ public class Code05_FarAwaySuggestion {
 			// far越远，越早使用
 			// far一样，start越小，越早使用
 			// 看比较器的内容！
-			seats = new TreeSet<>((a, b) -> a.far != b.far ? (b.far - a.far) : (a.start - b.start));
+			seats = new TreeSet<>((a, b) -> a.far != b.far ? (b.far - a.far) : (a.start - b.start));//距离大的放上面，一样的话序号小的放上面
 			// 根据开头位置从小到大的一个有序表
-			heads = new TreeSet<>((a, b) -> a.start - b.start);
+			heads = new TreeSet<>((a, b) -> a.start - b.start); //按照start位置排序
 			used = new HashSet<>();
 			// 最开始时，0~n-1整个范围都是空闲区间
 			add(0, right, Integer.MAX_VALUE);

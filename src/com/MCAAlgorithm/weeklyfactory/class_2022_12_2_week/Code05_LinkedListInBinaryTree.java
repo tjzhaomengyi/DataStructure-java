@@ -26,9 +26,11 @@ public class Code05_LinkedListInBinaryTree {
 
 	// 最优解
 	// 官方题解都没有写的最优解
-	// KMP算法来解
+	// KMP算法来解 ，打死也想不出来这方法
 	// 如果二叉树节点数是N，链表节点数M，时间复杂度为O(M+N)
 	// 提交如下的所有方法，可以直接通过
+	//思路：使用KMP算法不匹配回退的方法 ababa（target串） 和 ababc（match串），到a和c的位置比对发现两个人不一样了，那么c下标位置的就要往前回退回去，
+	// 如果不一样了，让match串回退。在树遍历的时候
 	public static boolean isSubPath(ListNode head, TreeNode root) {
 		int n = 0;
 		ListNode tmp = head;
@@ -67,20 +69,20 @@ public class Code05_LinkedListInBinaryTree {
 		return next;
 	}
 
-	// 当前目标串 -> TreeNode cur 这个字符
-	// 一个叫match串，match，mi位置的字符
+	// 当前目标串 来到 TreeNode cur 这个字符
+	// 一个叫match串，match来到mi位置的字符，cur字符，如果匹配不上match，去next找后续修改的匹配字符，next数组提前生成好
 	// 返回cur后续的路能不能把match串配完！
 	public static boolean find(TreeNode cur, int mi, int[] match, int[] next) {
-		if (mi == match.length) {
+		if (mi == match.length) { //mi到了终止位置，
 			return true;
 		}
-		if (cur == null) {
+		if (cur == null) { //当前节点是空了，目标串没有字符了，但是mi没完，那就是配不出来了
 			return false;
 		}
 		// 当前目标串的字符 :  cur.val
 		// 当前match串的字符 : match[mi]
-		while (mi >= 0 && cur.val != match[mi]) {
-			mi = next[mi];
+		while (mi >= 0 && cur.val != match[mi]) { //但是要保证
+			mi = next[mi];//如果配不上，就往前蹦，其实是在match串往前蹦，所以要保证mi不能在左侧越界
 		}
 		// 后续的字符，先走左，配去！
 		// 后续的字符，分裂可能性了！走右，配去！

@@ -8,7 +8,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_12_4_week;
 // 你可以在任一节点开始和停止，也可以多次重访节点，并且可以重用边
 // 测试链接 : https://leetcode.cn/problems/shortest-path-visiting-all-nodes/
 public class Code03_ShortestPathVisitingAllNodes {
-
+	//利用Folyd算法搞定一个点到任何一点的记录，然后做一个动态规划
 	public static int shortestPathLength(int[][] graph) {
 		int n = graph.length;
 		int[][] distance = floyd(n, graph);
@@ -20,11 +20,12 @@ public class Code03_ShortestPathVisitingAllNodes {
 			}
 		}
 		for (int i = 0; i < n; i++) {
-			ans = Math.min(ans, process(1 << i, i, n, distance, dp));
+			ans = Math.min(ans, process(1 << i, i, n, distance, dp)); //从每个点出发都尝试一遍找到最小的结果
 		}
 		return ans;
 	}
 
+	//小零件：跑一个Floyd算法，得到每两个点之间的最近距离
 	public static int[][] floyd(int n, int[][] graph) {
 		int[][] distance = new int[n][n];
 		// 初始化认为都没路
@@ -67,12 +68,13 @@ public class Code03_ShortestPathVisitingAllNodes {
 	//        0 0 1 1 0 1
 	// cur : 当前所在哪个城市！
 	// n : 一共有几座城
+	// distance：通过Floyd算法直接求出来，是每个点之间的最短距离，可以通过jump点跳跃
 	// 返回值 : 从此时开始，逛掉所有的城市，至少还要走的路，返回！
 	public static int process(int status, int cur, int n, int[][] distance, int[][] dp) {
 		// 5 4 3 2 1 0
 		// 1 1 1 1 1 1
 		// 1 << 6 - 1
-		if (status == (1 << n) - 1) {
+		if (status == (1 << n) - 1) { // 所有城市都去过了，停
 			return 0;
 		}
 		if (dp[status][cur] != -1) {
@@ -85,8 +87,8 @@ public class Code03_ShortestPathVisitingAllNodes {
 		// cur : 0
 		// next : 2 4 5
 		for (int next = 0; next < n; next++) {
-			if ((status & (1 << next)) == 0 && distance[cur][next] != Integer.MAX_VALUE) {
-				int nextAns = process(status | (1 << next), next, n, distance, dp);
+			if ((status & (1 << next)) == 0 && distance[cur][next] != Integer.MAX_VALUE) { //没去过的城市去一下，并且cur到next城市的距离可达
+				int nextAns = process(status | (1 << next), next, n, distance, dp);//更改状态
 				if (nextAns != Integer.MAX_VALUE) {
 					ans = Math.min(ans, distance[cur][next] + nextAns);
 				}

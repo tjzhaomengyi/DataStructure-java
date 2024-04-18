@@ -11,7 +11,7 @@ import java.util.Arrays;
 // 给你一个整数数组 stones ，其中 stones[i] 表示 从左边开始 的第 i 个石头的值，
 // 如果爱丽丝和鲍勃都 发挥出最佳水平 ，请返回他们 得分的差值 。
 // 测试链接 : https://leetcode.cn/problems/stone-game-vii/
-public class Code04_StoneGameVII {
+public class  Code04_StoneGameVII {
 
 	// 会超时但是思路是对的，如果想通过就把这个暴力递归改成下面的动态规划
 	// 改法课上都讲了
@@ -25,46 +25,46 @@ public class Code04_StoneGameVII {
 		return Math.abs(alice - bob);
 	}
 
-	// 先手
+	// 先手，在L到R上的累加和是sum，alice先手，尽量得分
 	public static int f(int[] stones, int sum, int L, int R) {
-		if (L == R) { // 只能一块儿了！
+		if (L == R) { // 只能一块儿了！假如只剩5了，先手拿数，先手要得剩下的分数
 			return 0;
 		}
 		// p1
-		// L
+		// L ，sum-stones[L]是先手获得分数，剩下部分变成后手
 		int p1 = sum - stones[L] + s(stones, sum - stones[L], L + 1, R);
 		int against1 = f(stones, sum - stones[L], L + 1, R);
 		//          p2
 		//          R
 		int p2 = sum - stones[R] + s(stones, sum - stones[R], L, R - 1);
-		int against2 = f(stones, sum - stones[R], L, R - 1);
-		return (p1 - against1) > (p2 - against2) ? p1 : p2;
+		int against2 = f(stones, sum - stones[R], L, R - 1); //对手先手
+		return (p1 - against1) > (p2 - against2) ? p1 : p2; //可能性1和可能性2，先手和后手的差值谁大，选谁
 	}
 
 	// 后手！
 	public static int s(int[] stones, int sum, int L, int R) {
-		if (L == R) {
+		if (L == R) { //哈哈哈，眼睁睁看着最后的数被拿走
 			return 0;
 		}
 		// 当前的是后手
-		// 对手，先手！
+		// 对手，先手！让对手先拿
 		int against1 = sum - stones[L] + s(stones, sum - stones[L], L + 1, R);
-		// 当前用户的得分！后手！是对手决定的！
+		// 当前用户的得分！后手！是对手决定的！当前用户get1接against1拿L剩下的结果
 		int get1 = f(stones, sum - stones[L], L + 1, R);
 		int against2 = sum - stones[R] + s(stones, sum - stones[R], L, R - 1);
 		int get2 = f(stones, sum - stones[R], L, R - 1);
-		return (against1 - get1) > (against2 - get2) ? get1 : get2;
+		return (against1 - get1) > (against2 - get2) ? get1 : get2;//【这里得想明白，一切看alice，以他有利为准，alice使劲拉分】求差值大的，并且对对手更有利，选哪个
 	}
 
-	// 动态规划版
+	// 动态规划版【一个从递归到动态规划的改写】
 	public static int stoneGameVII2(int[] stones) {
 		int N = stones.length;
 		int[] presum = new int[N + 1];
 		for (int i = 0; i < N; i++) {
 			presum[i + 1] = presum[i] + stones[i];
 		}
-		int[][] dpf = new int[N][N];
-		int[][] dps = new int[N][N];
+		int[][] dpf = new int[N][N]; //先手表
+		int[][] dps = new int[N][N]; //后手表
 		for (int L = N - 2; L >= 0; L--) {
 			for (int R = L + 1; R < N; R++) {
 				int sumLR = presum[R + 1] - presum[L];

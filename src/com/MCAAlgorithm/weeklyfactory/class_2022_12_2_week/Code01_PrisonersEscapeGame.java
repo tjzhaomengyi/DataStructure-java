@@ -66,9 +66,12 @@ public class Code01_PrisonersEscapeGame {
 		arr[j] = tmp;
 	}
 
-	// 公式计算得到的概率
-	// 请确保tryTimes大于等于people的一半
-	// 生还的方法数 : C(r,100) * (r-1)! * (100-r)!，r从51~100
+	// 公式计算得到的概率：31%的概率，只要下标循环怼形成的环大小不大于50就可以
+	// 只要生成环个数大于50就肯定都死，那么就算51到100每次生成的概率总和有多少，选出51个数组成最大环C(51,100)
+	// 思路:[0,1,2,3,4],如果0不在自己的位置构成这种环有几种选择，4种，看看3有几种选择，3种。。。。构成这种环的个数4*3*2*1 =》 (n-1)!种
+	//   100个数选择51个数组成大环，51个数的排列方式有50！，剩下的数的排列方式49！
+	//  【结论】请确保tryTimes大于等于people的一半
+	//  生还的方法数 : C(r,100) * (r-1)! * (100-r)!，r从51~100
 	public static double escape2(int people, int tryTimes) {
 		BigDecimal kill = new BigDecimal("0");
 		for (int maxCircle = tryTimes + 1; maxCircle <= people; maxCircle++) {

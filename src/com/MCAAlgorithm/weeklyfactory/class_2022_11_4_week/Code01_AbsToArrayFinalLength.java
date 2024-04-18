@@ -42,6 +42,9 @@ public class Code01_AbsToArrayFinalLength {
 		return len == list.size();
 	}
 
+	// 类似华为哪个+a、-a、+b、-b那道题
+	// 数学结论：（1）全正数2 4 10 ， 5个 n = 最大值 / 最大公约数
+	// （2）非负数组 有重复值和0的
 	// 正式方法
 	// 时间复杂O(N)
 	public static int finalLen2(int[] arr) {
@@ -51,7 +54,7 @@ public class Code01_AbsToArrayFinalLength {
 		for (int num : arr) {
 			max = Math.max(max, num);
 			if (num != 0) {
-				gcd = num;
+				gcd = num; //先让gcd等于任何非0的值
 			}
 		}
 		if (gcd == 0) { // 数组中都是0
@@ -61,33 +64,34 @@ public class Code01_AbsToArrayFinalLength {
 		HashMap<Integer, Integer> counts = new HashMap<>();
 		for (int num : arr) {
 			if (num != 0) {
-				gcd = gcd(gcd, num);
+				gcd = gcd(gcd, num); //所有非0数的最大公约数
 			}
-			counts.put(num, counts.getOrDefault(num, 0) + 1);
+			counts.put(num, counts.getOrDefault(num, 0) + 1);//每种数出现的词频
 		}
 
 		// max / gcd
-		int ans = max / gcd;
-		ans += counts.getOrDefault(0, 0);
+		int ans = max / gcd; //如果不算重复数字和0，最终数组长度是多少，然后看看后面还要加什么
+		ans += counts.getOrDefault(0, 0); // 先看看数组中有多少0
 
-		boolean add = false;
+		boolean add = false;//原数组是否把0加进去
 		// 每个数，出现的次数
 		for (int key : counts.keySet()) {
 			if (key != 0) {
-				ans += counts.get(key) - 1;
+				ans += counts.get(key) - 1; //词频如果不是一个，就要把重复的加进去
 			}
 			// 3个5， 0
 			// 5 5 2个 0 +1
 			// 7 7 7 3个
+			//如果出现的次数大于了1，并且没有加过0，并且这个数组中不包括0
 			if (!add && counts.get(key) > 1 && !counts.containsKey(0)) {
 				ans++;
-				add = true;
+				add = true;//如果原数组把0加进去了，后续就不需要加了
 			}
 		}
 		return ans;
 	}
 
-	// O(1)
+	// O(1)，老逼gcd模版求最大公约数
 	public static int gcd(int m, int n) {
 		return n == 0 ? m : gcd(n, m % n);
 	}

@@ -12,6 +12,9 @@ import java.util.ArrayList;
 // 测试链接 : https://leetcode.cn/problems/prefix-and-suffix-search/
 public class Code04_PrefixAndSuffixSearch {
 
+	// 结构里面有apple-0 apxle-1 apsle-2，f（ap,le）给前缀和后缀字符串，返回符合这两个结果最大序号，这个例子就是2
+	// 找到ap列表里面和el列表里面的公共部分最大的序号就是，前缀树把沿途节点加到list中
+	//前缀树，好久没有刷到前缀树的题了
 	// 提交以下这个类
 	class WordFilter {
 

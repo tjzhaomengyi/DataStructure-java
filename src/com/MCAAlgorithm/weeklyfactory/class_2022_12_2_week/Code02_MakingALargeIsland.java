@@ -7,10 +7,12 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_12_2_week;
 // 测试链接 : https://leetcode.cn/problems/making-a-large-island/
 public class Code02_MakingALargeIsland {
 
+	//思路：因为需要尝试回退，所以不用并查集，要用岛染色的解法
 	public static int largestIsland(int[][] grid) {
 		int n = grid.length;
 		int m = grid[0].length;
 		int id = 2;
+		//把所有的岛感染成2
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 1) {
@@ -18,7 +20,7 @@ public class Code02_MakingALargeIsland {
 				}
 			}
 		}
-		//     ? ? ?
+		//     ? ? ?【0号和1号不用】
 		// 0 1 2 3 4 9
 		int[] sizes = new int[id];
 		int ans = 0;
@@ -34,7 +36,7 @@ public class Code02_MakingALargeIsland {
 		boolean[] visited = new boolean[id];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				if (grid[i][j] == 0) {
+				if (grid[i][j] == 0) {//在矩阵遍历所有的0
 					int up = i - 1 >= 0 ? grid[i - 1][j] : 0;
 					int down = i + 1 < n ? grid[i + 1][j] : 0;
 					int left = j - 1 >= 0 ? grid[i][j - 1] : 0;

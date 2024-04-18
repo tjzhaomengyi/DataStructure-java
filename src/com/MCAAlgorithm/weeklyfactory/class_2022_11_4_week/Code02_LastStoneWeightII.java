@@ -16,6 +16,8 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_11_4_week;
 // 测试链接 : https://leetcode.cn/problems/last-stone-weight-ii/
 public class Code02_LastStoneWeightII {
 
+	//【a b c d】 a+b-(c+d)就是每个数字前面要不是+或者-，尽量让连部分的和尽量接近,就是让两部分和尽量接近
+	// todo：类似体系学习班23-splitsumclosed，让两部分和尽量接近，看一下那个题的解释
 	public int lastStoneWeightII(int[] arr) {
 		int n = arr.length;
 		int sum = 0;
@@ -34,6 +36,7 @@ public class Code02_LastStoneWeightII {
 				dp[i][rest] = Math.max(p1, p2);
 			}
 		}
+		// sum-dp[0][half]较大的子集
 		return sum - dp[0][half] - dp[0][half];
 	}
 

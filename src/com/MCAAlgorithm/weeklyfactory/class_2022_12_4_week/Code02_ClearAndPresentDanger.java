@@ -12,6 +12,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
+// 佛洛依德Floyd解决任何两点的最短距离都有路径
+// 思路：三个for循环，枚举所有的跳点jump中途点，for遍历from，for遍历to，最外层一定是中途点！
 public class Code02_ClearAndPresentDanger {
 
 	public static int N = 100;
@@ -49,16 +51,19 @@ public class Code02_ClearAndPresentDanger {
 
 	}
 
+	/**
+	 * Floyd算法
+	 */
 	public static void floyd() {
 		// O(N^3)的过程
 		// 枚举每个跳板
 		// 注意! 跳板要最先枚举，然后是from和to
-		for (int jump = 0; jump < n; jump++) { // 中途！
+		for (int jump = 0; jump < n; jump++) { // 枚举中途点，一定要在最外层，如果from-jump-to的距离小于from-to就使用jump点！
 			for (int from = 0; from < n; from++) { // from
 				for (int to = 0; to < n; to++) { // to
 					if (distance[from][jump] != Integer.MAX_VALUE && distance[jump][to] != Integer.MAX_VALUE
 							&& distance[from][to] > distance[from][jump] + distance[jump][to]) {
-						distance[from][to] = distance[from][jump] + distance[jump][to];
+						distance[from][to] = distance[from][jump] + distance[jump][to]; // 更新最小距离
 					}
 				}
 			}

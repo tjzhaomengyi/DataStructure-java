@@ -9,11 +9,12 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_12_4_week;
 // 测试链接 : https://leetcode.cn/problems/as-far-from-land-as-possible/
 public class Code04_AsFarFromLandAsPossible {
 
+	// 思路：一个bfs搞定，把陆地收集上来，陆地的距离就1，然后收集每个陆地点，一点点往外遍历，直到看到最外的海洋有多远，一层层扩
 	// 队列接受一个东西，比如(i,j)，就加到r位置
 	// queue[r][0] = i
 	// queue[r++][1] = j
 	// 队列弹出一个东西，就把l位置的东西弹出
-	public static int[][] queue = new int[10000][2];
+	public static int[][] queue = new int[10000][2];//又开始了，直接用现成的数据结构Queue就完了
 	public static int l;
 	public static int r;
 	// 一个东西进入了队列，比如(i,j)进入了，visited[i][j] = true
@@ -24,7 +25,7 @@ public class Code04_AsFarFromLandAsPossible {
 
 	public static int maxDistance(int[][] grid) {
 		// 清空变量
-		// 只要l = 0，r = 0，队列就算被清空了
+		// 只要l = 0，r = 0，队列就算被清空了，
 		l = 0;
 		r = 0;
 		find = 0;

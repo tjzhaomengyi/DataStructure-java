@@ -13,7 +13,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2022_11_1_week;
 // 1 0 1
 // 这个矩阵就有2个得分点
 // 给定正数N，正数M，求所有可能的情况里，所有的得分点总和
-// 1 <= N、M <= 10^9
+// 1 <= N、M <= 10^9【就这个时间复杂度直接就想到能拿数学结果直接怼】
 public class Code02_ScoreAllMatrix {
 
 	public static int score1(int n, int m) {
@@ -52,6 +52,16 @@ public class Code02_ScoreAllMatrix {
 				|| (m[r - 1][c - 1] == 1 && m[r][c - 1] == 0 && m[r - 1][c] == 0 && m[r][c] == 1);
 	}
 
+
+	//"采分点"：以采分点为右下角可以得多少分，n*m-n-m+1是总共采分点的数量，所情况就是以下面可能点就是4 * 4 - 8 + 1= 9个采分点，可以以九个点作为采分点确定得分区域
+	// * * * *
+	// * 1 0 *
+	// * 0 1 *
+	// * * * *
+	//思路：确定一个采分点，只有两种得分的方法：（1）1 0   （2）0 1
+	//										0 1       1 0
+	// 剩下周围的x随意变，所以是2*（M*N-4）
+	// 采分点有a个，每个采分点有2中情况，每确定一种采分点的情况，剩下有2^（n*m-4）种情况
 	public static int score2(int n, int m) {
 		if (n < 2 || m < 2) {
 			return 0;
@@ -65,7 +75,7 @@ public class Code02_ScoreAllMatrix {
 		// 算2^(k)次方的
 		// 体系学习班，章节27，学习快速幂
 		// 本代码，不处理mod
-		return (n * m - m - n + 1) * (1 << (n * m - 3));
+		return 2 * (n * m - m - n + 1) * (1 << (n * m - 4));
 	}
 
 	public static void main(String[] args) {

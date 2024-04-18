@@ -43,35 +43,37 @@ public class Code01_ComplementaryPairsInStringArray {
 		return odd < 2;
 	}
 
-	// 正式方法
+	// 正式方法,互补条件：（1）偶数次出现，（2）如果一个字符是奇数，只能出现一次，和剩下出现的偶数次的字符串勾结在一起
+	// 用一个整数，代表每种字符的出现次数的奇偶性
 	// O(N*M)，N字符串长，M字符串平均长度
 	// 时间复杂度O(N) + O(M)，一共有多少个字符串N，一共有多少字符M
 	public static int num2(String[] strs) {
 		// key : 某一种状态(int类型，状态)
-		// z..d c b a
-		// 3 2 1 0
-		// 1 0 1 1
+		// 【字母】z..d c b a
+		// 【位置】   3 2 1 0
+		// 【出现】   1 0 1 1
 		// value : 这样状态的字符串，有几个
+		//
 		HashMap<Integer, Integer> status = new HashMap<>();
 		int ans = 0;
 		for (String str : strs) {
 			// 当前str这个字符串
 			// 它自己的状态，加工好
 			// d c b a
-			// 0 0 0 1
-			int cur = 0;
+			// 0 0 0 0
+			int cur = 0; //cur的状态，代表其status
 			for (int i = 0; i < str.length(); i++) {
-				cur ^= 1 << (str.charAt(i) - 'a');
+				cur ^= 1 << (str.charAt(i) - 'a'); //用异或运算统计当前字符串产生的奇偶性状态
 			}
 			// 一点点都不捣乱，cur，map有几个状态也是cur的字符串
-			ans += status.getOrDefault(cur, 0);
+			ans += status.getOrDefault(cur, 0); //找找表里也是cur的字符串，把这些搞在一起就可以组成对
 			for (int i = 0; i < 26; i++) {
-				// 每一位捣乱一下
+				// 每一位捣乱一下，cur^(1 << i) //这题的可爱卡哇伊的地方呢
 				// a
 				// b
 				// c
 				// z
-				ans += status.getOrDefault(cur ^ (1 << i), 0);
+				ans += status.getOrDefault(cur ^ (1 << i), 0);//看看有没有
 			}
 			status.put(cur, status.getOrDefault(cur, 0) + 1);
 		}

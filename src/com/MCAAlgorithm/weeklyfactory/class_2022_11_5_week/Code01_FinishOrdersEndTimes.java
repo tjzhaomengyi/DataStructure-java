@@ -15,7 +15,7 @@ import java.util.PriorityQueue;
 // 每一个流水线可以承接任何类型的任务，耗时就是componets数组给定的
 // 所有订单的下单时间一定是有序的，也就是orders数组，是根据下单时间排序的
 // 每一个订单开始执行的时间不能早于下单时间，
-// 如果有多个流水线都可以执行当前订单，选择编号最小的流水线
+// 如果有多个流水线都可以执行当前订单，选择编号最小的流水线【策略】
 // 根据上面说的任务执行细节，去依次完成所有订单
 // 返回长度为M的数组ans，也就是和orders等长
 // ans[i][0]代表i号订单是由哪条流水线执行的
@@ -71,18 +71,20 @@ public class Code01_FinishOrdersEndTimes {
 	// M是订单数量，N是流水线数量
 	public static int[][] times2(int nums, int[] componets, int[][] orders) {
 		int n = orders.length;
-		// 睡眠堆
+		// 睡眠堆，就是正在执行，待唤醒的时候一定是根据谁早醒（谁最快完成任务）谁放在上面
+		// 在睡眠堆一样唤醒时间，把小的编号先唤醒
 		PriorityQueue<Line> sleepLines = new PriorityQueue<>(new WakeUpComparator());
-		// 可用堆
+		// 可用堆，每次从可用堆中取出流水线，然后算出待释放时间，放入睡眠堆
+		// 可用堆只根据序号从小到大排序，因为一旦可用，随时都可以用，跟时间没有关系
 		PriorityQueue<Line> canUseLines = new PriorityQueue<>(new IndexComparator());
 		for (int i = 0; i < nums; i++) {
-			canUseLines.add(new Line(0, i));
+			canUseLines.add(new Line(0, i));//上来所有的流水线都是可用的
 		}
 		int[][] ans = new int[n][2];
 		for (int i = 0; i < orders.length; i++) {
 			int startTime = orders[i][0];
 			int jobType = orders[i][1];
-			// 当前订单在start时刻下单，所有唤醒时间比time早的流水线全可以考虑
+			// 当前订单在start时刻下单，所有唤醒时间比time早的流水线全可以考虑,把睡眠堆里面可用的（比当前开始时间小的）唤醒，放入can流水线中
 			while (!sleepLines.isEmpty() && sleepLines.peek().time <= startTime) {
 				canUseLines.add(sleepLines.poll());
 			}
@@ -97,24 +99,24 @@ public class Code01_FinishOrdersEndTimes {
 				// 如果当前时刻，可以使用的流水线不存在，需要等到可以唤醒的最早那个
 				// 如果可以唤醒的最早流水线，不只一个
 				// 选编号小的，看比较器的注释
-				use = sleepLines.poll();
+				use = sleepLines.poll();//没有可用的流水线，只能使用临近一个马上结束的续着做，完成时间是当前流水线的完成时间+这个工作的使用时间
 				ans[i][1] = use.time + componets[jobType];
 			} else {
 				// 如果当前时刻，可以使用的流水线存在，需要使用编号最小的
 				use = canUseLines.poll();
 				ans[i][1] = startTime + componets[jobType];
 			}
-			ans[i][0] = use.index;
-			use.time = ans[i][1];
-			sleepLines.add(use);
+			ans[i][0] = use.index;//汇总i号任务使用的流水线编号
+			use.time = ans[i][1]; //把使用的流水线时间的结束时间进行更新
+			sleepLines.add(use); //放入睡眠流水线
 		}
 		return ans;
 	}
 
 	// 流水线
 	public static class Line {
-		public int time;
-		public int index;
+		public int time; //醒来的时间
+		public int index; //编号，在选择的时候选小编号的
 
 		public Line(int t, int i) {
 			time = t;

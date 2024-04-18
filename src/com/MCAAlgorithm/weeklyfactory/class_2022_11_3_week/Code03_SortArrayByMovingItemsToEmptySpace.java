@@ -13,11 +13,17 @@ import java.util.Arrays;
 // 任何数字只能搬家到洞里，并且走后留下洞
 // 通过搬家的方式，想变成有序的，有序有两种形式
 // 比如arr = [4, 2, 0, 3, 1]，变成
-// [0, 1, 2, 3, 4]或者[1, 2, 3, 4, 0]都叫有序
+// [0, 1, 2, 3, 4]或者[1, 2, 3, 4, 0]都叫有序,洞在开头和结尾都行
 // 返回变成任何一种有序的情况都可以，最少的数字搬动次数
 // 测试链接 : https://leetcode.cn/problems/sort-array-by-moving-items-to-empty-space/
 public class Code03_SortArrayByMovingItemsToEmptySpace {
 
+	//下标循环怼，定洞在前面和洞在结尾两种情况，看哪种情况最小
+	//思路：（1）上来先找和0有关的环
+	// 例子【4 1 0 2 3】 //0位不是0，是4，交换【3 1 0 2 4】3-》2-》0，这个下标循环怼里面有0，在以0位置开头的数这个环结束了
+	// （2）其中一个环中有0时候，至少要怼m-1次，m是这个环的大小 【3（0） 0（2） 2（3）】（）中的数表示该数在原数组中的下标
+	// （3）当遇到没有0的环，说明有0的环已经处理完了【4（1） 6（4） 1（6）】至少要交换m+1次，这里不能直接交换，要把0这个洞找回来再交换，就是在这个数组里面加一个0的洞
+	// 		所以这种情况是M+1次交换【观察出来的，通过下标循环怼一条条看，没有道理】
 	public static int sortArray(int[] nums) {
 		// 长度n
 		// ans1 : 0 1 2 3 4 .... 这种样子，至少交换几次
@@ -25,8 +31,8 @@ public class Code03_SortArrayByMovingItemsToEmptySpace {
 		// m : 每个环里有几个数
 		// next : 往下跳的位置
 		int n = nums.length, ans1 = 0, ans2 = 0, m, next;
-		boolean[] touched = new boolean[n];
-		// 0 1 2 3 4...
+		boolean[] touched = new boolean[n];//哪个位置已经是正常对应了
+		// 以 0开头为结果的次数统计，0 1 2 3 4...
 		for (int i = 0; i < n; i++) {
 			// i == 0，找到的环，必含有0，m，m-1
 			// i !=0 找到的环，必不含有0，m，m+1
@@ -35,25 +41,27 @@ public class Code03_SortArrayByMovingItemsToEmptySpace {
 				// i(6) 9 12 17
 				// Y
 				touched[i] = true;
-				m = 1;
-				next = nums[i];
-				while (next != i) {
+				m = 1;//统计环里的元素
+				next = nums[i]; //next位置就是当前数要去的位置
+				while (next != i) { //这道题值求次数，所以这里不用交换，直接往下跳！统计环里的的数量m
 					m++;
-					touched[next] = true;
+					touched[next] = true;//这里标记一下已经走过了，下次i再到这个next位置的时候就直接跳过了
 					next = nums[next];
 				}
-				// m 当前环，有几个数
+				// m 当前环，有几个数，当前环有一个数来到6位置本来就是6位置不用交换啊，走了
 				// 6
 				// 6
 				if (m > 1) {
-					ans1 += i == 0 ? (m - 1) : (m + 1);
+					ans1 += i == 0 ? (m - 1) : (m + 1);//如果这个次统计使用0开始，就是上面我们找到的连个数学结论的结果
 				}
 			}
 		}
+
+		//以0为结尾的情况，就这里稍微有点绕
 		Arrays.fill(touched, false);
 		// 1 2 3 4 ... 0
 		// i == n-1
-		for (int i = n - 1; i >= 0; i--) {
+		for (int i = n - 1; i >= 0; i--) {//要先找以0开头的环，这里n-1肯定要有0 的
 			if (!touched[i]) {
 				touched[i] = true;
 				m = 1;
@@ -62,14 +70,16 @@ public class Code03_SortArrayByMovingItemsToEmptySpace {
 				// i(8) -> 4
 				// 0
 				// i(8) -> n-1
-				next = nums[i] == 0 ? (n - 1) : (nums[i] - 1);
-				while (next != i) {
+				//如果num[i]找到的是0，下一个位置直接去到0该去的位置n-1，
+				// 如果碰到的不是0，去num[i]-1位置，这个位置是下一步要到的位置，就是nums[i]实际应该摆放的位置
+				next = nums[i] == 0 ? (n - 1) : (nums[i] - 1);//不等于0的时候错一位，小点就这题的难点，没了！
+				while (next != i) {//这个圈圈一直没有转回来就一直往下走
 					m++;
-					touched[next] = true;
+					touched[next] = true;//标记一下走过了，
 					next = nums[next] == 0 ? (n - 1) : (nums[next] - 1);
 				}
 				if (m > 1) {
-					ans2 += i == n - 1 ? (m - 1) : (m + 1);
+					ans2 += i == n - 1 ? (m - 1) : (m + 1); //i=n-1这里肯定有0，就是m-1次的交换，剩下就是m+1次
 				}
 			}
 		}

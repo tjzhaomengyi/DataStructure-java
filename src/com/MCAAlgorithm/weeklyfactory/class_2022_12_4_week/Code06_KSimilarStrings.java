@@ -9,13 +9,18 @@ import java.util.PriorityQueue;
 // 测试链接 : https://leetcode.cn/problems/k-similar-strings/
 public class Code06_KSimilarStrings {
 
+	//解法：A*算法
+	//思路：如果前缀一样就不要换了，aaaaccb ｜ aaacacb，a和c不一样了，
+	// c	a	   a	b
+	// a	a	   b	c
+	// 如果交换上面ac对应的就不要碰，不要将换，碰哪个ab那列把c和哪个a交换
 	public static class Node {
 		public int cost; // 代价，已经换了几回了！
-		public int guess;// 猜测还要换几回，能变对！
-		public int where;// 有必须去比对的下标，左边不再换了！
+		public int guess;// 猜测还要换几回，能变对！这个用evaluate估计
+		public int where;// 有必须去比对的下标，左边不再换了！到哪位不一样了才考虑交换，直到撸到越界
 		public String str; // 当前的字符
 
-		public Node(int r, int g, int i, String s) {
+		public Node(int r, int g, int i, String s) { //Dijkstra的点
 			cost = r;
 			guess = g;
 			where = i;
@@ -25,7 +30,7 @@ public class Code06_KSimilarStrings {
 
 	public static int kSimilarity(String s1, String s2) {
 		int len = s1.length();
-		PriorityQueue<Node> heap = new PriorityQueue<>((a, b) -> (a.cost + a.guess) - (b.cost + b.guess));
+		PriorityQueue<Node> heap = new PriorityQueue<>((a, b) -> (a.cost + a.guess) - (b.cost + b.guess));//真实的代价和猜测的代价谁小
 		HashSet<String> visited = new HashSet<>();
 		heap.add(new Node(0, 0, 0, s1));
 		while (!heap.isEmpty()) {
@@ -33,17 +38,21 @@ public class Code06_KSimilarStrings {
 			if (visited.contains(cur.str)) {
 				continue;
 			}
-			if (cur.str.equals(s2)) {
+			if (cur.str.equals(s2)) { //一样了
 				return cur.cost;
 			}
 			visited.add(cur.str);
 			int firstDiff = cur.where;
-			while (cur.str.charAt(firstDiff) == s2.charAt(firstDiff)) {
+			while (cur.str.charAt(firstDiff) == s2.charAt(firstDiff)) { //只要一样一直往后推，不考虑交换
 				firstDiff++;
 			}
 			char[] curStr = cur.str.toCharArray();
-			for (int i = firstDiff + 1; i < len; i++) {
-				if (curStr[i] == s2.charAt(firstDiff) && curStr[i] != s2.charAt(i)) {
+			for (int i = firstDiff + 1; i < len; i++) { //碰到了firstDiff不一样了，考虑把后面的位置的字符交换到firstDiff上把这个位置的两个字符变成一样的
+				//思路：
+				// c	a	   a
+				// a	c	   a
+				// 如果交换上面ac对应的就不要碰，不要将换，碰哪个ab那列把c和哪个a交换
+				if (curStr[i] == s2.charAt(firstDiff) && curStr[i] != s2.charAt(i)) { //1、字符一样，2、
 					swap(curStr, firstDiff, i);
 					add(String.valueOf(curStr), s2, cur.cost + 1, firstDiff + 1, heap, visited);
 					swap(curStr, firstDiff, i);
@@ -59,6 +68,7 @@ public class Code06_KSimilarStrings {
 		s[j] = tmp;
 	}
 
+	//这里有个估值距离，相当于一个未来函数，会把价值好的先处理，cost
 	public static void add(String add, String s2, int cost, int index, PriorityQueue<Node> heap,
 			HashSet<String> visited) {
 		if (!visited.contains(add)) {
@@ -77,7 +87,7 @@ public class Code06_KSimilarStrings {
 				diff++;
 			}
 		}
-		return (diff + 1) / 2;
+		return (diff + 1) / 2; //就用最差情况，能够完成估计就行，能保证正确性
 	}
 
 }
