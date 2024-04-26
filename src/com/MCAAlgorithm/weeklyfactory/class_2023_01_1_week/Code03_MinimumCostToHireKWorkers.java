@@ -13,12 +13,20 @@ import java.util.PriorityQueue;
 // 测试链接 : https://leetcode.cn/problems/minimum-cost-to-hire-k-workers/
 public class Code03_MinimumCostToHireKWorkers {
 
+	//题目解释：给的钱要按照能力比例给出，并且给的钱要大于它们要的价格
+	// 力	100 	200		50
+	// 价	60		70		40
+	// 思路：以50为基准，80 + 160 + 40 ，【核心】价格/能力最高的为基准来算【这个标准就是每个力的价值是多少】，劣币驱逐良币
+	//  在n中选择k个人，按照价格/能力从小到大排序一下，ABCDEFG， k=3，一旦选了一个垃圾，那么左边最值的k-1个选谁，假如选了D，那么D最垃圾，
+	//  肯定在D的左侧继续再选剩下两个人，如果选了ABD三个人，那么最后总价格（A力+B力+D力）* （D价格/D力）
+	// 解法：使用门槛堆（维持力量前k-1小的人） + 一个排序（价格/力量的标准从小到大）
 	public static class Employee {
-		public double rubbishDegree;
+		//通过分析我们知道原本的要价根本没有用！
+		public double rubbishDegree; //垃圾指数
 		public int quality;
 
 		public Employee(int w, int q) {
-			rubbishDegree = (double) w / (double) q;
+			rubbishDegree = (double) w / (double) q; //薪水/能力
 			quality = q;
 		}
 	}
@@ -33,7 +41,7 @@ public class Code03_MinimumCostToHireKWorkers {
 		// 要价 / 能力
 		Arrays.sort(employees, (a, b) -> a.rubbishDegree <= b.rubbishDegree ? -1 : 1);
 		// 请维持力量最小的前K个力量
-		// 大根堆！门槛堆！
+		// 大根堆！门槛堆！把力量最小的放在下面
 		PriorityQueue<Integer> minTops = new PriorityQueue<Integer>((a, b) -> b - a);
 		double ans = Double.MAX_VALUE;
 		for (int i = 0, qualitySum = 0; i < n; i++) {

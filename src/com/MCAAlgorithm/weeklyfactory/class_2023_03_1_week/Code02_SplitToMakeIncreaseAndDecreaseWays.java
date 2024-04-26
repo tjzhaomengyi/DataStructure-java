@@ -20,6 +20,31 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_03_1_week;
 // 最终结果可能很大，请返回对1000000007取余的结果
 public class Code02_SplitToMakeIncreaseAndDecreaseWays {
 
+	// 数学结论：1如果所有值都相同
+	// [5, 5, 5, 5],下面的分解括号中是方法数这个位置的数和右侧位置组合的方法数，每一次都是自己的左加自己的上
+	// 4,1(1)  4,1(1)  4,1(1)  4,1(1)
+	// 3,2(4)  3,2(3)  3,2(2)  3,2(1)
+	// 2,3(10) 2,3(6)  2,3(3)  2,3(1)
+	// 1,4(20) 1,4(10) 1,4(4)  1,4(1)
+	// 这个结果就是一个杨辉三角形，每一列的最后一个值代表杨辉三角形，杨辉三角形每一行的每个位置就是对应行C(n,m)的结果，n表示行，m表示列，都是从0开始
+
+	//数学结论：2如果有不同的值
+	//  5	8
+	// 4,1  7,1
+	// 3,2  6,2
+	// 2,3  5,3
+	// 1,4  4,4  所有的组合方法数还是这四行之间匹配
+	//      3,5 从这行开始就不能用了！
+	//      2,6
+	//      1,7
+
+	// 数学结论：3如果三个值怎么减少范围，减少两组 8 - 6
+	//  5 	 8 	  6
+	// 4 1（不能用）  7 1（不能用）  5 1
+	// 3 2（不能用）  6 2（不能用）  4 2
+	// 2 3          5 3
+	// 1 4          4 4
+	// 数学结论：总结，如果后面的数大于前面的数以前面数位基准，如果后面的数小于前面的数，前面的数-后面的数
 	// 暴力方法
 	// 为了验证
 	// 假设答案永远不会溢出
@@ -55,16 +80,16 @@ public class Code02_SplitToMakeIncreaseAndDecreaseWays {
 		int n = arr.length;
 		// [ 6 
 		//   5
-		int k = arr[0] - 1;
+		int k = arr[0] - 1; //一上来的连接数arr[0]-1,对应杨辉三角形的行号，杨辉三角形从0开始，也表示拆分的个数
 		for (int i = 1; i < n && k > 0; i++) {
-			if (arr[i - 1] > arr[i]) {
-				k -= arr[i - 1] - arr[i];
+			if (arr[i - 1] > arr[i]) {//如果前面的数字大于后面的数字
+				k -= arr[i - 1] - arr[i];//k缩减！看看最后剩下多少连接！
 			}
 		}
 		if (k <= 0) {
 			return 0;
 		}
-		return pascalTriangleModulus(k - 1 + n, n);
+		return pascalTriangleModulus(k - 1 + n, n);// 杨辉三角形求某一项
 	}
 
 	// 组合公式，n个元素取r个的方法数
@@ -78,7 +103,7 @@ public class Code02_SplitToMakeIncreaseAndDecreaseWays {
 		for (int i = 1; i <= n; i++) {
 			up = (up * i) % mod;
 			if (i == r) {
-				inv1 = power(up, mod - 2, mod);
+				inv1 = power(up, mod - 2, mod); //除法的逆原《2023-2-2》
 			}
 			if (i == n - r) {
 				inv2 = power(up, mod - 2, mod);

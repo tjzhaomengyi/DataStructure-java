@@ -10,11 +10,12 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_03_4_week;
 // 1 <= k <= 10^7
 public class Code01_MinDaysDoneAllProjects {
 
+	// A[7,3] B[6,10] C[10,5],可以并行完成项目，上面三个10天完成，20个资源让总天数变短，肯定是要少于10天，整个就8天了
 	// 这是二分答案法几乎最简单的题了
 	// 不写对数器了
 	public static int minDays(int[][] projects, int k) {
 		// l......r
-		// 0   所有项目中，天数的最大值
+		// 0   所有项目中，天数的最大值，这是二分的范围
 		int l = 0;
 		int r = 0;
 		// project[0] : 既定天数
@@ -26,7 +27,7 @@ public class Code01_MinDaysDoneAllProjects {
 		int m, ans = r;
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (yeah(projects, m) <= k) {
+			if (yeah(projects, m) <= k) { //如果使用的资源小于等于k，说明可以在这个资源下减少到这个天数
 				ans = m;
 				r = m - 1;
 			} else {
@@ -39,6 +40,7 @@ public class Code01_MinDaysDoneAllProjects {
 	// 给你所有的项目！projects
 	// 一定要在days天内完成！
 	// 返回，需要的资源是多少！
+	// A[10,5] ，要求8天，需要两个资源，（10-8）*5
 	public static int yeah(int[][] projects, int days) {
 		int ans = 0;
 		for (int[] p : projects) {

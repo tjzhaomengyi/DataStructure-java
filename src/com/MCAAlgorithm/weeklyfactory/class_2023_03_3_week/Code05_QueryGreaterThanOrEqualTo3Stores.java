@@ -2,7 +2,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_03_3_week;
 
 import java.util.Arrays;
 
-// 来自学员问题，大厂笔试面经帖子
+// 来自学员问题，大厂笔试面经帖子，todo：这是道综合题
 // 假设一共有M个车库，编号1~M，时间点从早到晚是从1~T
 // 一共有N个记录，每一条记录如下{a, b, c}
 // 表示一辆车在b时间点进入a车库，在c时间点从a车库出去
@@ -45,11 +45,15 @@ public class Code05_QueryGreaterThanOrEqualTo3Stores {
 		return ans;
 	}
 
+	//思路：1、先对时间进行离散化
+	// 2、把属于每个车库的信息分堆存放，然后某几个时间点对于一号车库的描述，[17,23]>=3，表示一号车库的存车数量大于等于3；[56,72]>=3,[84,109]>=3;
+	// 3、线段树的index是时间段，然后把上面的信息往里加，加什么大于等于3的车库数量！！！！把线段树上[17,23][56,72][84,109]范围上
+	//  更新+1
 	// 正式方法
 	// O((N + K)*log(N + K))
 	public static int[] getAns2(int m, int[][] records, int[] queries) {
-		int n = records.length;
-		int k = queries.length;
+		int n = records.length;//10^5,记录数量
+		int k = queries.length;//查询数量
 		// n*2 + k
 		int tn = (n << 1) + k;
 		int[] times = new int[tn + 1];
@@ -69,31 +73,38 @@ public class Code05_QueryGreaterThanOrEqualTo3Stores {
 		for (int i = 0; i < k; i++) {
 			queries[i] = rank(times, queries[i]);
 		}
-		// 所有记录，根据车库编号排序，相同车库的记录就在一起了
+		// 思路：1、所有记录，根据车库编号排序，相同车库的记录就在一起了
 		// record  车库   入库时间    出库时间-1
-		//         0      1          2
-		Arrays.sort(records, (a, b) -> a[0] - b[0]);
+		//         0      1          2（2位置在，3位置就没了）
+		Arrays.sort(records, (a, b) -> a[0] - b[0]);//根据车库记录排序
 		SegmentTree st = new SegmentTree(tn);
-		for (int l = 0; l < n;) {
+		for (int l = 0; l < n;) { //把同一号的车库同时处理
 			int r = l;
-			while (r < n && records[l][0] == records[r][0]) {
+			while (r < n && records[l][0] == records[r][0]) { //如果r车库号和l车库好一样
 				r++;
 			}
-			// 同一个车库的记录，records[l.....r-1] l......  l.......
-			countRange(records, l, r - 1, st);
-			l = r;
+			// 思路：核心代码同一个车库的记录，records[l.....r-1] l......  l.......
+			countRange(records, l, r - 1, st); //同一个车库的记录加入到线段树中
+			l = r;//l跳到下一个车库号
 		}
 		int[] ans = new int[k];
 		for (int i = 0; i < k; i++) {
-			ans[i] = st.query(queries[i]);
+			ans[i] = st.query(queries[i]); //
 		}
 		return ans;
 	}
 
-	// records[l.....r]
+	// records[l.....r]，同一车号的记录，统计在l到r上哪些时间段这个车库存车数量是大于等于3的
 	// 上面的记录都属于当前的车库
 	// 找到哪些时间段，车的数量是 >= 3的
 	// 改写线段树!
+	//思路：提到了扫面线算法，把进车和出车分成两个事件，然后对事件根据事件进行排序
+	// [3,6][2,9][4,13]
+	// 2 3 4 6 9 13 ,从4开始是3辆车了，4到6是大于等于3的，改写线段树，没有大于三的就往下撸整理完的事件数组
+	// + + + - - -
+	// 2 3 4 5 8 9 13 14，4到14时间段大于等于3，把4-14改写线段树+1
+	// + + + + - + -  -
+	// 剩下的就是不能把时间加重复，
 	public static void countRange(int[][] records, int l, int r, SegmentTree st) {
 		int n = r - l + 1;
 		int[][] help = new int[n << 1][2];
@@ -106,21 +117,23 @@ public class Code05_QueryGreaterThanOrEqualTo3Stores {
 				help[size++][1] = -1;
 			}
 		}
+		//根据时间点排序
 		Arrays.sort(help, 0, size, (a, b) -> a[0] != b[0] ? (a[0] - b[0]) : (b[1] - a[1]));
 		int count = 0;
-		int start = -1;
+		int start = -1; //注意这里还没有开始，一旦不等于-1就开始了，把start恢复成-1表示现在没有大于等于的情况
+		//思路：这道题的核心部分，更新线段树，并且这些时间段不能添加重复
 		for (int i = 0; i < size; i++) {
 			int point = help[i][0];
 			int status = help[i][1];
-			if (status == 1) {
-				if (++count >= 3) {
-					start = start == -1 ? point : start;
+			if (status == 1) { //加车
+				if (++count >= 3) { //等到了
+					start = start == -1 ? point : start; //start等于-1，就在point点开始统计，如果start！=-1，维持最早的时间点下去就行了
 				}
-			} else {
-				if (start != -1 && start <= point) {
-					st.add(start, point);
+			} else { //减车
+				if (start != -1 && start <= point) { //只有在减车的时候会发生更新线段树的行为，start开始位从这开始大于等于3，
+					st.add(start, point); //
 				}
-				if (--count >= 3) {
+				if (--count >= 3) {//如果减减完还大于等于3，以point+1作为开头，这样避免重复添加满足条件的时间段
 					start = point + 1;
 				} else {
 					start = -1;

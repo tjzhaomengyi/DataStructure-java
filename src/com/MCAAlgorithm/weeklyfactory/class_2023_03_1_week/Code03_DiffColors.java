@@ -20,6 +20,14 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
+//思路：线段树：单点更新和范围上求累加和
+// 例子：有如下查询[1，100]，[3,7],[5,23] 把查询任务根据查询结束位置从小到大排序，[3,7],[5,23],[1,100]
+// [红 蓝 绿 红 蓝]，有一个开始的s下标
+// 出现的颜色位置收集：【红：1 ， 蓝：2， 绿：3】
+// 是否出现过：1 1 1      从左到右侧是红色、蓝色、绿色，1表示出现过了
+// 来到红4的时候
+// 出现的颜色位置收集【红：4，蓝：2， 绿：3】，
+// 是否出现过 0 0 1 1 1，然后求这个出现过的累加和就是从哪到哪的不同颜色的数量是多少，每次出现重复的颜色就把上次出现的一样颜色的位置标记位0
 public class Code03_DiffColors {
 
 	public static int MAXN = 1000010;
@@ -85,24 +93,24 @@ public class Code03_DiffColors {
 			}
 			// map[5] = 8
 			// 5这个颜色，上次出现在8位置
-			// map[5] = 0
+			// map[5] = 0 //indextree序号从1开始
 			// 5这个颜色，之前没出现过
 			Arrays.fill(map, 0);
 			buildTree();
-			Arrays.sort(query, 1, m + 1, (a, b) -> a[1] - b[1]);
+			Arrays.sort(query, 1, m + 1, (a, b) -> a[1] - b[1]);//根据right排序，问题结束编号越大最后处理
 			for (int s = 1, j = 1; j <= m; j++) {
 				int l = query[j][0];
 				int r = query[j][1];
-				int index = query[j][2];
-				for (; s <= r; s++) {
-					int color = arr[s];
+				int index = query[j][2];//第几个问题
+				for (; s <= r; s++) { //s先把r追上
+					int color = arr[s]; //这个color出现过
 					if (map[color] != 0) {
-						add(map[color], -1);
+						add(map[color], -1);//把上次出现位置变成0
 					}
-					add(s, 1);
-					map[color] = s;
+					add(s, 1); //现在出现的位置标记为
+					map[color] = s;//修改这个颜色最近出现的位置
 				}
-				ans[index] = sum(l, r);
+				ans[index] = sum(l, r);//在index tree中查询l到r的累加和，表示总共有多少个不重复的颜色
 			}
 			for (int i = 1; i <= m; i++) {
 				out.println(ans[i]);

@@ -10,6 +10,11 @@ import java.util.HashMap;
 // 测试链接 : https://leetcode.cn/problems/longest-well-performing-interval/
 public class Code03_LongestWellPerformingInterval {
 
+	//[1,-1,-1,1,1,1,-1,-1]
+	// 情况1：求前缀和
+	// 情况2：如果0-17前缀和是-4，假设0-6的累加和是-5，说明7-17是都达标的-5 + 1 = -4， 如果找到了-4的前缀和，找-4位置的前缀和区间大于0的，
+	// 那么就要找前缀和-5最早在哪里出现？ 思路：因为只有出现了-5才能出现-6 -7......如果想减小只能一点点减小
+	// 那么7-17这段肯定是最长的，因为如果要想减少的话是一点点减少，-6的话肯定在-5后面，这样就不是最长了
 	// 哈希表
 	public static int longestWPI1(int[] hours) {
 		// key : 某个前缀和

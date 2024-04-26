@@ -20,11 +20,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
-
+//容斥原理 K个东西，知道相交的大小，总共并出来  ABC = A + B + C - AB-AC-BC+ABC
 public class Code04_FourKindsPaperQueryWays {
 
 	public static int limit = 100000;
-	// 无限制情况下的方法数，得到dp
+	// 所有面值无限制情况下得到的方法数，得到dp
 	// 可以用这个dp，去求解，2元 交上 3元的违规方法
 	public static long[] dp = new long[limit + 1];
 	public static int[] c = new int[4];
@@ -46,12 +46,12 @@ public class Code04_FourKindsPaperQueryWays {
 		//  d c b a
 		//  0 0 0 1
 		//  0 1 1 0
-		for (int status = 1; status <= 15; status++) {
+		for (int status = 1; status <= 15; status++) { //每种容斥状态
 			// 100元，2元 4张  3元 9张
 			// 100 - 2 * 5 - 3 * 10 => 60
 			// 60元无限制的情况下，方法数是多少
 			// 就是！100元，在2元面值和3元面值同时违规的情况下，违规方法数
-			long t = s;
+			long t = s;//面值100
 			int sign = -1;
 			for (int j = 0; j <= 3; j++) {
 				// j 0号货币有没有？
@@ -59,8 +59,9 @@ public class Code04_FourKindsPaperQueryWays {
 			    //   2号货币有没有？
 				//   3号货币有没有？
 				if (((status >> j) & 1) == 1) {
-					t -= c[j] * (d[j] + 1);
-					sign = -sign;
+					t -= c[j] * (d[j] + 1); //100-2*5
+					//sign对应容斥原理的A + B + C - AB - BC - AC + ABC，前面的符号，如果是奇数就是+，如果是偶数就是-
+					sign = -sign;//上来的时候是奇数，所以这里sign变成正的是+的关系，status下次再有金额的时候就是偶数个了sign变成负，以此类推，
 				}
 			}
 			if (t >= 0) {

@@ -40,9 +40,14 @@ public class Code03_FillCellsUseAllColorsWays {
 
 	// 正式方法
 	// 时间复杂度O(N*M)
+	// m=10种颜色，
+	// dp[6][3]给6个格子凑3种颜色多少种方法
+	// 可能性1：撞色：如果第六个格子是撞色的dp[5][3] * 3 ,这个格子可能填三种颜色，dp[i-1][j]*j凑齐j种方案，
+	// 可能性2：和之前的颜色都不一样，dp[5][2] * (10-2),只要和前面两种不同就行，dp[i-1][j-1] * (m - j + 1)
+	//
 	public static int MAXN = 5001;
 
-	public static int[][] dp = new int[MAXN][MAXN];
+	public static int[][] dp = new int[MAXN][MAXN];//
 
 	public static int mod = 1000000007;
 

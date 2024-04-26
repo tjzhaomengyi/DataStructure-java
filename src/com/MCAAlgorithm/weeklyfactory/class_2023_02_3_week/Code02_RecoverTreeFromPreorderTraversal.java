@@ -8,7 +8,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_02_3_week;
 // 给出遍历输出 S，还原树并返回其根节点 root。
 // 测试链接 : https://leetcode.cn/problems/recover-a-tree-from-preorder-traversal/
 public class Code02_RecoverTreeFromPreorderTraversal {
-
+	// 将结果描述转换为数组两两的形式[0,1,1,2,2,3,2,4,1,5,2,6,2,7],偶数为是层数，奇数位是具体数值
 	// 不提交这个类
 	public static class TreeNode {
 		public int val;

@@ -20,6 +20,7 @@ import java.util.TreeMap;
 // 测试链接 : https://leetcode.cn/problems/odd-even-jump/
 public class Code02_OddEvenJump {
 
+	//思路：这道题要先把题意理解了，偶数步，奇数步，然后这一步往哪走？能走的话跳到哪？能跳到的下一步是根据[arr]上的值还有第偶数步还是第奇数步决定的
 	public static int oddEvenJumps(int[] arr) {
 		int n = arr.length;
 		// 来到了i位置，如果要遵循奇数规则，应该去哪？odd[i]
@@ -32,9 +33,10 @@ public class Code02_OddEvenJump {
 		// >= key 且最小
 		// <= key 且最大
 		TreeMap<Integer, Integer> orderMap = new TreeMap<>();
-		for (int i = n - 1; i >= 0; i--) {
+		//搞定每个位置偶数次跳跃和奇数次跳跃下一步该去哪这两张表
+		for (int i = n - 1; i >= 0; i--) { //从右边开始迭代，这样前面的就可以往后边找
 			// i位置，arr[i]，奇数规则，>= arr[i]且最小的！
-			Integer to = orderMap.ceilingKey(arr[i]);
+			Integer to = orderMap.ceilingKey(arr[i]); //大于等于这个位置数的，咱们就过去，填上
 			odd[i] = to == null ? -1 : orderMap.get(to);
 			// i位置，arr[i]，偶数规则，<= arr[i]且最大的！
 			to = orderMap.floorKey(arr[i]);
@@ -46,14 +48,14 @@ public class Code02_OddEvenJump {
 		boolean[][] dp = new boolean[n][2];
 		dp[n - 1][0] = true;
 		dp[n - 1][1] = true;
-		int ans = 1;
+		int ans = 1; //自己就是良好出发点，所以开始就是1
 		for (int i = n - 2; i >= 0; i--) {
 			// dp[i][0] : 当来到i位置，且在奇数规则下，最终能不能到结尾
 			// odd[i] -> 右走！ -1
-			dp[i][0] = odd[i] != -1 && dp[odd[i]][1];
+			dp[i][0] = odd[i] != -1 && dp[odd[i]][1];//odd[i]能往下走 并且 下一步（是偶数步）要走偶数能不能到最后
 			// dp[i][1] : 当来到i位置，且在偶数规则下，最终能不能到结尾
 			dp[i][1] = even[i] != -1 && dp[even[i]][0];
-			ans += dp[i][0] ? 1 : 0;
+			ans += dp[i][0] ? 1 : 0; //i位置在奇数步能够到出发点，就是一个方法，否则没有方法，因为无论从哪个位置i上开始，第一步肯定是奇数步
 		}
 		return ans;
 	}

@@ -30,6 +30,7 @@ public class Code03_GridIllumination {
 			{ 1, -1 },
 			{ 1, 1 } };
 
+	// 将二维数组稠密化！用Hash表来表示
 	// n -> 大区域是 n * n
 	// lamps
 	// queries
@@ -45,9 +46,12 @@ public class Code03_GridIllumination {
 			// 所有的灯，注册！
 			// 如果之前加过，add方法返回fasle
 			// 如果之前没加过，add方法返回true
+			// limit是列的数量
 			if (points.add(limit * p[0] + p[1])) {
+				//所在行列照亮的灯 + 1
 				row.put(p[0], row.getOrDefault(p[0], 0) + 1);
 				col.put(p[1], col.getOrDefault(p[1], 0) + 1);
+				//用对角线的和和差表示对角线
 				leftUpDiag.put(p[0] - p[1], leftUpDiag.getOrDefault(p[0] - p[1], 0) + 1);
 				rightUpDiag.put(p[0] + p[1], rightUpDiag.getOrDefault(p[0] + p[1], 0) + 1);
 			}
@@ -56,22 +60,24 @@ public class Code03_GridIllumination {
 		int ansi = 0;
 		for (int[] q : queries) {
 			// q[0], q[1]
-			ans[ansi++] = (row.containsKey(q[0]) 
-					|| col.containsKey(q[1])
-					|| leftUpDiag.containsKey(q[0] - q[1])
-					|| rightUpDiag.containsKey(q[0] + q[1])) ? 1 : 0;
-			for (int[] m : move) {
+			ans[ansi++] = (row.containsKey(q[0])  // 所在的行有记录
+					|| col.containsKey(q[1]) // 所在的列有记录
+					|| leftUpDiag.containsKey(q[0] - q[1]) // 左对角线
+					|| rightUpDiag.containsKey(q[0] + q[1])) ? 1 : 0; //右对角线只有一个亮说明就照亮了
+			for (int[] m : move) { // move数组八个方向
 				int r = q[0] + m[0];
 				int c = q[1] + m[1];
 				// (r,c)位置，有灯就关，没灯算了！
-				int lu = r - c;
+				int lu = r - c;//两个对角线
 				int ru = r + c;
-				if (r < 0 || r >= n || c < 0 || c >= n) {
+				if (r < 0 || r >= n || c < 0 || c >= n) { //越界
 					continue;
 				}
 				// r,c -> 列数 * r + c
-				if (points.contains(limit * r + c)) {
+				if (points.contains(limit * r + c)) { //用row和col计算出对应的等序号
+					//删除点亮的灯
 					points.remove(limit * r + c);
+					//在对应行列和两个对角线上删除
 					minusOrRemove(row, r);
 					minusOrRemove(col, c);
 					minusOrRemove(leftUpDiag, lu);

@@ -21,6 +21,10 @@ import java.util.TreeMap;
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-tasks-you-can-assign/
 public class Code02_MaximumNumberOfTasksYouCanAssign {
 
+	// 思路：1、最多完成多少个任务0..n(task数量）
+	//  2、n个任务，如果只要求其中k个任务完成，选最小工作量的k个任务（排序）
+	//  3、n个任务，如果只要求k个任务完成，让能力最大的k个工人去做 （排序）
+	//  如果6个人，10个任务，返回最大值就完了，完不成。
 	// 时间复杂度O(N * (logN)平方)
 	public static int maxTaskAssign1(int[] tasks, int[] workers, int pills, int strength) {
 		// l......r
@@ -39,8 +43,8 @@ public class Code02_MaximumNumberOfTasksYouCanAssign {
 		while (l <= r) {
 			// m是，当前要完成的任务数量
 			m = (l + r) / 2;
-			// tasks[0...m-1]
-			// workers [ m个人]
+			// tasks[0...m-1] //task选小的
+			// workers [ m个人]//工人选大的
 			// yeah1，至少要吃多少药！
 			if (yeah1(tasks, 0, m - 1, workers, workers.length - m, workers.length - 1, strength) <= pills) {
 				ans = m;
@@ -52,11 +56,14 @@ public class Code02_MaximumNumberOfTasksYouCanAssign {
 		return ans;
 	}
 
+	//任务：【3 6 7 9】
+	//人：【6 6 6 7】
+	// 药丸3，能力为6的人不吃药丸尽量完成比自己小的且最近的
 	public static int yeah1(int[] tasks, int tl, int tr, int[] workers, int wl, int wr, int strength) {
-		if (wl < 0) {
+		if (wl < 0) { //工人的左边界小于0了，代表工人数量不够完成这些任务
 			return Integer.MAX_VALUE;
 		}
-		TreeMap<Integer, Integer> taskMap = new TreeMap<>();
+		TreeMap<Integer, Integer> taskMap = new TreeMap<>();// 放每个任务的个数
 		// tasks[tl....tr]
 		for (int i = tl; i <= tr; i++) {
 			taskMap.put(tasks[i], taskMap.getOrDefault(tasks[i], 0) + 1);
@@ -64,19 +71,19 @@ public class Code02_MaximumNumberOfTasksYouCanAssign {
 		int ans = 0;
 		// works[wl..wr]
 		for (int i = wl; i <= wr; i++) {
-			Integer job = taskMap.floorKey(workers[i]);
+			Integer job = taskMap.floorKey(workers[i]);//工人左任务，卡着工人的能力极限，小于等于工人能力最大的任务
 			if (job != null) {
 				int times = taskMap.get(job);
-				if (times == 1) {
+				if (times == 1) { //如果最后任务了
 					taskMap.remove(job);
 				} else {
-					taskMap.put(job, times - 1);
+					taskMap.put(job, times - 1);//任务数量-1
 				}
 			} else {
 				// 吃药了！
-				job = taskMap.floorKey(workers[i] + strength);
+				job = taskMap.floorKey(workers[i] + strength);//吃药
 				if (job == null) {
-					return Integer.MAX_VALUE;
+					return Integer.MAX_VALUE;//吃了药找不到任务
 				}
 				ans++;
 				int times = taskMap.get(job);
@@ -91,8 +98,12 @@ public class Code02_MaximumNumberOfTasksYouCanAssign {
 	}
 
 	// 时间复杂度O(N * logN)
+	// 贪心：不吃药丸做最小的
 	public static int maxTaskAssign2(int[] tasks, int[] workers, int pills, int strength) {
-		int[] help = new int[tasks.length];
+		// 思路：不吃药丸就做小的
+		//【6，8，8，9，10】，当前工人4，药丸=5，吃了药丸可以把6 8 8 9，吃完药丸选择大任务做，吃了药丸不要浪费
+		int[] help = new int[tasks.length];//双端队列，如果工人不吃药，把任务都加进队列，一旦进了队列，工人就按照吃药丸和不吃药的规则来从队列中出队
+		//如果队列中有任务，来了员工，可以把对头清了，也可以吃药去清理队尾
 		int l = 0;
 		int r = tasks.length;
 		int m, ans = 0;
@@ -110,6 +121,7 @@ public class Code02_MaximumNumberOfTasksYouCanAssign {
 		return ans;
 	}
 
+	//O（N），不回退
 	public static int yeah2(int[] tasks, int tl, int tr, int[] workers, int wl, int wr, int strength, int[] help) {
 		if (wl < 0) {
 			return Integer.MAX_VALUE;
@@ -130,16 +142,16 @@ public class Code02_MaximumNumberOfTasksYouCanAssign {
 			for (; ti <= tr && tasks[ti] <= workers[wi]; ti++) {
 				help[r++] = ti;
 			}
-			if (l < r && tasks[help[l]] <= workers[wi]) {
+			if (l < r && tasks[help[l]] <= workers[wi]) { //当前任务的任务量小于等于员工能力，做掉，l++
 				l++;
 			} else {
 				// workers[wi] + strength
-				for (; ti <= tr && tasks[ti] <= workers[wi] + strength; ti++) {
-					help[r++] = ti;
+				for (; ti <= tr && tasks[ti] <= workers[wi] + strength; ti++) {//让当前员工吃药，扩充任务队列
+					help[r++] = ti;//加任务
 				}
 				if (l < r) {
-					ans++;
-					r--;
+					ans++;//吃了一个药丸
+					r--;//把最大的任务处理掉
 				} else {
 					return Integer.MAX_VALUE;
 				}

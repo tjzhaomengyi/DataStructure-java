@@ -16,6 +16,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/maximum-earnings-from-taxi/
 public class Code03_MaximumEarningsFromTaxi {
 
+
 	public static int MAXN = 100001;
 
 	public static long[] max = new long[MAXN << 2];
@@ -92,6 +93,11 @@ public class Code03_MaximumEarningsFromTaxi {
 
 	public static long[] dp = new long[MAXN];
 
+	//思路：1、先把地点进行离散化，2、根据每个位置进行动态规划
+	//[7,10，5]，如果dp[0-7]的最大值是20，那么dp[10] = dp[0-7谁最大] + 10-7+5 = 28
+	//dp[i]司机来到i位置，司机最多可以获得多少钱
+	// 例子：[2,4,7][3,10,5][3,6,10][6,10,8],先根据司机起始位置排序，然后依次遍历
+	// max = 0， dp[4] = 9 (4-2+7),此时i来到3位置的乘客，max = 0，dp[10]=12;来到3乘客，max=0，dp[6]=13;来到6乘客，max=13，dp[10]=14,更新之前dp[10]信息
 	public static long maxTaxiEarnings2(int len, int[][] rides) {
 		int m = rides.length;
 		for (int i = 0, j = 0; i < m; i++) {
@@ -118,11 +124,11 @@ public class Code03_MaximumEarningsFromTaxi {
 			// 70
 			// dp   dp[0......70] max值，之前的最大收入！
 			while (dpi <= srank) {
-				pre = Math.max(pre, dp[dpi++]);
+				pre = Math.max(pre, dp[dpi++]);//更新当前作大收入
 			}
 			long money = pre + end - start + tips;
-			ans = Math.max(money, ans);
-			dp[erank] = Math.max(dp[erank], money);
+			ans = Math.max(money, ans);//边弄dp边更新结果值
+			dp[erank] = Math.max(dp[erank], money);//更新结尾的离散化值
 		}
 		return ans;
 	}

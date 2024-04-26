@@ -16,6 +16,7 @@ import java.util.HashMap;
 // 测试链接 : https://leetcode.cn/problems/least-operators-to-express-number/
 public class Code03_LeastOperatorsToExpressNumber {
 
+	//思路：就是类似把target拆成x进制的数，让target % x ，让后让target+mod或者target-mod再模x^2,以此类推
 	public static int leastOpsExpressTarget(int x, int target) {
 		return dp(0, target, x, new HashMap<>()) - 1;
 	}
@@ -23,7 +24,7 @@ public class Code03_LeastOperatorsToExpressNumber {
 	// i : 当前来到了x的i次方
 	// target : 认为target只能由x的i次方，或者更高次方来解决，不能使用更低次方！
 	// 返回在这样的情况下，target最少能由几个运算符搞定！
-	// (3, 1001231) -> 返回值！
+	// dp表：(3, 1001231) -> 返回值！key1：i，key2：target，value是返回值（返回值是target由几个运算符号搞定）
 	// dp.get(3) -> {1001231 对应的value}
 	public static int dp(int i, int target, int x, HashMap<Integer, HashMap<Integer, Integer>> dp) {
 		if (dp.containsKey(i) && dp.get(i).containsKey(target)) {
@@ -93,7 +94,8 @@ public class Code03_LeastOperatorsToExpressNumber {
 				// 后续依然如此，但是代码这样处理可以写的非常少
 				int div = target / x;
 				int mod = target % x;
-				int p1 = mod * cost(i) + dp(i + 1, div, x, dp);
+				int p1 = mod * cost(i) + dp(i + 1, div, x, dp); //mod * cost（i）mod用当前的运算符
+				// x-mod 用当前的运算符号
 				int p2 = (x - mod) * cost(i) + dp(i + 1, div + 1, x, dp);
 				ans = Math.min(p1, p2);
 			}
@@ -107,6 +109,7 @@ public class Code03_LeastOperatorsToExpressNumber {
 
 	// 得到x的i次方这个数字
 	// 需要几个运算符，默认前面再加个'+'或'-'
+	// x^2 = +x*x, x^3 = +x*x*x
 	public static int cost(int i) {
 		return i == 0 ? 2 : i;
 	}

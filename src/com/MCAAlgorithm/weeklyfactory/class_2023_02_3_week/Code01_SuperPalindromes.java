@@ -6,6 +6,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_02_3_week;
 // 测试链接 : https://leetcode.cn/problems/super-palindromes/
 public class Code01_SuperPalindromes {
 
+	//思路：
 	// L ... R    "123213213" ~ "31283712710381299823"
 	public static int superpalindromesInRange(String left, String right) {
 		long l = Long.valueOf(left);

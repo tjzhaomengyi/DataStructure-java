@@ -17,7 +17,17 @@ import java.util.TreeMap;
 // 1 <= M <= 10的6次方
 // 0 <= 分数 <= 10的9次方
 public class Code04_OperateScores {
-
+	// 思路：整体这道题整体分析出来，是一道非常好的题目，有双向链表有有序表，时间的优化不错，还有两个dummy node的挖掘，非常好@！！
+    // [4,3,5,7,2] , 操作[1,4, X],1类型的操作，小于4的数全改成4；[2,3,3],2类型的操作，第3号员工改成3分，返回最后数组
+	// 思路：1、分桶【3 2 4 1 3 6】，
+	// 桶号：   1		2	    3       4         5         6
+	// 员工：   3	    1      0\4      2                   5
+	// 把所有小于2 改成2，把所有小于3分的改成3，O(n^2)，这样移动的话不行，时间复杂度太大了
+	// 员工作为一个链表节点，有一个pre和next指针，如果把七号桶的元素a->b->c->d->e 移动到 8号桶f->g,只需要迁移头节点的指向，
+	// 连接到8号桶节点的头节点，这样避免了每个桶中所有元素的移动。这样的时间复杂度O(n),一定要把这个时间复杂拉下来，才能搞
+	// 思路：2、使用有序表，存放分值的key，value维持桶，如果key中的桶没有元素了，直接把这个key从有虚表里面删除
+	//  并且一个2类型的操作，最多带来一个新桶！时间复杂度O(m)
+	// 思路：3、精髓
 	// 暴力方法
 	// 为了验证
 	public static int[] operateScores1(int[] scores, int[][] operations) {
@@ -48,16 +58,16 @@ public class Code04_OperateScores {
 		for (int i = 0; i < n; i++) {
 			// 0号人，0号Node
 			// i号人，i号Node
-			nodes[i] = new Node(i);
-			// 17分 -> 桶
+			nodes[i] = new Node(i);//建立每个人的节点连理解
+			// 17分 -> 桶 ，当前人得17分，建立初始桶，每个桶中的员工，串成双向链表
 			if (!scoreBucketMap.containsKey(scores[i])) {
 				scoreBucketMap.put(scores[i], new Bucket());
 			}
-			scoreBucketMap.get(scores[i]).add(nodes[i]);
+			scoreBucketMap.get(scores[i]).add(nodes[i]);//串成双向链表
 		}
 		// m次操作
 		for (int[] op : operations) {
-			if (op[0] == 1) {
+			if (op[0] == 1) { //1类型的操作
 				// op[] = {1, 70, X}
 				// < 70
 				// merge 进 70号桶！
@@ -71,29 +81,30 @@ public class Code04_OperateScores {
 				// <= 69 记录没有了！
 				// <= 69 有没有记录！
 				Integer floorKey = scoreBucketMap.floorKey(op[1] - 1);
-				// 1)有 <= 69的记录！ 70号得分的桶却没有
+				// 1)有 <= 69的记录！ 70号得分的桶却没有，有记录但是没有更新70的桶
 				if (floorKey != null && !scoreBucketMap.containsKey(op[1])) {
-					scoreBucketMap.put(op[1], new Bucket());
+					scoreBucketMap.put(op[1], new Bucket());//加桶
 				}
-				while (floorKey != null) {
+				while (floorKey != null) { //小于70号桶merge进70号桶，直到小于这个记录的桶没有了
 					scoreBucketMap.get(op[1]).merge(scoreBucketMap.get(floorKey));
-					scoreBucketMap.remove(floorKey);
-					floorKey = scoreBucketMap.floorKey(op[1] - 1);
+					scoreBucketMap.remove(floorKey); //把移动的桶干掉
+					floorKey = scoreBucketMap.floorKey(op[1] - 1);//再往下找
 				}
 			} else {
 				// 2类型
 				// op = [2, 17号人，改成80分]
 				// cur就是当前人的Node
-				Node cur = nodes[op[1]];
+				Node cur = nodes[op[1]];//目标人节点
 				// 链接last  cur   next
 				// 把last 和 next 串起来！cur去往新的桶
-				cur.conectLastNext();
-				if (!scoreBucketMap.containsKey(op[2])) {
+				cur.conectLastNext();//只需要把cur节点的pre和next节点处理好，把17扔到80号桶
+				if (!scoreBucketMap.containsKey(op[2])) {//如果没有更新的桶
 					scoreBucketMap.put(op[2], new Bucket());
 				}
 				scoreBucketMap.get(op[2]).add(cur);
 			}
 		}
+		//还原并设置最终数组的得分
 		int[] ans = new int[n];
 		for (Entry<Integer, Bucket> entry : scoreBucketMap.entrySet()) {
 			int score = entry.getKey();
@@ -120,7 +131,9 @@ public class Code04_OperateScores {
 		public Node tail = null;
 
 		public Bucket() {
-			head = new Node(-1);
+			//思路：这个就是链表的那个dummyhead和dummytail，因为每次拿节点的时候只知道拿的节点的信息，不知道整条链表的信息，所以
+			// 维护这两个dummy部，可以免掉整条链表的结构！！！！
+			head = new Node(-1);//做假头，这样避免头尾指针为空的判断，这样不需要遍历的
 			tail = new Node(-1);
 			head.next = tail;
 			tail.last = head;
@@ -133,6 +146,8 @@ public class Code04_OperateScores {
 			tail.last = node;
 		}
 
+		//两个桶合并在一起，
+		// 不用每个Bucket的"假头"和"假尾"，只移动中间部分的东西
 		public void merge(Bucket join) {
 			if (join.head.next != join.tail) {
 				tail.last.next = join.head.next;

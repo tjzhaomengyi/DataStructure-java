@@ -8,16 +8,21 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_02_1_week;
 // 测试链接 : https://leetcode.cn/problems/minimum-number-of-k-consecutive-bit-flips/
 public class Code03_MinimumNumberOfKConsecutiveBitFlips {
 
+	//思路：每次遇到0开头就搞k个，【111001101。。。】，k=4，开头的1直接跳过，3位置的0放入双端队列中，来到4位置。
+	// 加入队列的原则：第一个元素加进双端队列后，继续遍历数组，和双端队列前一个位置状态不一样的再加，
+	// 【3（0） 5（1） 7（0）】，来到7的时候长度为4的段已经形成了，弹出3，把栈中的位置改变【5（0）】，
+	// 核心：根据双端队列的大小判断每个点是否和双端队列最后的状态是否一样，就用双端队列的个数标记当前的数加还是不加，这样可以避免调整双端队列中反转后的值
+	// 	如果双端队列大小是奇数
 	public int minKBitFlips(int[] nums, int k) {
 		int n = nums.length;
-		int[] queue = new int[n];
+		int[] queue = new int[n];//双端队列
 		int l = 0;
 		int r = 0;
 		int ans = 0;
 		for (int i = 0; i < n; i++) {
-			// 双端队列有东西，l、r           l    i
-			if (l != r && i - queue[l] == k) {
-				// 意味着，双端队列大小变了！
+			// 双端队列有东西，l、r        l    i
+			if (l != r && i - queue[l] == k) {//双端队列有东西，并且l到i-1已经是k个元素了
+				// 意味着，双端队列大小变了！【本质是这l到i-1位置的数每个都翻转】
 				l++;
 			}
 			// r - l 是双端队列的大小
@@ -26,13 +31,13 @@ public class Code03_MinimumNumberOfKConsecutiveBitFlips {
 			// (r - l) & 1 == 0，
 			// 说明队列大小是偶数(尾部状态为1)，那么nums[i] == 0该加入(因为和尾部不同)
 			// 所以综上，((r - l) & 1) == nums[i]，该加入
-			if (((r - l) & 1) == nums[i]) {
+			if (((r - l) & 1) == nums[i]) { //双端队的大小的奇偶性和进来的值一样不一样，【其实通过递推就可以看出来】，
 				queue[r++] = i;
-				ans++;
+				ans++; //表示已经这次已经翻转了，双端队列大小的奇偶性，模拟01变换
 			}
 		}
 		// 最后的反转点长度够k，能翻转；否则不能
-		return (l != r && queue[r - 1] + k > n) ? -1 : ans;
+		return (l != r && queue[r - 1] + k > n) ? -1 : ans;// n - 双端队列的尾巴凑不成k个，队列里面无法翻转，不能完成整体的翻转-1
 	}
 
 }

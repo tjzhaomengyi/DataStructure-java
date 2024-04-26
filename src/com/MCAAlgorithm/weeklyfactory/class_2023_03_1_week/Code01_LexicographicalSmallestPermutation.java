@@ -24,6 +24,9 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_03_1_week;
 // 输出 : 1 3 5 7 10 9 8 6 4 2 
 // 0 < n <= 10, sum随意
 public class Code01_LexicographicalSmallestPermutation {
+// a b c d -> a + b  b + c  c + d -> a + 2b + c b + 2c + d -> 1a+3b+3c+d,这个系数对应杨辉三角形
+// = 一旦决定了和是多少，可以通过系数乘进去得到
+
 
 	// 准备好杨辉三角形，作为每一项系数
 	public static int[][] moduluses = { 
@@ -41,6 +44,7 @@ public class Code01_LexicographicalSmallestPermutation {
 
 	// sums[1] = 只有1这个数字，整出来的最大和不会超过sums[1]
 	// sum[i] =  只有1~i这些数字，整出来的最大和不会超过sums[i]
+	// 1到6对应1 5 10 10 5 1，对应 1 3 5 6 4 2这玩意肯定最大
 	public static int[] sums = { 0, 1, 3, 9, 24, 61, 148, 350, 808, 1837, 4116 };
 
 	public static int[] lsp(int n, int sum) {
@@ -51,13 +55,15 @@ public class Code01_LexicographicalSmallestPermutation {
 		if (!process(((1 << (n + 1)) - 1) ^ 1, sum, 0, n, moduluses[n], dp)) {
 			return new int[] { -1 };
 		}
+
+		//根据动态规划表生成路径《大厂刷题班11节》
 		int[] ans = new int[n];
 		int index = 0;
 		// n = 7
 		// 000..000 100000000
 		// 000..000 011111111
 		// 000..000 011111110
-		int status = ((1 << (n + 1)) - 1) ^ 1;
+		int status = ((1 << (n + 1)) - 1) ^ 1;//最后的异或表示把最后一位标志成0
 		int rest = sum;
 		while (status != 0) {
 			ans[index] = dp[status][rest];
@@ -68,8 +74,8 @@ public class Code01_LexicographicalSmallestPermutation {
 		return ans;
 	}
 
-	// 一开始给你1 ~ 7
-	// 一开始的status :  000000..000011111110
+	// 思路：看下面这个就行了，一开始给你1 ~ 7，0是不可以用的，永远不能用0，
+	// 一开始的status :  000000..000011111110，
 	// 1、2、3、4、5、6
 	// 当前还有2、4、5可用      
 	//                            6 5 4 3 2 1 0
@@ -86,24 +92,25 @@ public class Code01_LexicographicalSmallestPermutation {
 			return false;
 		}
 		if (status == 0) { // 0000000000..000000000
-			return rest == 0 ? true : false;
+			return rest == 0 ? true : false;//剩下要搞定的数是0了，就是true
 		}
+		//status使用数字的状态，rest剩下要凑的
 		// dp[status][rest] == 0 (status,rest)之前没算过！
 		// dp[status][rest] == -1 (status,rest)之前算过！返回了false！
 		// dp[status][rest] != -1  (status,rest)之前算过！返回了true！
 		// dp[status][rest] : 
 		// 从字典序小的数字开始试，一旦试出来，记录当前是哪个数字试出来的！
-		if (dp[status][rest] != 0) {
+		if (dp[status][rest] != 0) { //
 			return dp[status][rest] != -1;
 		}
 		// n < 10  1 2 3 4 5 6... status里得有！
 		// n == 10 10 1 2 3 4 ... status里得有！
 		// ans : 哪个数字试出来的！
 		int ans = -1;
-		if (n == 10 && (status & (1 << 10)) != 0) {
-			// 真的可以先试10！
+		if (n == 10 && (status & (1 << 10)) != 0) { //如果是10位的，那么肯定先用10，10的字典序最小
+			// 真的可以先试10！1、先把10位置的状态更新，rest减去杨辉三角对应index位置*使用的10，下一位，其他参数不变
 			if (process(status ^ (1 << 10), rest - modulus[index] * 10, index + 1, n, modulus, dp)) {
-				ans = 10;
+				ans = 10; //如果上面的递归跑通了，答案是10
 			}
 		}
 		// ans == 10

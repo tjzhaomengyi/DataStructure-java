@@ -16,6 +16,8 @@ import java.util.PriorityQueue;
 // 测试链接 : https://leetcode.cn/problems/maximum-average-pass-ratio/
 public class Code01_MaximumAveragePassRatio {
 
+	//蓝印户口如何插班，
+	// 思路：通过率增益原来x、y通过，两个班各加一个（x+1）/（y+1） - （x/y），加一个天才放在通过增益大的放在堆的上面
 	public static double maxAverageRatio(int[][] classes, int extraStudents) {
 		// 堆 : 谁获得一个天才，得到的通过率增益最大
 		// 谁先弹出

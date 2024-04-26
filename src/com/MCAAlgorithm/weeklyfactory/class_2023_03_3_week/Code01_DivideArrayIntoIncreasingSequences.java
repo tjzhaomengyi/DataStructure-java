@@ -5,6 +5,8 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_03_3_week;
 // 测试链接 : https://leetcode.cn/problems/divide-array-into-increasing-sequences/
 public class Code01_DivideArrayIntoIncreasingSequences {
 
+	//例子： 1 5 5 7 9， 不相交就是几个子序列不用重复的元素，
+	// 思路：如果有重复的数重复4次，找到出现最多的次数的数有4个，那么肯定是4组，最终n/4组大于等于k就肯定能分出来，鸡吧题
 	public static boolean canDivideIntoSubsequences(int[] nums, int k) {
 		int cnt = 1;
 		int maxCnt = 1;

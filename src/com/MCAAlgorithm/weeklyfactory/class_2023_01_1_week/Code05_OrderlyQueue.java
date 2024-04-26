@@ -8,6 +8,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/orderly-queue/
 public class Code05_OrderlyQueue {
 
+	//结论如果k>=2肯定能得到字典序最小的字符串
 	public static String orderlyQueue(String s, int k) {
 		if (k > 1) {
 			// 时间复杂度O(N*logN)

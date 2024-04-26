@@ -1,5 +1,6 @@
 package com.MCAAlgorithm.weeklyfactory.class_2023_01_2_week;
 
+// 线段树上的拓扑排序，难死了，想都想不到
 // 一条单向的铁路线上，火车站编号为1~n
 // 每个火车站都有一个级别，最低为 1 级。
 // 现有若干趟车次在这条线路上行驶，
@@ -20,7 +21,28 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
-
+// 例子：1 5 7 车站停了，经过1234567车站，每个车站有不同等级。条件：没停靠的车站等级比停靠车站的等级小，告诉你停靠的车站和等级，猜一下没停靠车站的等级能有几个？
+// 等级	6	3	7	3	7
+// 站号	1	2	3	4	5
+// 上面的例子说明2、3、4等级不如1和5，
+// 数学结论：这个关系都连成了得到一个拓扑排序，就是求拓扑排序的最大深度是多少？通过广播来更新每个节点的深度
+// 假设1-5个车站，停了1、5两个车站，说明2、3、4不如1，2、3、4不如5，又停了一个4车站， 2、3不如4，这样不如的描述连接一个箭头
+// a->d->b,d在（2）的时候向b又广播了一次b从（2）变成（3）
+// a --> b(3) --> e
+//	.    .
+//    .
+//		 .
+// c---->d (2)
+// 注意：车站最大1000量，每辆车都连1000个，边和点的数量巨大，不行了。需要其他优化，建立线段树，只需要利用线段树那个范围生成每个节点的id，其他操作都没有。。
+// 把车站建立线段树：12345678,开始正常从上往下建立，如果停靠车站是{2,7},建立虚拟点x，让虚拟点连2的点，2到7的中间是3456，让3-4和5-6连x这个虚拟点
+//        1-8 a
+//   1-4 b	    5-8 c
+//1-2d  3-4e   5-6f	7-8p
+//1  2x	        5y    7k
+// e这个点不如x，f也不如y，生成脑洞去吧，生成一个M点，这个M点表示e和f不如M，但是M不如x和k
+// 本质意思就是假如1-5不如6，现在在1-5中间加个虚拟点x，1-5不如x，x不如6，线段树从下往上看1->[1-2]->[1-5]->x->6,1不如6，怎么求这个深度【虚拟点和范围点不算】这个深度就是2，这个叫线段树建边
+// 过程：拿着线段树的每个点去建图，一旦处理了一个停靠就新加一个虚拟点x，如果这个点是3，那么就把相应的点（1-3）去连x，然后，连完求深度，碰到单个点算，范围点和虚拟点不算
+// 例子：以上面1-8为例子，如果【2，7】停放，生成虚拟点x，然后x->7表示x不如7，x连上2，表示x不如2， 中间的3456的区间表示【3-4】【5-6】就可以连上
 public class Code05_BusStationsMinLevelNumbers {
 
 	public static final int maxn = 100001;
@@ -31,7 +53,7 @@ public class Code05_BusStationsMinLevelNumbers {
 	// 一段线段树范围的id编号
 	// id[rt] = x，rt背后的范围这一段，给它的点编号是x
 	// rt -> 线段树的某个范围的固有属性，l~r,rt
-	public static int[] id = new int[maxn << 2];
+	public static int[] id = new int[maxn << 2]; //编号后的点
 	
 	
 	
@@ -93,19 +115,21 @@ public class Code05_BusStationsMinLevelNumbers {
 
 	}
 
+	//rt是来到第几个车站，l到r是线段树节点的范围
 	public static void build(int l, int r, int rt) {
-		id[rt] = ++nth;
-		if (l == r) {
+		id[rt] = ++nth;//给线段树点编号
+		if (l == r) { //单点
 			single[id[rt]] = true;
 		} else {
 			int m = (l + r) / 2;
 			build(l, m, rt << 1);
 			build(m + 1, r, rt << 1 | 1);
-			addEdge(id[rt << 1], id[rt]);
-			addEdge(id[rt << 1 | 1], id[rt]);
+			addEdge(id[rt << 1], id[rt]); //左孩子拉一条边连向父节点，使用id编号，
+			addEdge(id[rt << 1 | 1], id[rt]); //右孩子拉一条边连向父节点
 		}
 	}
 
+	//虚拟点连范围点
 	public static void rangeLinkV(int L, int R, int vid, int l, int r, int rt) {
 		if (L <= l && r <= R) {
 			addEdge(id[rt], vid);
@@ -120,7 +144,7 @@ public class Code05_BusStationsMinLevelNumbers {
 		}
 	}
 
-	// 17 17~17
+	// 17 17~17 虚拟点连单独点的停靠站
 	public static void vLinkStop(int vid, int stop, int l, int r, int rt) {
 		if (l == r) {
 			addEdge(vid, id[rt]);

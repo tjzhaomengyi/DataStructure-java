@@ -9,6 +9,11 @@ import java.util.HashMap;
 // 测试链接 : https://leetcode.cn/problems/make-sum-divisible-by-p/
 public class Code03_MakeSumDivisibleByP {
 
+	// 数学结论：这玩意也没有什么数学结论其实，就是凑呗
+	//前缀和类型题目的变种，p=7如果整体余数是2，0到17对7取余是5，0到13对7取余是3，那么14到17取余是2，那么就把14到17这部分扣掉就行了，凑上了
+	//如果找到取与是5的直接找最晚出现取余是3的前缀和即可。
+	// 再来个例子，P=7，如果整体余数是5，【0到17】余数是3 【0到13】余数是5，找到一个整体余数是5的部分且足够短，3-5=-2就等同于5这个往前面找
+	// 余数是5的，就是一个下标变换，所以根据上面两种思路最后找(y-x+p)%p
 	public int minSubarray(int[] nums, int p) {
 		int n = nums.length;
 		// 求出整体的余数
@@ -31,7 +36,7 @@ public class Code03_MakeSumDivisibleByP {
 			// 如果p = 7，整体余数2，当前余数5，那么找之前的部分余数是3
 			// 如果p = 7，整体余数2，当前余数1，那么找之前的部分余数是6
 			// 整体变成下面的公式，可以自己带入各种情况验证
-			find = (curMod - allMod + p) % p;
+			find = (curMod - allMod + p) % p;//要找的余数
 			if (map.containsKey(find)) {
 				if (i != n - 1 || map.get(find) != -1) {
 					// 防止删掉整体！

@@ -51,6 +51,7 @@ public class Code05_NumberOfWaysOfCuttingPizza {
 		return ways;
 	}
 
+	// 思路：使用前置知识，2022-12-4，二维数组前缀和问题，可以查询任何一个范围有多少苹果
 	// 暴力方法改动态规划 + 小优化
 	// 时间复杂度O(N * M * K * (N + M))
 	public static int ways2(String[] pizza, int k) {

@@ -27,7 +27,7 @@ public class Code02_SplitNumberTimesMax {
 		return ans;
 	}
 
-	// 纯观察，没有为什么
+	// 纯观察，没有为什么，先把4拆出来，然后求3的几次方
 	public static int cuttingRope(int n) {
 		if (n == 2) {
 			return 1;

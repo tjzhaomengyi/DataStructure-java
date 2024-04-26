@@ -18,6 +18,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/optimize-water-distribution-in-a-village/
 public class Code03_OptimizeWaterDistributionInVillage {
 
+	//todo：回头在最小生成树，《体系学习班148节》
 	public static int MAXN = 10010;
 
 	public static int[][] edges = new int[MAXN << 1][3];

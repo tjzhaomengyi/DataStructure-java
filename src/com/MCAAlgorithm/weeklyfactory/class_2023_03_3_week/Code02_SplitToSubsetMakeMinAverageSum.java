@@ -69,6 +69,8 @@ public class Code02_SplitToSubsetMakeMinAverageSum {
 
 	// 正式方法
 	// 时间复杂度O(N * logN)
+	// 2 2 100 100 100 ，k=3,拿出两个放入1组，剩下大的数扔到一组，【2，2】【100，100，100】
+	// 贪心方法：从小到大排序把k-1个放入一组
 	public static int minAverageSum2(int[] arr, int k) {
 		if (arr.length < k) {
 			return -1;

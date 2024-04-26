@@ -11,7 +11,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_01_2_week;
 // 请问 strs 中有多少个相似字符串组？
 // 测试链接 : https://leetcode.cn/problems/similar-string-groups/
 public class Code01_SimilarStringGroups {
-
+	//一个并查集，两个for循环，任何一个[i][j]遍历一下
 	public static int numSimilarGroups(String[] strs) {
 		int n = strs.length;
 		int m = strs[0].length();
@@ -19,14 +19,14 @@ public class Code01_SimilarStringGroups {
 		for (int i = 0; i < n; i++) {
 			for (int j = i + 1; j < n; j++) {
 				// [i] [j]
-				if (uf.find(i) != uf.find(j)) {
+				if (uf.find(i) != uf.find(j)) { //如果两个不在一个集合中，需要合并
 					int diff = 0;
 					for (int k = 0; k < m && diff < 3; k++) {
 						if (strs[i].charAt(k) != strs[j].charAt(k)) {
 							diff++;
 						}
 					}
-					if (diff == 0 || diff == 2) {
+					if (diff == 0 || diff == 2) { //如果两个字符串diff统计是0说明一样，直接合并；只有两个位置不一样正好满足题目要求，并查集合并
 						uf.union(i, j);
 					}
 				}

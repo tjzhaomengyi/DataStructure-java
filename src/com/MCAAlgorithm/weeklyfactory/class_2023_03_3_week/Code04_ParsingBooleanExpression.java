@@ -50,23 +50,23 @@ public class Code04_ParsingBooleanExpression {
 			// i i+1 i+2
 			// | ( ?
 			// i i+1 i+2
-			index += 2;
+			index += 2;//直接跳到该解析的位置
 			if (judge == '!') {
 				// ! ( ?...... )
 				// i i+1 i+2
 				Info next = f(exp, index);
-				ans = !next.ans;
-				index = next.end + 1;
+				ans = !next.ans;//把返回结果取个反
+				index = next.end + 1;//index推到下一位
 			} else {
-				// &
+				// & 这里有两个情况一种是&或者是｜
 				// i
 				// judge == '&' 或者 judge == '|'
 				ans = judge == '&';
 				while (exp[index] != ')') {
 					if (exp[index] == ',') {
 						index++;
-					} else {
-						Info next = f(exp, index);
+					} else { //撞到了）或者到了结尾
+						Info next = f(exp, index);//当前是字母或者其他的，从当前位置开始收集子递归的结果
 						if (judge == '&') {
 							if (!next.ans) {
 								ans = false;
@@ -76,7 +76,7 @@ public class Code04_ParsingBooleanExpression {
 								ans = true;
 							}
 						}
-						index = next.end + 1;
+						index = next.end + 1;//next子过程的结束位置，父递归揽过来继续往下
 					}
 				}
 			}

@@ -17,18 +17,20 @@ public class Code04_MaxLenOfIntegratedSubarray {
 		}
 		int ans = 1;
 		HashSet<Integer> set = new HashSet<>();
+		//就是整个数组进行遍历
 		for (int start = 0; start < arr.length; start++) {
 			set.clear();
 			int min = arr[start];
 			int max = arr[start];
 			set.add(arr[start]);
 			for (int end = start + 1; end < arr.length; end++) {
-				if (!set.add(arr[end])) {
+				if (!set.add(arr[end])) { //出现了重复值，break掉不行了
 					break;
 				}
+				//更新最大最小值，通过最大最小值，避免排序过程
 				min = Math.min(min, arr[end]);
 				max = Math.max(max, arr[end]);
-				if (max - min == end - start) {
+				if (max - min == end - start) { //最差最小差值和end到start一样说明可整合
 					// start...end 可整合！
 					ans = Math.max(end - start + 1, ans);
 				}

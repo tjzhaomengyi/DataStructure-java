@@ -16,6 +16,7 @@ public class Code01_StoneGameII {
 	// 提交会超时，但是怎么尝试已经详细阐述明白
 	// 提交时把stoneGameII1改名为stoneGameII
 	public static int stoneGameII1(int[] piles) {
+
 		return first1(piles, 0, 1);
 	}
 
@@ -29,18 +30,19 @@ public class Code01_StoneGameII {
 		}
 		int best = 0;
 		int pre = 0;
-		// 先手根据m，做所有的尝试，选最好的
+		// 先手根据m，做所有的尝试，选最好的，j是拿的个数
 		// 1 2 3 .. 2m
 		// index....i  几个，j个
 		// 1) index...index  1个    pre 
 		// 2) index...index+1 2个   pre
 		// 3) index...index+2 3个   pre 
 		// m = 100   1 2 3 ~ 200 1~2m
-		for (int i = index, j = 1; i < piles.length && j <= 2 * m; i++, j++) {
-			pre += piles[i];
+		// 只能拿j到2m个，j就是题意中的X，1<=j<=2*m,m初始等于1，先手拿完1到2m之间的个数后，递归的时候让参数m=Math.max(m,j),二者选最大的递归下去
+		for (int i = index, j = 1; i < piles.length && j <= 2 * m; i++, j++) { //要有两个边界j要小于等于2m，i要不超过边界
+			pre += piles[i]; //先手的收益
 			// j个
-			// index...i  (i+1....
-			best = Math.max(best, pre + second1(piles, i + 1, Math.max(j, m)));
+			// index...i  (i+1....，index到i拿走了，pre这不就先手了么，后面是自己的后手
+			best = Math.max(best, pre + second1(piles, i + 1, Math.max(j, m)));//先手情况pre + 后手情况拿的情况
 		}
 		return best;
 	}
@@ -55,7 +57,8 @@ public class Code01_StoneGameII {
 		int worse = Integer.MAX_VALUE;
 		// 先手根据m，做所有的尝试，并且把最差的结果留给后手
 		for (int i = index, j = 1; i < piles.length && j <= 2 * m; i++, j++) {
-			worse = Math.min(worse, first1(piles, i + 1, Math.max(j, m)));
+			//min里面的first是指定让后手来选择，但是他只能选小的，选择人家剩下的，怎么表现出后手啊，当然是让人家先拿i，后手再从i+1先手拿
+			worse = Math.min(worse, first1(piles, i + 1, Math.max(j, m)));//后手不行，只能拿最小结果
 		}
 		return worse;
 	}

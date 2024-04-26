@@ -20,14 +20,20 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/stamping-the-sequence/
 public class Code04_StampingTheSequence {
 
+	//思路：找到最后盖成的点，这个是一个拓扑排序的问题，入度为0的值最后盖，这道题挺难
+	//stamp：abc，target：ababc，以abc作为入度为0的节点，如果忽略掉2开头的ab就和stamp一样，如果忽略掉
+	// abc是拓扑排序的初始节点，最后盖这个章，2、3、4位置开头往下的影响可以忽略了，aba就不需要考虑最后一个a，ab
+	// stamp：abca， aabcaca，入度为0的点abca以1开头的，以3开头的caca，需要用3或者4入度
+	// abca ->aabc
+	// abca ->caca
 	public static int[] movesToStamp(String stamp, String target) {
 		char[] s = stamp.toCharArray();
 		char[] t = target.toCharArray();
 		int m = s.length;
-		int n = t.length;
-		int[] inDegrees = new int[n - m + 1];
+		int n = t.length; //目标长度
+		int[] inDegrees = new int[n - m + 1]; //准备多少个开头位置，n-m+1越界的那些不用考虑
 		// 所有在target里开头的字符串，认为和stamp，每个位置都不一样
-		Arrays.fill(inDegrees, m);
+		Arrays.fill(inDegrees, m);//所有在target的字符串，认为和stamp每个位置都不一样
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
 			graph.add(new ArrayList<>());
@@ -39,38 +45,41 @@ public class Code04_StampingTheSequence {
 		for (int i = 0; i <= n - m; i++) {
 			// i....撸m个字符
 			for (int j = 0; j < m; j++) {
-				if (t[i + j] == s[j]) {
-					if (--inDegrees[i] == 0) {
-						queue[r++] = i;
+				if (t[i + j] == s[j]) { //target的i+j位置字符和stamp的j位置字符一样
+					if (--inDegrees[i] == 0) {//思路：i这个字符的degree--，不需要从对应j位置过来，i对应的入度--，如果为0，添加入度为0的节点
+						queue[r++] = i; //拓扑排序的开始点！！！
 					}
 				} else {
-					graph.get(i + j).add(i);
+					graph.get(i + j).add(i);//思路：不一样的时候加边，需要从j位置这个边搞出i这个字符，
 				}
 			}
 		}
-		// visited[17] == true
+		//思路：跑拓扑排序
+		// visited[17] == true，说明17位置的字符搞定了，不要把重复影响消除掉，如果【15 16 17 18 19】的17搞定了，
+		// 那么 【16 17 18 19 20】这个17就不要算了，每次只算一次入度到0即可
 		boolean[] visited = new boolean[n];
 		int[] path = new int[n - m + 1];
 		int size = 0;
 		while (l < r) {
 			// cur位置开头的字符串，弹出了！入度为0！恭喜啊！！！！
 			int cur = queue[l++];
-			path[size++] = cur;
-			for (int i = 0; i < m; i++) {
-				if (!visited[cur + i]) {
-					visited[cur + i] = true;
-					for (int next : graph.get(cur + i)) {
-						if (--inDegrees[next] == 0) {
+			path[size++] = cur;//弹出
+			for (int i = 0; i < m; i++) { //todo：这块太不好理解了cur到m点的那些点消除影响
+				if (!visited[cur + i]) {//没有消除过的点
+					visited[cur + i] = true;//todo：这块太不好理解了cur到m点的那些点消除影响
+					for (int next : graph.get(cur + i)) {//当前的cur + i影响哪些字符，在图里也要消减一下入度，拓扑排序的正常操作
+						if (--inDegrees[next] == 0) { //思路：如果入度为0了，把入度为0的点放入队列
 							queue[r++] = next;
 						}
 					}
 				}
 			}
 		}
+		//到达了几个开头，如果不够n-m+1是凑不出来的！
 		if (size != n - m + 1) {
 			return new int[0];
 		}
-		// path里
+		// 如果收集到了粘贴结果，结果存在path里，但是从思路开始的时候，是一个倒序存储
 		for (int i = 0, j = size - 1; i < j; i++, j--) {
 			int tmp = path[i];
 			path[i] = path[j];

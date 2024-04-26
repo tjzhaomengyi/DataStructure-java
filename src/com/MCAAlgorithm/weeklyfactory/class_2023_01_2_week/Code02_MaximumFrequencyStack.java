@@ -12,12 +12,13 @@ import java.util.HashMap;
 // 测试链接 : https://leetcode.cn/problems/maximum-frequency-stack/
 public class Code02_MaximumFrequencyStack {
 
+	//空间换时间，O（1）
 	class FreqStack {
 
 		// 出现的最大次数
 		private int topTimes;
-		// 每层节点
-		private HashMap<Integer, ArrayList<Integer>> cntValues = new HashMap<>();
+		// 每层节点，出现的次数和对应的数塞入到key和数组中，每次新进来的从列表的尾部进入
+		private HashMap<Integer, ArrayList<Integer>> cntValues = new HashMap<>();//次数
 		// 每一个数出现了几次
 		private HashMap<Integer, Integer> valueTopTime = new HashMap<>();
 
@@ -25,7 +26,7 @@ public class Code02_MaximumFrequencyStack {
 			// 当前数词频+1
 			valueTopTime.put(val, valueTopTime.getOrDefault(val, 0) + 1);
 			// 当前数是什么词频 5 7次
-			int curTopTimes = valueTopTime.get(val);
+			int curTopTimes = valueTopTime.get(val);//为了往词频链表里面塞对应元素
 			if (!cntValues.containsKey(curTopTimes)) {
 				cntValues.put(curTopTimes, new ArrayList<>());
 			}
@@ -37,15 +38,16 @@ public class Code02_MaximumFrequencyStack {
 		public int pop() {
 			// 最大词频的那一层的链表(动态数组)
 			ArrayList<Integer> topTimeValues = cntValues.get(topTimes);
-			int ans = topTimeValues.remove(topTimeValues.size() - 1);
+			int ans = topTimeValues.remove(topTimeValues.size() - 1); //弹出的值
 			if (topTimeValues.size() == 0) {
-				cntValues.remove(topTimes--);
+				cntValues.remove(topTimes--);//肯定是先把大的弹完，所以topTimes--，减少了一个统计次数
 			}
 			int times = valueTopTime.get(ans);
+			//弹出值对应出现次数表的更新
 			if (times == 1) {
-				valueTopTime.remove(ans);
+				valueTopTime.remove(ans);//
 			} else {
-				valueTopTime.put(ans, times - 1);
+				valueTopTime.put(ans, times - 1); //更新值的频表
 			}
 			return ans;
 		}

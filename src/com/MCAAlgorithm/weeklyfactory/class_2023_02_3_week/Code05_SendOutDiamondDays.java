@@ -27,6 +27,29 @@ import java.util.Arrays;
 // 1 <= 宝石价值 <= 10的9次方
 public class Code05_SendOutDiamondDays {
 
+	// 思路：index tree  + segment tree【segment tree中找某个范围的最小值的最左侧位置】，
+	// 分析：[3 2 1 4 5 2 4]要告诉我，数组里最小值和最小值最左的所在位置，
+	//  s   f
+	// 在第几天把f位置给出去 day += f - s，给出去后，把这个位置的改成最大值max
+	// s来到max位置，找到右侧最小的
+	// 3 2 max 4 5 2 4  ｜ 3 2
+	//     s       f
+	// day += f - s，改成max
+	// 3 2 max 4 5 max 4  ｜ 3  2 max 4 5
+	//              s          f
+	// day += f - s
+	// 思路：1、线段树维护数组中最小值最左位置的查询
+	// 思路：2、index tree维护是否把宝石给出去，1表示没给，0表示给出了，index tree的0对应线段树中的max，
+	// 思路：3、使用index tree来计算给出去用几天，不会真的往后放，但是维持的范围是对的
+	// 例子：
+	// 3 1 4 3 1 2
+	// 1 1 1 1 1 1
+	// max 4 3 1 2 3
+	// 0   1 1 1 1 1
+	// max 2 3 max 4 3
+	// 0   1 1  0  1 1
+	// max max 4 3 max max
+	// 0   0   1 1 0    0
 	// 暴力方法
 	// 为了验证
 	public static int days1(int[] diamonds) {
@@ -63,25 +86,26 @@ public class Code05_SendOutDiamondDays {
 		// 1 ~ n : 1
 		//  1 1 1 1 1 1 1
 		//  1 2 3 4 5 6 7
-		IndexTree it = new IndexTree(n);
+		IndexTree it = new IndexTree(n);//index tree
 		//  7 6 2...
 		//  1 2 3....
-		SegmentTree st = new SegmentTree(diamonds);
+		SegmentTree st = new SegmentTree(diamonds);//线段树
 		int days = 0;
 		int find, start = 1;
-		while (it.sum(1, n) != 0) {
-			// start ..... find(后续....最小值，最左的位置)
+		while (it.sum(1, n) != 0) { //从1下标还没有给完
+			// start ..... find(后续....最小值，最左的位置)，从start点出发，找find最小值的最左位置
 			find = find(st, start, n);
-			days += days(it, start, find, n);
+			days += days(it, start, find, n); //从start到find把天数算出来
 			//  1
 			// find
-			it.add(find, -1);
-			st.update(find, Integer.MAX_VALUE);
-			start = find;
+			it.add(find, -1);//变成0
+			st.update(find, Integer.MAX_VALUE);//变成系统最大
+			start = find;//来到find继续找下一个位置
 		}
-		return days;
+		return days;//从1到n累加和是0，都给完了！返回
 	}
 
+	// 使用二分，利用线段树二分
 	public static int find(SegmentTree st, int start, int n) {
 		// start....n 左部分  1 ~ start-1 右
 		int l, r, min = st.min(1, n);
@@ -105,10 +129,15 @@ public class Code05_SendOutDiamondDays {
 		return ans;
 	}
 
+	//在index tree中
 	public static int days(IndexTree sumIt, int start, int find, int n) {
 		if (start <= find) {
-			return sumIt.sum(start, find);
+			// 1 2 3 4 5 6
+			//   S     F
+			return sumIt.sum(start, find);//直接减
 		} else {
+			// 1 2 3 4 5 6 转回去了，一共这个从s到f移动3天，泛化公式从start到n + 从1到find
+			//   F     S
 			return sumIt.sum(start, n) + sumIt.sum(1, find);
 		}
 	}
