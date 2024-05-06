@@ -12,6 +12,9 @@ import java.util.List;
 // 测试链接 : https://leetcode.cn/problems/minimum-operations-to-make-all-array-elements-equal/
 public class Code03_MinOpToMakeElementsEqual {
 
+	// 4 2 6 4 6 ,query[i] = 4表示让所有的数都变成4，每位差是操作次数
+	// 先排序2 4 4 6 6，然后查一下4左边有几个，右边有几个数，应该累加和是8，实际累加和是12，操作4次
+	// 二分搜左侧的query值和右侧的query值，前缀和辅助求累加和
 	public static List<Long> minOperations(int[] nums, int[] queries) {
 		int n = nums.length;
 		Arrays.sort(nums);

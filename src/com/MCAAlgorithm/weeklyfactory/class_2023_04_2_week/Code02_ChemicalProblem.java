@@ -12,9 +12,10 @@ import java.util.Arrays;
 // 该物质的含量会产生化学反应，使得该物质含量增加x单位
 // 研究员的任务是配制溶液体积恰好等于c的，且尽量浓的溶液(即物质含量尽量多）
 // 研究员想要知道物质含量最多是多少
-// 对于所有数据，1 <= n, v[i], w[i], x, c <= 1000
+// 对于所有数据，1 <= n, v[i], w[i], x, c <= 1000，思路这个1000直接告诉你就直接动态规划吧，数据量太小了
 public class Code02_ChemicalProblem {
 
+	//dp[10]表示体积10，含量最大是多少，可能是天然就有的，也有可能是合并出来的，可以从1到5枚举处理，5=5的时候可以把x加进来，数据量允许我们遍历得到结果
 	public static int maxValue(int[] v, int[] w, int x, int c) {
 		int n = v.length;
 		// dp[0] ? dp[1] ? dp[2] ?  dp[c] ?
@@ -27,11 +28,11 @@ public class Code02_ChemicalProblem {
 			// 5 13  dp[5] = 13
 			// 3 20  dp[3] = 20
 			if (v[i] <= c) {
-				dp[v[i]] = Math.max(dp[v[i]], w[i]);
+				dp[v[i]] = Math.max(dp[v[i]], w[i]); //先遍历把每个自然有的体积填写进来，并且只要最大值！
 			}
 		}
 		// 1 ? 2 ? 3 ? c ? dp[1....c]
-		for (int i = 1; i <= c; i++) {
+		for (int i = 1; i <= c; i++) {//把1到c体积全求出来
 			// i = 10体积
 			// 1 + 9
 			// 2 + 8
@@ -41,13 +42,13 @@ public class Code02_ChemicalProblem {
 			for (int j = 1; j <= i / 2; j++) {
 				// dp[10] = dp[1] + dp[9]
 				//           能得到   能得到
-				if (dp[j] != -1 && dp[i - j] != -1) {
+				if (dp[j] != -1 && dp[i - j] != -1) {//保证dp有方案！
 					dp[i] = Math.max(dp[i], 
-							dp[j] + dp[i - j] + (j == i - j ? x : 0));
+							dp[j] + dp[i - j] + (j == i - j ? x : 0));//如果j==i-j两份同样大小加个x
 				}
 			}
 		}
-		return dp[c];
+		return dp[c];//达到c体积最好容量是多少
 	}
 
 	public static void main(String[] args) {

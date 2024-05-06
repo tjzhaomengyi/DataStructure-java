@@ -14,7 +14,7 @@ public class Code03_LIS {
 	//添加这个值，dp表示到当前值的最长递增子序列长度.
 	public int getLISdp(int[] arr){
 		int[] dp = new int[arr.length]; //以arr[i]结尾最长子序列有多长
-		// ends有效区是有序的
+		// 重要性质！ends有效区是有序的，必递增！
 		int[] ends = new int[arr.length]; // 记录最长递增子序列的有效区。end[i]表示当前遍历到i，所有长度为i+1子数组的递增子序列中的最小结尾【这个值不断更新】。
 		ends[0] = arr[0];
 		dp[0] = 1;

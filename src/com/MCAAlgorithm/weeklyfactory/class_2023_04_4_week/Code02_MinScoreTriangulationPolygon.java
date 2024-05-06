@@ -21,6 +21,9 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_04_4_week;
 // 测试链接 : https://leetcode.cn/problems/minimum-score-triangulation-of-polygon/
 public class Code02_MinScoreTriangulationPolygon {
 
+	// 一个说谎者词频会+2，两个说谎者词频+4，三个说谎者+6 （250 - 350）/ 2 = 50 人说谎
+
+	// 三角行问题：
 	public static int minScoreTriangulation(int[] values) {
 		int[][] dp = new int[values.length][values.length];
 		for (int i = 0; i < values.length; i++) {
@@ -49,7 +52,7 @@ public class Code02_MinScoreTriangulationPolygon {
 			return dp[i][j];
 		}
 		int ans = Integer.MAX_VALUE;
-		for (int m = i + 1; m < j; m++) {
+		for (int m = i + 1; m < j; m++) {//中点在i到j中间的不同的位置
 			ans = Math.min(ans, f(values, i, m, dp) + f(values, m, j, dp) + values[i] * values[m] * values[j]);
 		}
 		dp[i][j] = ans;

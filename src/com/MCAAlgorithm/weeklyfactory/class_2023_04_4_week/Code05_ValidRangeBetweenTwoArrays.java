@@ -39,6 +39,9 @@ public class Code05_ValidRangeBetweenTwoArrays {
 
 	// 正式方法
 	// 时间复杂度O(N)
+	// 思路：每个数组一个窗口，单调性是窗口内达标，A小窗口和A大窗口，小窗口左侧刚达标符合左边界，大窗口符合右边界刚达标
+	//  符合条件的关系大于max(A小，B小），小于min（A大，B大），满足这个条件的话就有满足的区间
+	//  纯滑动窗口的coding
 	public static int nums2(int[] A, int[] B, int la, int ra, int lb, int rb) {
 		int n = A.length;
 		int ans = 0;

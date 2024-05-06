@@ -9,7 +9,9 @@ import java.util.Arrays;
 // 只有在字符串 str1 能够通过上述方式顺利转化为字符串 str2 时才能返回 true 。​​
 // 测试链接 : https://leetcode.cn/problems/string-transforms-into-another-string/
 public class Code03_StringTransformsIntoAnotherString {
-
+	// abaab 不能变成 kckkt，这个就不行b没法变成c和t两种
+	//又是一道类似连连看的题目
+	//
 	public static boolean canConvert(String str1, String str2) {
 		if (str1.equals(str2)) {
 			return true;
@@ -21,13 +23,13 @@ public class Code03_StringTransformsIntoAnotherString {
 				kinds++;
 			}
 		}
-		if (kinds == 26) {
+		if (kinds == 26) { //目标有26种没有可以交换的，作为临时变量的空间，如果是例子
 			return false;
 		}
-		Arrays.fill(map, -1);
+		Arrays.fill(map, -1);//复用map，表示当前字符上一个位置在哪
 		for (int i = 0; i < str1.length(); i++) {
 			int cur = str1.charAt(i) - 'a';
-			if (map[cur] != -1 && str2.charAt(map[cur]) != str2.charAt(i)) {
+			if (map[cur] != -1 && str2.charAt(map[cur]) != str2.charAt(i)) {//如果str1和str2对应下标位置不一样的化，变不了
 				return false;
 			}
 			map[cur] = i;

@@ -2,6 +2,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_05_2_week;
 
 import java.util.Arrays;
 
+// 华为OD
 // 给定一个整数数组  nums 和一个正整数 k，
 // 找出是否有可能把这个数组分成 k 个非空子集，其总和都相等。
 // 测试链接 : https://leetcode.cn/problems/partition-to-k-equal-sum-subsets/
@@ -45,6 +46,7 @@ public class Code04_PartitionToKEqualSumSubsets {
 		return ans;
 	}
 
+	//彻底的暴力，但是可以通过剪枝搞定，
 	public static boolean canPartitionKSubsets2(int[] nums, int k) {
 		int sum = 0;
 		for (int num : nums) {
@@ -57,14 +59,15 @@ public class Code04_PartitionToKEqualSumSubsets {
 		return partitionK(new int[k], sum / k, nums, nums.length - 1);
 	}
 
-	// 100 10 -> 10
-	// 100 2 -> 50
-	// 100 4 -> 25
+	// 100 10个桶 -> 每个桶的累加和10
+	// 100 2个桶 -> 每个桶的累加和50
+	// 100 4个桶 -> 每个桶的累加和25
 	// 当前的数字，nums[index]
 	// nums[n-1] 给哪个桶
 	// nums[n-2] 给哪个桶
 	// ...
 	// nums[0] 给哪个桶
+	//target就是某个桶的累加和
 	public static boolean partitionK(int[] group, int target, int[] nums, int index) {
 		if (index < 0) {
 			return true;
@@ -76,14 +79,15 @@ public class Code04_PartitionToKEqualSumSubsets {
 			if (group[i] + num <= target) {
 				// 放入后，不超
 				group[i] += num;
-				if (partitionK(group, target, nums, index - 1)) {
+				if (partitionK(group, target, nums, index - 1)) {//递归看后续行不行
 					return true;
 				}
-				group[i] -= num;
-//				if (group[i] == 0) {
+				group[i] -= num; //清理现场呢！有路径的递归回溯
+//				if (group[i] == 0) {//如果当前桶是0的话就不继续尝试了
 //					return false;
 //				}
-				while (i + 1 < group.length && group[i] == group[i + 1]) {
+				//target=50，一共7个桶，已经凑好的：30 20 20 30 10 10 0
+				while (i + 1 < group.length && group[i] == group[i + 1]) { //如果当前桶都没凑出来，下一个同样的桶就别试了都一样
 					i++;
 				}
 			}

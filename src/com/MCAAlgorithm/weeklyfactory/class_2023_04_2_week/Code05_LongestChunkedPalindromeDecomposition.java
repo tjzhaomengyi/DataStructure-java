@@ -12,6 +12,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_04_2_week;
 // 测试链接 : https://leetcode.cn/problems/longest-chunked-palindrome-decomposition/
 public class Code05_LongestChunkedPalindromeDecomposition {
 
+	//思路：贪心，这里前后段子串是一样的时候，马上就拆，再看中间剩下的情况，暴力每个每个拆
 	// 时间复杂度O(N^2)
 	// 题解上的做法
 	// 但这不是最优解
@@ -50,12 +51,16 @@ public class Code05_LongestChunkedPalindromeDecomposition {
 		return true;
 	}
 
-	// 时间复杂度O(N * logN)
+	// 时间复杂度O(N * logN)，这个解法没太看懂
 	// 最优解
 	// 利用DC3算法生成后缀数组、进而生成高度数组来做的
 	// 需要体系学习班，DC3生成后缀数组详解
 	// 不过Leetcode的数据量太小，根本显不出最优解的优异
 	// 所以我自己写了测试来展示
+	// 思路：结论：利用DC3的height(height[i]表示字典序排名i的后缀串和前一个排名的后缀串，最长公共前缀是多长)数组给出结论：
+	//  例子 aaab....aaab，且height[x] = n, height[y]=m, m < n
+	//      x       y
+	// 如果x开头的aaab和y开头的aaab这四个字符一样,要保证在height数组中n-m>=4,也就表示这两个字符串的排名都足够长，第一个子串的b和第二个子串的第一个a中间起码有0个或以上的字符
 	public static int longestDecomposition2(String str) {
 		if (str.length() == 1) {
 			return 1;
@@ -64,7 +69,7 @@ public class Code05_LongestChunkedPalindromeDecomposition {
 		int n = s.length;
 		DC3 dc3 = generateDC3(s, n);
 		int[] rank = dc3.rank;
-		RMQ rmq = new RMQ(dc3.height);
+		RMQ rmq = new RMQ(dc3.height); //用RMQ求，最小公共前缀
 		int l = 0;
 		int r = n - 1;
 		int ans = 0;
@@ -306,9 +311,10 @@ public class Code05_LongestChunkedPalindromeDecomposition {
 	public static void main(String[] args) {
 		System.out.println("先展示一下DC3的用法");
 		String test = "aaabaaa";
+		//DC3算法结果每个结果代表什么含义
 		DC3 dc3 = generateDC3(test.toCharArray(), test.length());
 		System.out.println("sa[i]表示字典序排名第i的是什么位置开头的后缀串");
-		int[] sa = dc3.sa;
+		int[] sa = dc3.sa; //排名第i的是谁开头的，是rank数组的反查数组
 		for (int i = 0; i < test.length(); i++) {
 			System.out.println(i + " : " + sa[i]);
 		}

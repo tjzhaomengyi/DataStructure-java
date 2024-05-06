@@ -43,6 +43,10 @@ public class Code04_MagicScrollProbelm {
 		return ans;
 	}
 
+	//思路：1、不用魔法卷轴；2、使用1次魔法卷轴；3、使用两次魔法卷轴
+	// 2、使用1次魔法卷轴，0-1，0-2...0-n用魔法卷轴,最大累加和是多少，dp[0]到dp[n-1]
+	//  （1）就不灭i位置的数，dp[i-1] + arr[i] （2）灭掉i位置，max（0,dp[0]...dp[i-1]),剩下部分全灭掉
+	// 3、用两个卷轴 dp'[i],i到n-1，将数组分割，0-0 ｜ 1-7 ，0-1｜2-7
 	// 正式方法
 	// 时间复杂度O(N)
 	public static int maxSum2(int[] arr) {
@@ -66,24 +70,25 @@ public class Code04_MagicScrollProbelm {
 		for (int i = 1; i < n; i++) {
 			// left[i - 1] + arr[i]
 			// maxSum : 之前所有前缀和的，最大值
-			left[i] = Math.max(left[i - 1] + arr[i], maxSum);
+			left[i] = Math.max(left[i - 1] + arr[i], maxSum);//从左往右正好推过去，dp[i]
 			sum += arr[i];
 			maxSum = Math.max(maxSum, sum);
 		}
 		// 只用一次卷轴，必须用，0~n-1范围上的解，第二种可能性
 		int p2 = left[n - 1];
+
 		// 第三种 ：一定要用两次卷轴
 		int[] right = new int[n];
 		// right[i] : i ~ n-1范围上，一定要用一次卷轴的情况下，最大累加和多少
-		sum = arr[n - 1];
+		sum = arr[n - 1]; //从右往左
 		maxSum = Math.max(0, sum);
-		for (int i = n - 2; i >= 0; i--) {
+		for (int i = n - 2; i >= 0; i--) { //后缀和
 			right[i] = Math.max(arr[i] + right[i + 1], maxSum);
 			sum += arr[i];
 			maxSum = Math.max(maxSum, sum);
 		}
 		int p3 = Integer.MIN_VALUE;
-		for (int i = 1; i < n; i++) {
+		for (int i = 1; i < n; i++) {//使用两次卷轴每次执行划分可能性比较
 			// 0..0 1...n-1
 			// 0..1 2...n-1
 			// 0..2 3...n-1

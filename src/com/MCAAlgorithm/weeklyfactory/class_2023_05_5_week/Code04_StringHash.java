@@ -5,7 +5,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_05_5_week;
 // 重新解释一下:
 // 比如p = 233, 也就是课上说的选择的质数进制
 // " 3 1 2 5 6 ..."
-//   0 1 2 3 4
+//   0 1 2 3 4 ,高位的下标是0
 // hash[0] = 3 * p的0次方
 // hash[1] = 3 * p的1次方 + 1 * p的0次方
 // hash[2] = 3 * p的2次方 + 1 * p的1次方 + 2 * p的0次方
@@ -46,7 +46,7 @@ public class Code04_StringHash {
 
 	public static long[] hash = new long[MAXN];
 
-	public static int base = 499;
+	public static int base = 499;//用499表示它的hash值，这个就是readme里面的p，只要是个质数就行！
 
 	public static void build(String str, int n) {
 		pow[0] = 1;
@@ -73,12 +73,13 @@ public class Code04_StringHash {
 		return hash(l1, r1) == hash(l2, r2);
 	}
 
-	// s[l...r]
+	// s[l...r]，s子串的hash值,
 	public static long hash(int l, int r) {
 		// hash[0] : s[0...0]
 		// hash[5] : s[0...5]
 		// hash[i] : s[0...i]
 		long ans = hash[r];
+		//3546724，求724的hash值 等同于 Hash(3546|724) - Hash（3546左移3位）【hash[l-1]表示3546】
 		ans -= l == 0 ? 0 : (hash[l - 1] * pow[r - l + 1]);
 		return ans;
 	}

@@ -10,6 +10,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_05_3_week;
 // 测试链接 : https://leetcode.cn/problems/knight-probability-in-chessboard/
 public class Code03_KnightProbabilityInChessboard {
 
+	// 概率dp，和马走日那个题类似
 	public double knightProbability(int n, int k, int row, int column) {
 		double[][][] dp = new double[n][n][k + 1];
 		for (int i = 0; i < n; i++) {
@@ -32,9 +33,10 @@ public class Code03_KnightProbabilityInChessboard {
 			return dp[r][c][rest];
 		}
 		double ans = 0;
-		if (rest == 0) {
+		if (rest == 0) {//没有越界，并且剩下0步，100%存活
 			ans = 1;
 		} else {
+			//每一步走出去存活，并且8个方向只有1/8的概率存活
 			ans += (process2(n, rest - 1, r - 2, c + 1, dp) / 8);
 			ans += (process2(n, rest - 1, r - 1, c + 2, dp) / 8);
 			ans += (process2(n, rest - 1, r + 1, c + 2, dp) / 8);

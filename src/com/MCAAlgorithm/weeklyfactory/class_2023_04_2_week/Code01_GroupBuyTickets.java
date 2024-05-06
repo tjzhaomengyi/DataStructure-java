@@ -26,7 +26,9 @@ import java.util.PriorityQueue;
 // 1 <= N、M、Bi <= 10^5
 // -(10^5) <= Ki < 0
 public class Code01_GroupBuyTickets {
-
+	//思路：把项目放入一个大根堆，人数定了才能知道赚多少钱1个人8原，2个人和3个人收12，转换个看法1一个人多赚8原，2个人比一个人多赚4，3个人不盈利了，0了
+	// k=-2，b=10，已经来了p个人，p+1盈利多少，求解。k*(p+1)+b - p * k,应该盈利多少减掉前面优惠了多少。一个一个人来盈利多少？
+	// 把项目放入大根堆，加入人直到不赚钱就是cover住最大的，题目最核心的点让人一个个进看赚多少钱
 	// n个人
 	//
 	public static int enoughMoney(int n, int[][] games) {
@@ -38,7 +40,7 @@ public class Code01_GroupBuyTickets {
 		int ans = 0;
 		// n * log m
 		for (int i = 0; i < n; i++) {
-			if (heap.peek().earn() <= 0) {
+			if (heap.peek().earn() <= 0) {//来人不赚钱就不放了，上面例子到2停！
 				break;
 			}
 			Game cur = heap.poll();

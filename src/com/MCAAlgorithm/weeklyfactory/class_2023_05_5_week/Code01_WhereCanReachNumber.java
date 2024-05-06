@@ -68,9 +68,9 @@ public class Code01_WhereCanReachNumber {
 		// O在哪，目的地
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				if (map[i][j] == 'O') {
+				if (map[i][j] == 'O') { //找目的地在哪，从终点以起始点倒着！进行BFS
 					visited[i][j] = true;
-					queue[r][0] = i;
+					queue[r][0] = i; //进队列
 					queue[r++][1] = j;
 					break;
 				}
@@ -78,26 +78,30 @@ public class Code01_WhereCanReachNumber {
 		}
 		// [] [] [] [] [] ...  
 		// l ...... r
-		while (l < r) { // 队列里还有位置！
+		while (l < r) { // 队列里还有位置！BFS套路
 			ans++;
 			int[] cur = queue[l++];
 			int row = cur[0];
 			int col = cur[1];
+			//往上面展开
 			if (row - 1 >= 0 && !visited[row - 1][col] && (map[row - 1][col] == 'D' || map[row - 1][col] == '.')) {
 				visited[row - 1][col] = true;
 				queue[r][0] = row - 1;
 				queue[r++][1] = col;
 			}
+			//往下展开
 			if (row + 1 < n && !visited[row + 1][col] && (map[row + 1][col] == 'U' || map[row + 1][col] == '.')) {
 				visited[row + 1][col] = true;
 				queue[r][0] = row + 1;
 				queue[r++][1] = col;
 			}
+			//左边
 			if (col - 1 >= 0 && !visited[row][col - 1] && (map[row][col - 1] == 'R' || map[row][col - 1] == '.')) {
 				visited[row][col - 1] = true;
 				queue[r][0] = row;
 				queue[r++][1] = col - 1;
 			}
+			//右边
 			if (col + 1 < m && !visited[row][col + 1] && (map[row][col + 1] == 'L' || map[row][col + 1] == '.')) {
 				visited[row][col + 1] = true;
 				queue[r][0] = row;

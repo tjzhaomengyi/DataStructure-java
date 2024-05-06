@@ -17,39 +17,39 @@ import java.util.PriorityQueue;
 // 1 <= n <= 1000
 // 1 <= k <= 50
 public class Code04_EquipmentFirstToEnd {
-
+   //Dijkstra + 兼容表的邻居，每到一个点算到原点的距离，通过型号找路径
 	public static int minCost(int[] arr, int[][] map, int n, int k) {
-		// 0 : {4,7,13,26}
-		// 1 : {5,45,3,17}
-		ArrayList<ArrayList<Integer>> own = new ArrayList<>();
+		// 0 : {4,7,13,26} 0型号在哪些点
+		// 1 : {5,45,3,17} 1型号在哪些点
+		ArrayList<ArrayList<Integer>> own = new ArrayList<>();//设备的位置节点
 		// 0 1 2 3
 		// 0 1 0 1 0
 		// 1 0 1 1 0
 		// 2 1 1 1 1
 		// 3
-		// 0 : 0, 2
-		// 1 : 1, 2
+		// 0 : 0, 2 0号设备和它兼容的设备有谁
+		// 1 : 1, 2 1号设备和它兼容的设备有谁
 		// 2 : 0 1 2 3
-		ArrayList<ArrayList<Integer>> nexts = new ArrayList<>();
-		for (int i = 0; i < k; i++) {
+		ArrayList<ArrayList<Integer>> nexts = new ArrayList<>();//兼容的nexts数组
+		for (int i = 0; i < k; i++) { //设备有多少，就有几个节点
 			own.add(new ArrayList<>());
 			nexts.add(new ArrayList<>());
 		}
 		for (int i = 0; i < n; i++) {
-			own.get(arr[i]).add(i);
+			own.get(arr[i]).add(i);//位置数组添加设别号
 		}
 		for (int i = 0; i < k; i++) {
 			for (int j = 0; j < k; j++) {
 				if (map[i][j] == 1) {
-					nexts.get(i).add(j);
+					nexts.get(i).add(j);//兼容数组添加设备号
 				}
 			}
 		}
 		// 放入的数据是一个长度为2的数组
 		// 0 : 来到的地点号
-		// 1 : 距离0号地点有多远（根据代价排序）
+		// 1 : 距离0号地点有多远（根据代价排序）铺了多长的线路
 		// 堆里，小根堆 : {7, 10}
-		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);//Dijkstra算法老套路
 		heap.add(new int[] { 0, 0 });
 		boolean[] visited = new boolean[n];
 		while (!heap.isEmpty()) {
@@ -58,7 +58,7 @@ public class Code04_EquipmentFirstToEnd {
 			int cost = cur[1];
 			if (!visited[position]) {
 				visited[position] = true;
-				if (position == n - 1) {
+				if (position == n - 1) { //Dijkstra算法特性，到这就搞定了
 					return cost;
 				}
 				// 你来到了一个地点，拿出型号!
@@ -68,8 +68,8 @@ public class Code04_EquipmentFirstToEnd {
 				// 3: ....
 				// 5: ....
 				// 7: ....
-				for (int nextModel : nexts.get(model)) {
-					for (int nextPosition : own.get(nextModel)) {
+				for (int nextModel : nexts.get(model)) { //遍历可以兼容的型号
+					for (int nextPosition : own.get(nextModel)) { //遍历这些兼容型号的位置
 						if (!visited[nextPosition]) {
 							heap.add(new int[] { nextPosition, cost + Math.abs(nextPosition - position) });
 						}

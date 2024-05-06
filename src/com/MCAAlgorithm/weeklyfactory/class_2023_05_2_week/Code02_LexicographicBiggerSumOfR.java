@@ -24,6 +24,10 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_05_2_week;
 // 帖子链接 : https://www.mashibing.com/question/detail/67223
 public class Code02_LexicographicBiggerSumOfR {
 
+	// 思路：推公式，长度为n的字符串，一共出现多少个R，f(n)表示
+	//  （1）以B开头的，有多少个R，B***，f(n-1)
+	//  (2)以R开头的，R****，R固定了后面n-1位会有2^(n-1)种字符串，这个2^(n-1)肯定会出现的，2^(n-1) + f(n-1)j
+	//  [数学结论]所以最终f(n) = 2*f(n-1)+2^(n-1)
 	// 为了测试
 	// 暴力方法
 	public static int sum1(String str) {
@@ -70,7 +74,7 @@ public class Code02_LexicographicBiggerSumOfR {
 		}
 		f[1] = 1;
 		for (int i = 2; i < MAXN; i++) {
-			// 2^i-1 + 2*f[i-1]
+			// 数学结论：2^i-1 + 2*f[i-1]
 			f[i] = (pow2[i - 1] + f[i - 1]) % mod;
 			f[i] = (f[i] + f[i - 1]) % mod;
 		}
@@ -86,18 +90,19 @@ public class Code02_LexicographicBiggerSumOfR {
 		for (int i = 1; i < n; i++) {
 			rnumber[i] = rnumber[i - 1] + (s[i] == 'R' ? 1 : 0);
 		}
-		return process2(s, rnumber, n, 0);
+		// s：RBBRRB，rnumber数组表示0到i有几个r[1 1 1 2 2 2]
+		return process2(s, rnumber, n, 0);//从0位置开始做决定
 	}
 
-	// 你依次填写字符串
+	// 你依次填写字符串，现在来到i位置，如果i=4，表示0-3位置填写的东西和s一样
 	// 0...i-1范围上，你填写的东西，和s完全一样
 	// 当前来到i位置，一共的长度是n
 	// rnumber[i] : s[0...i]范围上有几个R
 	// 返回 : 在[0...i-1]和s完全一样的情况下，后续所有字典序不小于s的字符串，整体的权值和是多少?
 	public static int process2(char[] s, int[] rnumber, int n, int i) {
 		int ans = 0;
-		if (i == n) {
-			ans = rnumber[n - 1];
+		if (i == n) {//已经遍历完了，不能做决定了
+			ans = rnumber[n - 1]; //i已经到n了，s收到了几个r，现在就收获了多少个r
 		} else {
 			if (s[i] == 'B') {
 				// s当前位置是'B'，你可以填写R，也可以是B
@@ -114,12 +119,13 @@ public class Code02_LexicographicBiggerSumOfR {
 				// 具体来说 :
 				// 1) (s的[0...i]范围上R的数量 + 1) * 2^(n-i-1)
 				// 2) 在[i+1....]范围上的权值和 : f[n-i-1]
+				//思路：如果现在要填写R，0到i上有（x+1）个r * 2^(n-i-1) [i上已经有r啦！！！]
 				int p1 = (int) (((long) (rnumber[i] + 1) * pow2[n - i - 1]) % mod);
-				p1 = (p1 + f[n - i - 1]) % mod;
-				// 如果你当前填B，那么继续递归
-				int p2 = process2(s, rnumber, n, i + 1);
+				p1 = (p1 + f[n - i - 1]) % mod;//f[n-i-1]剩余长度有多少个不同的字符串！！！！！
+				//思路： 如果你当前填B，那么继续递归
+				int p2 = process2(s, rnumber, n, i + 1);//继续递归就行了
 				ans = (p1 + p2) % mod;
-			} else {
+			} else {//原字符当前位置是R，所以i位置必须是R保证字典序要比他大，从i+1位置继续
 				// s当前位置是'R'，你只能填写R，然后继续递归
 				ans = process2(s, rnumber, n, i + 1);
 			}
@@ -149,7 +155,7 @@ public class Code02_LexicographicBiggerSumOfR {
 				dp[i] = dp[i + 1];
 			}
 		}
-		return dp[0];
+		return dp[0];//0开头一共收获了多少个r
 	}
 
 	// 为了测试

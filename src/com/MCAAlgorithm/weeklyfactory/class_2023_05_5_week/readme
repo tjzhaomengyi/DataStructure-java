@@ -1,0 +1,10 @@
+字符串哈希：
+1、例子str1="abkftbe",str2="kfabedbe",把字符串转成p进制p^0=a,p^1=b,p^2=k...,把它们求和得到这个字符串的hash值
+2、子串的哈希值35267，26的哈希值=hash(3526)-hash(35向左移动两位）
+
+---------------------分割线----------------------------
+二维哈希--判断矩阵是否一样
+1、比对矩阵只能是正方形矩阵
+2、如何求arr数组上i行j列的值的hash值，假设Hash(i-1,j)=H1和Hash(i,j-1)=H2,行的base值为base行，列的base值为base列，
+Hash(i,j) = H1*base行 + H2*base列 + arr[i][j]
+3、区域正方形矩阵hash求法见code06_twodimensionalhash的代码

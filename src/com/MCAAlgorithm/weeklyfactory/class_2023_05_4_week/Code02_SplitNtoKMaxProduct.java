@@ -56,6 +56,8 @@ public class Code02_SplitNtoKMaxProduct {
 	}
 
 	// 贪心的解
+	// 数学结论：20 / 6 = 3 先摆6个3，20%6=2，有两个涨成4
+	// 数学结论：上面求解最后乘积最大值过程是（a+1)^b * a^(k-b)
 	// 这是最优解
 	// 但是如果结果很大，让求余数...
 	public static int maxValue3(long n, long k) {
@@ -65,12 +67,12 @@ public class Code02_SplitNtoKMaxProduct {
 		int mod = 1000000007;
 		long a = n / k;
 		long b = n % k;
-		long part1 = power(a + 1, b, mod);
-		long part2 = power(a, k - b, mod);
+		long part1 = power(a + 1, b, mod);//(a+1)^b 求余
+		long part2 = power(a, k - b, mod);//a^(k-b) 求余
 		return (int) (part1 * part2) % mod;
 	}
 
-	// 返回a的n次方，%mod的结果
+	// 返回a的n次方，%mod的结果 ，todo：补看一下 《体系学习班：快速幂，使用矩阵乘法，笔记七》
 	public static long power(long a, long n, int mod) {
 		long ans = 1;
 		long tmp = a;

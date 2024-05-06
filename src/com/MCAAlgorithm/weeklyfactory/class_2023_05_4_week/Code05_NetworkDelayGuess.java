@@ -37,23 +37,23 @@ public class Code05_NetworkDelayGuess {
 //		// status[4] : a + c
 //		// status[5] : b + c
 //		// status[6] : a + b + c
-//		// status[4] = 0, a + c 没被选中！
-//		// status[4] > 0 , a + c 250
+//		// 如果status[4] = 0, 表示a + c 这种情况没被选中！
+//		// status[4] > 0 , 如果 a + c = 250，给定了具体的延时
 //		int[] status = new int[7];
 //		int[] values = { 100, 50, 150, 250 };
 //
 //	}
-//
+//  i=0，value就是100，i=1，value是50；i=2，value=150；i=3，value=250
 //	public static void test(int[] status, int[] values, int i) {
-//		if (i == values.length) {
+//		if (i == values.length) { //表示所有的数都分配完了
 //			// 分配之后，a、b、c求出来
-//		} else {
-//			// values[i] :
-//			for (int j = 0; j < status.length; j++) {
-//				if (status[j] == 0) {
-//					status[j] = values[i];
-//					test(status, values, i + 1);
-//					status[j] = 0;
+//		} else { //过程中如何分配
+//			// values[i] :当前的数值是values[i]
+//			for (int j = 0; j < status.length; j++) { //每一种情况全排列去尝试
+//				if (status[j] == 0) { //说明没有得到过数值
+//					status[j] = values[i];//把当前数值分配个status[j]
+//					test(status, values, i + 1);//把下一个数值继续递归看看怎么弄好
+//					status[j] = 0;//恢复现场，恢复现场，恢复现场
 //				}
 //			}
 //		}
@@ -63,7 +63,7 @@ public class Code05_NetworkDelayGuess {
 	// 这个函数在测试时最多会调用100次，100次的整体运行时间1s以内
 	public static int ways(int[] times) {
 		int[] status = new int[7];
-		HashSet<String> ans = new HashSet<>();
+		HashSet<String> ans = new HashSet<>();//把方案去重
 		process(times, 0, status, ans);
 		return ans.size();
 	}
@@ -80,12 +80,13 @@ public class Code05_NetworkDelayGuess {
 			int a = 0;
 			int b = 0;
 			int c = 0;
-			int cnt = counts(status);
+			int cnt = counts(status); //统计单条件给出几个
+			//cnt=0的情况是：a、b、c这种单条件的一个都没给；如果单条件一个都没给，说明3456条件是全的，通过345足以算出abc来，用6来做验证
 			if (cnt == 0) {
 				a = (status[3] + status[4] - status[5]) / 2;
 				b = (status[3] + status[5] - status[4]) / 2;
 				c = (status[4] + status[5] - status[3]) / 2;
-			} else if (cnt == 1) {
+			} else if (cnt == 1) { //情况2：abc单条件只给了一个
 				if (status[0] != 0) {
 					a = status[0];
 					if (status[3] != 0) {
@@ -118,7 +119,7 @@ public class Code05_NetworkDelayGuess {
 							a = status[4] - c;
 						}
 					}
-				} else {
+				} else { //给了3个
 					c = status[2];
 					if (status[4] != 0) {
 						a = status[4] - c;
@@ -175,15 +176,17 @@ public class Code05_NetworkDelayGuess {
 				b = status[1];
 				c = status[2];
 			}
+			//验证
 			if (verify(status, a, b, c)) {
 				ans.add(a + "_" + b + "_" + c);
 			}
 		} else {
+			//七种状态
 			for (int j = 0; j < 7; j++) {
-				if (status[j] == 0) {
-					status[j] = times[i];
+				if (status[j] == 0) { //当前这个状态没有分配
+					status[j] = times[i];//把times[i]时间分配给这个状态
 					process(times, i + 1, status, ans);
-					status[j] = 0;
+					status[j] = 0;//恢复现场
 				}
 			}
 		}
@@ -204,7 +207,7 @@ public class Code05_NetworkDelayGuess {
 		if (a <= 0 || b <= 0 || c <= 0 || a > b || b > c) {
 			return false;
 		}
-		if (s[0] != 0 && s[0] != a) {
+		if (s[0] != 0 && s[0] != a) {//给过值，如果和猜测的不一样，就是失败
 			return false;
 		}
 		if (s[1] != 0 && s[1] != b) {

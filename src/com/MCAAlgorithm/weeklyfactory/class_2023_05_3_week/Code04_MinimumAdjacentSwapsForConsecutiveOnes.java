@@ -7,6 +7,9 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_05_3_week;
 // 测试链接 : https://leetcode.cn/problems/minimum-adjacent-swaps-for-k-consecutive-ones/
 public class Code04_MinimumAdjacentSwapsForConsecutiveOnes {
 
+	// 思路：偶数窗口滑窗隔开一半，然后找最近的两个1，如果凑不够的话，不会是答案；奇数窗口，哪边大都行，只要让左侧和右侧移动的个数够即可
+	//  然后两侧的大窗口中一定要维持住k/2个1在里面，然后随着内部k窗口移动，大窗口也跟着移动，左右侧思路一样
+	// todo：撸下code
 	// . . . 1 0 1 0 0 | 0 0 X X |
 	//       3 4 5 6 7   8 9
 	// 假设3位置的1，和5位置的1，移动到8、9位置

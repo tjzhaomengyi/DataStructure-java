@@ -20,13 +20,13 @@ public class Code03_SmallestSufficientTeam {
 	// 人 ： "ABC" "ET" "BB"
 	// "ABC" 、 "FG" 、 "ET" -> "ABC" "ET" "FG" 
 	//                           0     1    2
-	// x  : "ABC" "ET" "BB" :      2   1    0
+	// x  : "ABC" "ET" "BB" :      2   1    0 根据字典序排序
 	//                             0   1    1
 	public static int[] smallestSufficientTeam(String[] skills, List<List<String>> people) {
-		Arrays.sort(skills);
+		Arrays.sort(skills); //技能列表排序
 		int n = skills.length;
 		int m = people.size();
-		int[] statuses = new int[m];
+		int[] statuses = new int[m];//每个人掌握需要技能的列表，一个人一个数代表这个人的技能列表
 		for (int i = 0; i < m; i++) {
 			int skillStatus = 0; // 00000000000000
 			List<String> skill = people.get(i);
@@ -78,17 +78,22 @@ public class Code03_SmallestSufficientTeam {
 		// 目的是算出至少几人
 		// 以及填好动态规划表
 		int size = process(statuses, n, 0, 0, dp);
+		//从这里开始得到要拽出哪几个人
 		int[] ans = new int[size];
 		int ansi = 0;
 		int i = 0;
-		int status = 0;
+		int status = 0; //什么技能都没有凑齐
 		// 大厂刷题班，章节11
 		// 看一下，是根据动态规划表生成答案的路径
 		// 这就是为什么需要动态规划表，因为答案的路径可以用动态规划表生成
 		// 一定要看一下这个课
-		while (status != (1 << n) - 1) {
+		// 0，00000，3个人
+		// 0号人：00101，怎么知道选没选0号人，看信息对得上对不上，
+		// dp[1][00101] = 2,选了0号人后续需要2个人，如果不是2个人，就说明没有选0号这个人
+		// dp[1][00000] = ，没要0号人，最后命中结果可能有多个，随便返回一个就行，如果是所有方案，使用dfs就行了。
+		while (status != (1 << n) - 1) { //只要没有凑齐所有技能
 			//                    3人                 3人
-			if (i + 1 == m || dp[i][status] != dp[i + 1][status]) {
+			if (i + 1 == m || dp[i][status] != dp[i + 1][status]) {//dp[i][status]!=dp[i+1][status],说明肯定要了i号人
 				ans[ansi++] = i;
 				status |= statuses[i];
 			}
@@ -103,16 +108,16 @@ public class Code03_SmallestSufficientTeam {
 	// 之前的技能，哪个技能凑到了，哪个技能还没凑到，就是status！你的目的是把它凑齐！也就是凑齐n个1！stauts是可变参数
 	// 返回值的含义 :
 	// 当前在people[i....]范围上选择人，之前凑齐的技能状态是status，请问所有技能都凑齐，还需要至少几个人
-	// dp就是动态规划表，记录返回值的！
+	// dp就是动态规划表，记录返回值的！i和status是唯一变化的俩宝贝
 	public static int process(int[] people, int n, int i, int status, int[][] dp) {
 		// n = 8
 		//    0000...0000 1111 1111 
-		if (status == (1 << n) - 1) {
+		if (status == (1 << n) - 1) {//凑齐了，不要人了，滚滚滚
 			// 技能已经凑齐了
 			// 还需要0个人
 			return 0;
 		}
-		// 还没凑齐！
+		// 还没凑齐！你傻逼了，决策失误，没有人可选了
 		if (i == people.length) {
 			// 技能还没凑齐
 			// 但是人已经没了
@@ -123,7 +128,7 @@ public class Code03_SmallestSufficientTeam {
 			// 缓存命中，直接返回
 			return dp[i][status];
 		}
-		// 不要第i个人，后续要几个人能凑齐
+		// 就是不要第i个人，后续要几个人能凑齐
 		int p1 = process(people, n, i + 1, status, dp);
 		// 要第i个人，后续要几个人能凑齐
 		int p2 = Integer.MAX_VALUE;

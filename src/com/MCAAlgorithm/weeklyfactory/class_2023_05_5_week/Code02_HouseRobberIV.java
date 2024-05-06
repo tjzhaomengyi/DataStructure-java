@@ -12,6 +12,21 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_05_5_week;
 // 测试链接 : https://leetcode.cn/problems/house-robber-iv/
 public class Code02_HouseRobberIV {
 
+	// 回顾传统的打家劫舍
+	/**
+	dp(){
+		int lastlast = arr[0];//dp[i-2]
+		int last = Math.max(arr[0],arr[1]);//dp[i-1]
+		for(int i = 2; i < n; i++){
+			int p1 = last;
+			int p2 = arr[i] + lastlast;//dp
+			lastlast = last;
+			last = cur;//不停地往下滚动
+		}
+		return last
+	}
+	 **/
+    // 打家劫舍四
 	// https://leetcode.cn/problems/house-robber/
 	public static int rob(int[] arr) {
 		int n = arr.length;
@@ -38,11 +53,12 @@ public class Code02_HouseRobberIV {
 		return last;
 	}
 
+	//思路：逐渐二分找到尽量靠左的邓丽，
 	public static int minCapability(int[] nums, int k) {
 		int l = 1;
 		int r = 0;
 		for (int num : nums) {
-			r = Math.max(num, r);
+			r = Math.max(num, r);//右边界是nums重的最大值
 		}
 		// 1 ~ max
 		int m, ans = 0;
@@ -51,7 +67,7 @@ public class Code02_HouseRobberIV {
 			// m是当前盗贼的能力
 			// 很明显盗贼能力越大，能盗窃房屋数量的最大值只可能不变、或者变多，不可能变少
 			m = (l + r) / 2;
-			if (robber(nums, m) >= k) {
+			if (robber(nums, m) >= k) { ///当前m能力的情况下，能不能偷够k个房间
 				// 如果盗贼当前的能力下，盗窃房屋数量的最大值超过了k
 				// 说明这个能力达标，但是希望看看左侧范围上，还有没有依然能达标的能力
 				// 所以，记录答案，去左侧二分
@@ -71,7 +87,7 @@ public class Code02_HouseRobberIV {
 	// 注意不能窃取相邻房屋
 	public static int robber(int[] nums, int ability) {
 		// lastLast表示0...0范围上，盗贼最多能窃取多少间房屋
-		int lastLast = nums[0] <= ability ? 1 : 0;
+		int lastLast = nums[0] <= ability ? 1 : 0;//能拿
 		int n = nums.length;
 		if (n == 1) {
 			return lastLast;
@@ -87,7 +103,7 @@ public class Code02_HouseRobberIV {
 			// 先决条件 : i号房屋的财产 <= 当前盗贼的能力，这个前提必须具备，才能盗窃i号房屋
 			// 如果先决条件具备，那么盗窃完i号房屋，之前就只能在0...i-2范围上去选房屋了(lastLast)
 			int p2 = 0;
-			if (nums[i] <= ability) {
+			if (nums[i] <= ability) { //只有小于才能选择最优
 				p2 = lastLast + 1;
 			}
 			// 两种可能性取最优
@@ -97,7 +113,7 @@ public class Code02_HouseRobberIV {
 			// 不要忘了更新lastLast、last
 			// lastLast始终表示: 在0...i-2范围上去选房屋了，怎么盗窃数量最多
 			// last始终表示: 在0...i-1范围上去选房屋了，怎么盗窃数量最多
-			lastLast = last;
+			lastLast = last; //刷新
 			last = cur;
 		}
 		return ans;

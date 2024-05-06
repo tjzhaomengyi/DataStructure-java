@@ -16,7 +16,7 @@ import java.util.PriorityQueue;
 // 测试链接 : https://leetcode.cn/problems/minimum-knight-moves/
 public class Code04_MinimumKnightMoves {
 
-	// A*算法的实现
+	// A*算法的实现 回顾A*算法
 	public static int minKnightMoves(int x, int y) {
 		
 		// int[] cur = { 
@@ -27,11 +27,12 @@ public class Code04_MinimumKnightMoves {
 		// f() : 出发点到当前位置跳了几次，谁次数少，谁先弹出
 		// f() + g() : 
 		PriorityQueue<int[]> heap = new PriorityQueue<>(
-				(a, b) -> (a[0] + a[1]) - (b[0] + b[1]));
+				(a, b) -> (a[0] + a[1]) - (b[0] + b[1])); //思路：预估和已经跳过的次数，做小根堆，估计函数的引导作用，估计函数堆目标点有吸引作用，这种感觉哈
 		// 从堆里弹出了什么位置，不要重复再考虑了
-		HashMap<Integer, HashSet<Integer>> closed = new HashMap<>();
-		heap.add(new int[] { 0, distance(0, 0, x, y), 0, 0 });
+		HashMap<Integer, HashSet<Integer>> closed = new HashMap<>();//跳过的点
+		heap.add(new int[] { 0, distance(0, 0, x, y), 0, 0 });//distance是估计代价
 		int ans = Integer.MAX_VALUE;
+		//下面全是A*算法
 		while (!heap.isEmpty()) {
 			int[] cur = heap.poll();
 			int cost = cur[0];
@@ -74,11 +75,11 @@ public class Code04_MinimumKnightMoves {
 	public static void add(int cost, int r, int c, int x, int y, HashMap<Integer, HashSet<Integer>> closed,
 			PriorityQueue<int[]> heap) {
 		if (!isPoped(closed, r, c)) {
-			heap.add(new int[] { cost, distance(r, c, x, y), r, c });
+			heap.add(new int[] { cost, distance(r, c, x, y), r, c });//每次增加把预估函数算一下
 		}
 	}
 
-	// 曼哈顿距离 / 3
+	// 曼哈顿距离 / 3 ，A*的预估距离
 	// 为什么要定成这个
 	// 因为估计函数的估计代价 要小于等于 真实代价
 	// 我们知道，走"日"字是一次蹦3个曼哈顿距离
