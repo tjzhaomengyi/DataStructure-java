@@ -29,6 +29,7 @@ public class Code01_GreedyPickThings {
 
 	public static int n, t;
 
+	// 价A/重A > 价B/重B，乘过去处理一下：价A * 重B > 价B * 重A
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -43,7 +44,7 @@ public class Code01_GreedyPickThings {
 				in.nextToken();
 				mv[i][1] = (int) in.nval;
 			}
-			Arrays.sort(mv, 0, n, (a, b) -> (b[1] * a[0]) - (a[1] * b[0]));
+			Arrays.sort(mv, 0, n, (a, b) -> (b[1] * a[0]) - (a[1] * b[0]));//思路：避免使用double
 			double ans = 0;
 			int i = 0;
 			int used = 0;

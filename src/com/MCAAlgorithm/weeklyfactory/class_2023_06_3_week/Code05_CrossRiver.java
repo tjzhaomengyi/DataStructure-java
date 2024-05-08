@@ -19,6 +19,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_06_3_week;
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"
+// 思路：解法：利用二分得到人数，剩下的问题调用士兵过河的时间，看看时间够不够
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,6 +29,10 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
+// 思路：【贪心】时间最短的人负责来回拉船，
+//  两种方法：(1)arr[0]把最重的人拉走，看看剩下的情况arr[i]+arr[0]+dp[i-1]
+//  (2)如果河对岸没有人，两个最重的过河不值！！！所以，让轻的先过去，再让重的过河
+//  两个最轻,两个最重的过河 arr[1]+arr[0] + arr[i] + arr[1] + dp[i-2],把最难受的两个人（arr[i]和arr[i-1]）一块送过去，最轻的一起过去
 public class Code05_CrossRiver {
 
 	public static int MAXN = 100001;

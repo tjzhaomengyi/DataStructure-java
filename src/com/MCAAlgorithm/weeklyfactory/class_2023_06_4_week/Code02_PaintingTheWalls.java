@@ -37,8 +37,8 @@ public class Code02_PaintingTheWalls {
 			int p1 = process1(cost, time, i + 1, s);
 			// 付费的人，就是选第i面墙
 			int p2 = Integer.MAX_VALUE;
-			int next2 = process1(cost, time, i + 1, s - 1 - time[i]);
-			if (next2 != Integer.MAX_VALUE) {
+			int next2 = process1(cost, time, i + 1, s - 1 - time[i]);//刷了第i面墙-1，并且减掉不花钱那个逼刷的所有墙，那个傻逼刷墙面数，就是我需要的时间
+			if (next2 != Integer.MAX_VALUE) { //next2后续可能出现溢出没有解的情况，所以先特判一下
 				p2 = cost[i] + next2;
 			}
 			return Math.min(p1, p2);

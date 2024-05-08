@@ -71,7 +71,7 @@ public class Code05_ProfitableSchemes {
 		int p1 = f2(g, p, i + 1, r, s, dp);
 		int p2 = 0;
 		if (g[i] <= r) {
-			p2 = f2(g, p, i + 1, r - g[i], Math.max(0, s - p[i]), dp);
+			p2 = f2(g, p, i + 1, r - g[i], Math.max(0, s - p[i]), dp);//如果s-p[i]不可能到0一下，这样直接挂缓存就不越界了
 		}
 		int ans = (p1 + p2) % mod;
 		dp[i][r][s] = ans;

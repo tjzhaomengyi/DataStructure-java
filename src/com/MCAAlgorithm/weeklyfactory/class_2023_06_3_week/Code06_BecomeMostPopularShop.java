@@ -13,6 +13,8 @@ import java.util.ArrayList;
 // 1 <= x <= 10^9
 public class Code06_BecomeMostPopularShop {
 
+	// 思路：拉的人越多，用的钱不一定越多；尝试一号店使用1到n个人，算出使用的最少钱数，给这个数据量就是这么干的
+	//  只有最后一个问题就是如何算出这些人贿赂使用的最少钱数，每个人贿赂不贿赂尝试，2^n
 	// 暴力方法
 	// 为了测试
 	// n : 店铺数量
@@ -130,7 +132,9 @@ public class Code06_BecomeMostPopularShop {
 		// 那么13号人的转投钱数 <= 16号人的 <= 23号人的
 		// shops.get(5) = {13, 16, 23}
 		// 每一个下标，都是排序之后的数组中，人的下标
-		ArrayList<ArrayList<Integer>> shops = new ArrayList<>();
+		// 思路：如果保证一号店有23个人投票，那么保证其他店铺的投票人数最多只能是22个人，并且钱数从小到大删除掉多余22人的那些人，让这些人投1号店
+		// 思路：最后不够的使用店铺排名的结果填入贿赂一号店钱数最少的那个人
+		ArrayList<ArrayList<Integer>> shops = new ArrayList<>();//统计每个店铺的支持者，放排序完的下标
 		for (int i = 0; i <= n; i++) {
 			shops.add(new ArrayList<>());
 		}
@@ -138,12 +142,12 @@ public class Code06_BecomeMostPopularShop {
 			shops.get(arr[i][0]).add(i);
 		}
 		// 某个用户是否已经改投1号店了
-		boolean[] used = new boolean[m];
+		boolean[] used = new boolean[m];//思路：如果哪个用户投过1号店就不要用了
 		// 最小的钱数
 		long ans = Long.MAX_VALUE;
 		// 1号店，已经有50人支持了，没赢！
 		// 51 52 53 ...
-		for (int i = cnts[1] + 1; i <= m; i++) {
+		for (int i = cnts[1] + 1; i <= m; i++) { //思路：一号店需要赢的人数，从一号店已经有的人数+1到所有人都尝试一遍【注意这里没有人数和钱数的单调性】
 			// 1号店铺，只允许最终有i个人投它！
 			// 返回赢的情况下，最少的钱数
 			// 如果规定好的人数，怎么都赢不了，返回-1

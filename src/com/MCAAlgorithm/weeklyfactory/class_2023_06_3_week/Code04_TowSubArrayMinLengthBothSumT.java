@@ -51,6 +51,7 @@ public class Code04_TowSubArrayMinLengthBothSumT {
 	}
 
 	// 正式方法
+	// 思路：枚举分界线，左边能够凑出t的，右边能够凑出t，并且长度最短
 	// 时间复杂度O(N)
 	// 数组都是非负数情况下的正确方法
 	public static int minLenBothT2(int[] arr, int t) {
@@ -96,12 +97,12 @@ public class Code04_TowSubArrayMinLengthBothSumT {
 		return ans == Integer.MAX_VALUE ? -1 : ans;
 	}
 
-	// 扩展方法
+	// 扩展方法，《数组三连问题》
 	// 时间复杂度O(N)
 	// 假设数组中的值可以正、负、0，就是扩展数据范围也能正确的方法
 	public static int minLenBothT3(int[] arr, int t) {
 		int n = arr.length;
-		HashMap<Integer, Integer> sums = new HashMap<>();
+		HashMap<Integer, Integer> sums = new HashMap<>();//后缀和出现的位置
 		sums.put(0, -1);
 		int[] left = new int[n];
 		Arrays.fill(left, Integer.MAX_VALUE);

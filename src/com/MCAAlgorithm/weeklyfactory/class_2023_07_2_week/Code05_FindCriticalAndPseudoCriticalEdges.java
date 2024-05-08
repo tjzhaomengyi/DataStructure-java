@@ -19,9 +19,27 @@ import java.util.ArrayList;
 // 求桥，在每周有营养的大厂算法面试题，2022年10月第1周
 // 链式前向星，2022年10月第1周
 // 务必打好基础，再来看这个题的解析
-// 这个实现打败100%的提交者
+// 这个实现打败100%的提交者【不用链式前向星也可以】
 public class Code05_FindCriticalAndPseudoCriticalEdges {
 
+	//数学结论： 链式前向星构图方式是为了减少动态构图的内存开销问题,三个固定长度的数组 + 1个cnt变量 表示图！国内搞比赛用的
+	//  head数组、next数组、to数组
+	// head有多少节点准备多大；next数组边有多大就准备多大；to数组有多少边就准备多大。
+	// 如何建立:[0,1]
+	// head:[-1 -1 -1 -1 -1 -1],表示i节点现在是哪条边的头节点
+	// (1)int cnt = 0表示当前有多少边，[0,1]这条边进来了 cnt=1
+	// next表示编号为i的前一条边，没有next[0]=-1;
+	// to表示编号为i的边的目的点的编号to[0]=1;
+	// head表示节点当前拥有哪个边，0号边head[0]=0
+	// (2)cnt=1,[0,3]这条边进来，cnt = 2,next：编号为1的边的前一条边是0号边next[1]=0;编号为1的边是去哪的to[1]=3;head[0]=1表示当前0号节点是编号为1的边的头节点
+	// head[1 -1 -1 -1 -1 -1] next[-1 0      ] to[1 3     ]
+	// (3)cnt=2，[0,5]这条边进来；cnt = 3,next[2]=1,to[2]=5,head[0]=2
+	// head[2 -1 -1 -1 -1 -1 -1] next[-1 0 1   ] to [1 3 5   ]
+
+	// 思路：本题中，最小生成树的垃圾边定义，自环边都是垃圾边（在最小生成树中把它们连在一起即可）。在最小生成树中，如果是桥边肯定是关键边，如果不是桥肯定是垃圾边。
+	//  即使是最小生成树缩点后，如果是自环，环内的边仍然是垃圾边。不停的缩点，不停找桥
+	// 思路：并查集，合并集合；最小生成树，依次考虑全职连接；求桥，找到关键边。
+	// 这题听到不想听了
 	public static int MAXN = 101;
 
 	public static int MAXM = 201;
@@ -88,7 +106,7 @@ public class Code05_FindCriticalAndPseudoCriticalEdges {
 			edges[i][2] = e[i][1];
 			edges[i][3] = e[i][2];
 		}
-		Arrays.sort(edges, 0, m, (a, b) -> a[3] - b[3]);
+		Arrays.sort(edges, 0, m, (a, b) -> a[3] - b[3]);//根据权重排序
 	}
 
 	// 通过集合编号建图相关
@@ -109,7 +127,7 @@ public class Code05_FindCriticalAndPseudoCriticalEdges {
 
 	public static void addEdge(int a, int b, int ei) {
 		next[edgeSize] = head[a];
-		info[edgeSize][0] = ei;
+		info[edgeSize][0] = ei;//原始编号
 		info[edgeSize][1] = a;
 		info[edgeSize][2] = b;
 		head[a] = edgeSize++;
@@ -200,7 +218,7 @@ public class Code05_FindCriticalAndPseudoCriticalEdges {
 				id[find(edges[i][2])] = k++;
 			}
 		}
-		buildGraph(k);
+		buildGraph(k);//建立大团子之间的图
 		// 大团子，有边！用链式前向星建图，大团子的图！
 		for (int i = start; i < end; i++) {
 			int index = edges[i][0];

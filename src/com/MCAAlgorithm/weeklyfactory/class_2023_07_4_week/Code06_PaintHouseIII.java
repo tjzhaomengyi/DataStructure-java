@@ -12,6 +12,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_07_4_week;
 // 请你返回房子涂色方案的最小总花费，使得每个房子都被涂色后，恰好组成 target 个街区
 // 如果没有可用的涂色方案，请返回 -1
 // 测试链接 : https://leetcode.cn/problems/paint-house-iii/
+// 这道题他妈的优化巨烦人，位置观察，体系学习班
 public class Code06_PaintHouseIII {
 
 	public static int minCost1(int[] houses, // 每个房子固有的颜色，0 ：去涂，>0: 不能改的
@@ -59,30 +60,32 @@ public class Code06_PaintHouseIII {
 		if (houses[i] != 0) {
 			// 不能涂，已经有颜色了
 			// houses[i] = 3
-			if (houses[i] != c) {
+			if (houses[i] != c) { //和前面街区颜色不一样，当前作为开头，我们后面需要搞出k-1个街区即可
 				ans = process1(houses, cost, n, i + 1, k - 1, houses[i], dp);
-			} else {
+			} else { //如果和前面街区一样，后面还要继续弄k个
 				ans = process1(houses, cost, n, i + 1, k, houses[i], dp);
 			}
 		} else {
 			// houses[i] == 0
 			// 能涂
-			for (int fill = 1, next; fill <= n; fill++) {
+			for (int fill = 1, next; fill <= n; fill++) {//一个枚举行为，后面要优化的地方！
 				// 尝试每一种颜色
 				if (fill == c) {
-					next = process1(houses, cost, n, i + 1, k, fill, dp);
+					next = process1(houses, cost, n, i + 1, k, fill, dp);//和前一个颜色又一样
 				} else {
-					next = process1(houses, cost, n, i + 1, k - 1, fill, dp);
+					next = process1(houses, cost, n, i + 1, k - 1, fill, dp);//不一样了，剩下部分少弄一个
 				}
 				if (next != Integer.MAX_VALUE) {
-					ans = Math.min(ans, cost[i][fill - 1] + next);
+					ans = Math.min(ans, cost[i][fill - 1] + next);//自己的颜色 + 后续涂色花费
 				}
 			}
 		}
 		dp[i][k][c] = ans;
 		return ans;
+		// 优化：看k和c，k是不变或者是减小，c是不确定的,需要i+1行的信息，
 	}
 
+	//思路：推i+1层变成第i的状态，申请辅助数组memo，先把对应行拷贝下来
 	public static int minCost2(int[] houses, int[][] cost, int m, int n, int target) {
 		int[][] dp = new int[target + 1][n + 1];
 		for (int c = 0; c <= n; c++) {
@@ -132,6 +135,7 @@ public class Code06_PaintHouseIII {
 		return dp[target][0] == Integer.MAX_VALUE ? -1 : dp[target][0];
 	}
 
+	//
 	public static int minCost3(int[] houses, int[][] cost, int m, int n, int target) {
 		int[][] dp = new int[target + 1][n + 1];
 		for (int c = 0; c <= n; c++) {
@@ -144,9 +148,9 @@ public class Code06_PaintHouseIII {
 		}
 		int[] memo = new int[n + 1];
 		// 0~0 0~1 0~2 0~i
-		int[] minl = new int[n + 2];
+		int[] minl = new int[n + 2];//记0-0、0-1、...0-i的最小
 		// n ~ n n-1 ~n n-2 ~n i ~n
-		int[] minr = new int[n + 2];
+		int[] minr = new int[n + 2]; // 记i-n的最小
 		minl[0] = minr[0] = minl[n + 1] = minr[n + 1] = Integer.MAX_VALUE;
 		for (int i = m - 1; i >= 0; i--) {
 			if (houses[i] != 0) {
@@ -167,7 +171,7 @@ public class Code06_PaintHouseIII {
 					for (int c = 0; c <= n; c++) {
 						memo[c] = dp[k][c];
 					}
-					// O(n)
+					// O(n)，预处理左侧最小
 					for (int fill = 1; fill <= n; fill++) {
 						if (k == 0 || dp[k - 1][fill] == Integer.MAX_VALUE) {
 							minl[fill] = minl[fill - 1];
@@ -175,7 +179,7 @@ public class Code06_PaintHouseIII {
 							minl[fill] = Math.min(minl[fill - 1], cost[i][fill - 1] + dp[k - 1][fill]);
 						}
 					}
-					// O(n)
+					// O(n)，预处理右侧最小
 					for (int fill = n; fill >= 1; fill--) {
 						if (k == 0 || dp[k - 1][fill] == Integer.MAX_VALUE) {
 							minr[fill] = minr[fill + 1];
@@ -183,7 +187,7 @@ public class Code06_PaintHouseIII {
 							minr[fill] = Math.min(minr[fill + 1], cost[i][fill - 1] + dp[k - 1][fill]);
 						}
 					}
-					// O(n)
+					// O(n)，不同情况的时候避免遍历访问
 					for (int c = 0, ans; c <= n; c++) {
 						if (c == 0 || memo[c] == Integer.MAX_VALUE) {
 							ans = Integer.MAX_VALUE;

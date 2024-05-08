@@ -62,7 +62,7 @@ public class Code02_TeamDP {
 	}
 
 	public static int compute() {
-		for (int start = 0, end = 1; start < n;) {
+		for (int start = 0, end = 1; start < n;) { //每个组
 			// start(首个物品)
 			// end(当前这个组的越界物品)
 			// a b c  |  d e  | f g
@@ -71,10 +71,10 @@ public class Code02_TeamDP {
 				end++;
 			}
 			// [start...end)是一个组的物品
-			for (int r = m; r >= 0; r--) {
-				for (int i = start; i < end; i++) {
+			for (int r = m; r >= 0; r--) { //m的容量剪没
+				for (int i = start; i < end; i++) {//组内物品
 					if (r >= arr[i][0]) {
-						dp[r] = Math.max(dp[r], arr[i][1] + dp[r - arr[i][0]]);
+						dp[r] = Math.max(dp[r], arr[i][1] + dp[r - arr[i][0]]);//不要这个物品，或者加入和这个物品
 					}
 				}
 			}

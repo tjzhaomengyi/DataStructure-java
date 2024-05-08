@@ -50,6 +50,7 @@ public class Code03_DeleteOneNumberLenKMaxSum {
 	}
 
 	// 正式方法
+	// 思路：找到k+1长度的子数组，每个位置开头遍历，子数组每一个窗口的累加和，减去窗口的最小值，所有答案求一遍就是原始问题的答案
 	// 时间复杂度O(N)
 	public static int maxSum2(int[] arr, int k) {
 		int n = arr.length;
@@ -77,9 +78,9 @@ public class Code03_DeleteOneNumberLenKMaxSum {
 			window[r++] = i;
 			sum += arr[i];
 			if (i >= k) {
-				ans = Math.max(ans, (int) (sum - arr[window[l]]));
+				ans = Math.max(ans, (int) (sum - arr[window[l]]));// 算答案
 				if (window[l] == i - k) {
-					l++;
+					l++;//窗口吐出数字
 				}
 				sum -= arr[i - k];
 			}

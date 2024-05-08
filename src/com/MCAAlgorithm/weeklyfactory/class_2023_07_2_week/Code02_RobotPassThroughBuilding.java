@@ -39,7 +39,7 @@ public class Code02_RobotPassThroughBuilding {
 			n = (int) in.nval;
 			int l = 0;
 			int r = 0;
-			int max = 0;
+			int max = 0;//所有高楼的最大高度
 			for (int i = 0; i < n; i++) {
 				in.nextToken();
 				arr[i] = (int) in.nval;
@@ -68,7 +68,7 @@ public class Code02_RobotPassThroughBuilding {
 		// 所以要加sum <= max这一句判断，一旦能量累加和超过高度的最大值
 		// 后面肯定通关了，可以提前返回
 		// 总之是很阴
-		for (int i = 0; i < n && sum >= 0 && sum <= max; i++) {
+		for (int i = 0; i < n && sum >= 0 && sum <= max; i++) {//如果不加sum<=max会溢出
 			if (sum <= arr[i]) {
 				sum -= arr[i] - sum;
 			} else {

@@ -7,6 +7,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_06_2_week;
 // 大厂刷题班讲过，不过那时没有讲出最优解，安排一下重讲
 public class Code03_RemoveDuplicateLetters {
 
+	// 思路：一个贪心，如果不在栈里的话，讨论，一定要大压小，要不要让栈顶字符弹出，栈顶的字符大于当前字符，并且栈顶字符后面还有，如果没有栈顶字符了，就不能弹出栈顶字符
 	public static String removeDuplicateLetters(String s) {
 		// 统计每一种字符，出现的词频
 		// 为了判断，某一种字符，后面还存在不存在
@@ -30,10 +31,10 @@ public class Code03_RemoveDuplicateLetters {
 					enter[stack[size - 1] - 'a'] = false;
 					size--;
 				}
-				stack[size++] = cur;
-				enter[cur - 'a'] = true;
+				stack[size++] = cur; //进栈
+				enter[cur - 'a'] = true;//现在在栈里
 			}
-			cnts[cur - 'a']--;
+			cnts[cur - 'a']--;//如果在栈里词频--即可
 		}
 		return String.valueOf(stack, 0, size);
 	}

@@ -6,6 +6,11 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_07_1_week;
 // 只有1个供应点不在x轴上，比如(23,17)位置
 // 给出每个供应点的位置，并且给定第k号供应点是出发点
 // 要求每个供应点最多走过2次，返回从k点出发，走完所有供应点的最少距离
+//思路：出发点在天上，只能先落到最左或者最右
+// 出发点在地面，（1）讨论最后去天上，先往左或者先往右，然后回到最右或者最左，最后回到天上；
+// （2）不是最后到天，出发点在最左或者最右 a.从出发点直接上天，剩下的就是从天连最左或者最右回到《讨论（1）》，b.从出发点最左或者最右走几步再上天，
+// （3）不是最后到天，出发点在中间，a.直接上天；b.不直接上天，肯定一个方向走到头，上天
+
 // 上面这个题没有代码实现
 // 因为这个题就是彻底的业务分析，只有一系列的贪心设计，代码也不难写
 // 同时这个题没有给出数据量，但是课上会讲O(n)的方法，所以也就无所谓了
@@ -34,18 +39,20 @@ import java.io.StreamTokenizer;
 
 public class Code01_KillMonsterEverySkillUseOnce {
 
+
 	public static int MAXN = 11;
 
-	public static int[] kill = new int[MAXN];
+	public static int[] kill = new int[MAXN]; //技能伤害值
 
-	public static int[] blood = new int[MAXN];
+	public static int[] blood = new int[MAXN];//出发双倍伤害的血量
 
+	//
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			int t = (int) in.nval;
+			int t = (int) in.nval; //多少组测试
 			for (int i = 0; i < t; i++) {
 				in.nextToken();
 				int n = (int) in.nval;
@@ -53,12 +60,12 @@ public class Code01_KillMonsterEverySkillUseOnce {
 				int m = (int) in.nval;
 				for (int j = 0; j < n; j++) {
 					in.nextToken();
-					kill[j] = (int) in.nval;
+					kill[j] = (int) in.nval;//伤害值
 					in.nextToken();
-					blood[j] = (int) in.nval;
+					blood[j] = (int) in.nval;//双倍伤害的血量
 				}
 				int ans = f(n, 0, m);
-				out.println(ans == Integer.MAX_VALUE ? -1 : ans);
+				out.println(ans == Integer.MAX_VALUE ? -1 : ans);//一组测试输出答案
 				out.flush();
 			}
 		}
@@ -90,13 +97,13 @@ public class Code01_KillMonsterEverySkillUseOnce {
 		for (int j = i; j < n; j++) {
 			// j == i. i.....n-1
 			// j 当前要释放的技能是谁！
-			swap(i, j);
+			swap(i, j);//思路：全排列，如果当前使用j技能就把j技能和i技能交换，然后掉血
 			if (rest > blood[i]) {
 				ans = Math.min(ans, f(n, i + 1, rest - kill[i]));
 			} else {
 				ans = Math.min(ans, f(n, i + 1, rest - kill[i] * 2));
 			}
-			swap(i, j);
+			swap(i, j);//思路：全排列，恢复现场，因为还要尝试下一个j交换的方法结果
 		}
 		return ans;
 	}

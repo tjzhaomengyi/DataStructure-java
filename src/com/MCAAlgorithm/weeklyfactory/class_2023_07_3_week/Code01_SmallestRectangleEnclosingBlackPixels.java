@@ -15,6 +15,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_07_3_week;
 // 测试链接 : https://leetcode.cn/problems/smallest-rectangle-enclosing-black-pixels/
 public class Code01_SmallestRectangleEnclosingBlackPixels {
 
+	//思路：把上下边界定下来，二分出来1的位置O(m * logn)；左右可以卡在上下边界范围进行再二分查找左右边界，就这点优化。
 	public static int minArea(char[][] image, int x, int y) {
 		int left = left(image, y);
 		int right = right(image, y);

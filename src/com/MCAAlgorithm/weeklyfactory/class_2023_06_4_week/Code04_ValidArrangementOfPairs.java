@@ -46,6 +46,7 @@ public class Code04_ValidArrangementOfPairs {
 			degrees.putIfAbsent(pair[0], 0);
 			degrees.putIfAbsent(pair[1], 0);
 		}
+		//-1入度，+1出度
 		for (int[] pair : pairs) {
 			graph.get(pair[0]).add(pair[1]);
 			degrees.put(pair[0], degrees.get(pair[0]) + 1);
@@ -68,12 +69,16 @@ public class Code04_ValidArrangementOfPairs {
 		return ans;
 	}
 
+	// 找欧拉路
+	// from：起点；graph：图，一定要用LinkedList，好删除边
 	public static void dfs(int from, HashMap<Integer, LinkedList<Integer>> graph, ArrayList<int[]> record) {
 		LinkedList<Integer> next = graph.get(from);
 		while (!next.isEmpty()) {
-			int to = next.poll();
-			dfs(to, graph, record);
-			record.add(new int[] { from, to });
+			int to = next.poll();//来到一个点后，把对应的边删除掉，一条同样的边不会遍历两次；再来到这个起始点from后，开始删除的点找不到了，遍历其他的邻接点
+			dfs(to, graph, record); //从临界点继续找
+			//a->b->c->a->e->t->a,往回退的时候，逆着回去把路径加起来【参考欧拉路路径.png】
+			//倒着看：ta,et,ae,ca,bc,ab,思路：逆着回去的时候，从栈顶（递归的最深层）往栈顶（递归的顶部）依次搞出路径
+			record.add(new int[] { from, to });//
 		}
 	}
 

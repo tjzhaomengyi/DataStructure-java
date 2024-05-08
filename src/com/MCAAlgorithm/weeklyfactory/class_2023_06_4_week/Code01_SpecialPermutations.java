@@ -58,7 +58,7 @@ public class Code01_SpecialPermutations {
 				if (s == 0 // 之前没有选择过数字，当然现在随意
 						||
 				((s & (1 << i)) == 0 && (a[p] % a[i] == 0 || a[i] % a[p] == 0))) {
-					ans = (ans + process(a, n, s | (1 << i), i, dp)) % mod;
+					ans = (ans + process(a, n, s | (1 << i), i, dp)) % mod; //选择当前这个数，看看后面能有多少中方法，取模是题目要求防止溢出
 				}
 			}
 		}

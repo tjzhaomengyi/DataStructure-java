@@ -19,8 +19,8 @@ public class Code03_MaximumValueOfKcoinsFromPiles {
 		// O( m * k^2)
 		// min (  O( k * n) ,   O( m * k^2)  )
 		for (List<Integer> stack : piles) { // 组
-			for (int w = k; w > 0; w--) { // 背包容量
-				// i = 1 sum = 0
+			for (int w = k; w > 0; w--) { // 背包容量,从k开始
+				// i = 1 sum = 0，考虑第一件物品，之前一个都不挑获得好处sum=0
 				// i = 2 sum = arr[0]
 				// i = 3 sum = arr[0] + arr[1]
 				for (int i = 1, sum = 0; i <= Math.min(stack.size(), w); i++) {

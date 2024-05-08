@@ -8,6 +8,12 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_06_2_week;
 // 测试链接 : https://leetcode.cn/problems/count-increasing-quadruplets/
 public class Code01_CountIncreasingQuadruplets {
 
+	// 思路：到i位置前面有多少个"小大中"的子序列，再看j位置满足小大中。然后找这个j位置小大中这个信息
+	//  来到i位置的时候，要0到i-1范围的信息更新对，
+	//  例子： 1 5 9 3 2 6 4
+	//  1做中点-0个，5-两个，9-4个，3-1个，2-0个，6-0个，4位置的信息比4小的只有3-1个四元组合理
+	//  再以4做结尾更新小大中，比4小的不会得到更新，更新那些比4大的数可能会获得三元组信息的更新，5左边的数比4小就新增几个，5-3个；9左边有几个数比4小，
+	//  9-5个，6的左边有3个数比4小，更新3个。
 	// 非常强的思路和实现
 	public static long countQuadruplets1(int[] nums) {
 		int n = nums.length;
@@ -26,19 +32,19 @@ public class Code01_CountIncreasingQuadruplets {
 			//          j           l
 			// 0 1 2 3 4 5 6 ....l-1
 			for (int j = 0; j < l; j++) {
-				if (nums[j] < nums[l]) {
+				if (nums[j] < nums[l]) {//只要l位置比以num[j]为中点的值大，就可以凑出新的四元组
 					ans += dp[j];
 				}
 			}
 			// dp[0...l-1]上的所有信息，有效的范围 : 0 .... l-1
 			// dp[0...l-1]，扩充有效范围: 0........l
-			// 目前比[l]数小的数的个数
-			int cnt = 0;
+			// 思路：更新三元组信息，小大中，比num[l]结尾的三元组
+			int cnt = 0;// 目前比[l]数小的数的个数
 			for (int j = 0; j < l; j++) {
-				if (nums[j] < nums[l]) {
-					cnt++;
-				} else {
-					dp[j] += cnt;
+				if (nums[j] < nums[l]) { //技巧：这个道题就在这里使用了一个巧劲
+					cnt++; //思路中的例子以4结尾，小于4的数量增加一个，但是正常的dp值并不改变
+				} else { //nums[j] > nums[l]
+					dp[j] += cnt;//因为前面已经统计过小于4的个数了，所以这里满足修改dp的条件，加上cnt的计数
 				}
 			}
 		}

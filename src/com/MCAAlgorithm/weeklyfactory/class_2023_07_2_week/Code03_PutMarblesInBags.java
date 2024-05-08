@@ -14,11 +14,14 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/put-marbles-in-bags/
 public class Code03_PutMarblesInBags {
 
+	//思路：如果划分肯定切k-1刀，选出最小的k-1和最大的k-1个，相减，万事
+	// a b c d e f g
+	//  k s p j h y
 	public long putMarbles(int[] weights, int k) {
 		int n = weights.length;
 		long[] sums = new long[n - 1];
 		for (int i = 1; i < n; i++) {
-			sums[i - 1] = (long) weights[i - 1] + weights[i];
+			sums[i - 1] = (long) weights[i - 1] + weights[i];//所有相邻两数的和
 		}
 		Arrays.sort(sums);
 		long ans = 0;
@@ -26,6 +29,7 @@ public class Code03_PutMarblesInBags {
 		// 0          n-2
 //		    1        n-3
 //		      2    n-4
+		//这部分就是那最大和最小的累加和
 		for (int i = 0, j = n - 2, p = 1; p < k; i++, j--, p++) {
 			ans += sums[j] - sums[i];
 		}

@@ -61,7 +61,7 @@ public class Code03_FrogHateStoneMinTimes {
 				in.nextToken();
 				arr[i] = (int) in.nval;
 			}
-			if (s == t) {
+			if (s == t) {  //看看固定有多少石头
 				int ans = 0;
 				for (int i = 1; i <= Math.min(l, m); ++i) {
 					if (arr[i] % s == 0) {
@@ -73,9 +73,9 @@ public class Code03_FrogHateStoneMinTimes {
 				Arrays.sort(arr, 1, m + 1);
 				// 可以直接给一个保守的距离，不需要算
 				// 因为s和t，不大，<= 10
-				cut = reduce(s, t);
+				cut = reduce(s, t); //足够安全的距离，也可以设置位MAXK
 				for (int i = 1; i <= m; i++) {
-					distance[i] = distance[i - 1] + Math.min(arr[i] - arr[i - 1], cut);
+					distance[i] = distance[i - 1] + Math.min(arr[i] - arr[i - 1], cut);//缩点
 					stone[distance[i]] = true;
 				}
 				l = Math.min(l, distance[m] + cut);
@@ -95,7 +95,8 @@ public class Code03_FrogHateStoneMinTimes {
 		}
 	}
 
-	// 一旦s和t定了，那么距离多远就可以缩减
+	// todo：缩点，一旦s和t定了，那么距离多远就可以缩减，因为长度l位10^9,只要石头连跳的时候可以连上，就可以把石头缩减过来
+	// 就是不断找找找，一旦连着等于S个，这个距离就定下来了，如果不想这么推直接定一个距离也行
 	public static int reduce(int s, int t) {
 		Arrays.fill(reach, false);
 		int cnt = 0;

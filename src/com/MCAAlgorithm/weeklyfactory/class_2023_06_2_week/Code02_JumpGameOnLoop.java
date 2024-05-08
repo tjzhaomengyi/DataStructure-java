@@ -1,6 +1,6 @@
 package com.MCAAlgorithm.weeklyfactory.class_2023_06_2_week;
 
-// 来自华为od
+// 来自华为od，成环的打家劫舍
 // 给定一个数组arr，长度为n，表示n个格子的分数，并且这些格子首尾相连
 // 孩子不能选相邻的格子，不能回头选，不能选超过一圈
 // 但是孩子可以决定从任何位置开始选，也可以什么都不选
@@ -9,6 +9,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_06_2_week;
 // 0 <= arr[i] <= 10^6
 public class Code02_JumpGameOnLoop {
 
+	//思路：0位置比较特殊，如果0位置要了，n-1位置就没法要，如果0位置没有要，n-1位置就可以要
 	// 暴力方法
 	// 为了测试
 	public static int max1(int[] arr) {
@@ -80,6 +81,14 @@ public class Code02_JumpGameOnLoop {
 			// 来到n-1位置了!
 			return (pre == 1 || end == 1) ? 0 : Math.max(0, arr[i]);
 		} else {
+			// int[][][] dp = new int[n][2][2];
+			// int[][] dp = new int[n][4];
+			// pre == 0 , end == 0   -> 0
+			// pre == 0 , end == 1   -> 1
+			// pre == 1 , end == 0   -> 2
+			// pre == 1 , end == 1   -> 3
+			// pre , end -> (pre << 1) | end
+			// 一张二维表
 			if (dp[i][(pre << 1) | end] != Integer.MIN_VALUE) {
 				return dp[i][(pre << 1) | end];
 			}

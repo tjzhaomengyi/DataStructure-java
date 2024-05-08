@@ -67,6 +67,7 @@ public class Code04_OnesAndZeroes {
 
 	// "101010101" -> 0 4个  1 5个 [4,5]
 	// "000111"  -> [3,3]
+	// z-0还有多少额度，o-1还有多少额度，i-来到第i号字符串，arr表示每个字符串0和1的数量
 	public static int process2(int[][] arr, int i, int z, int o, int[][][] dp) {
 		if (i == arr.length) {
 			return 0;
@@ -85,6 +86,7 @@ public class Code04_OnesAndZeroes {
 		return ans;
 	}
 
+	//
 	public static int findMaxForm3(String[] strs, int m, int n) {
 		int len = strs.length;
 		int[][][] dp = new int[len + 1][m + 1][n + 1];

@@ -29,11 +29,13 @@ import java.io.StreamTokenizer;
 public class Code07_NumberOfPalindromicSquares {
 
 	// 思路：二分答案（到底扩大几圈最大形成神奇矩阵） + 二维hash + 如果5圈是神奇矩阵，那么小于5圈的全是神奇矩阵
-	// 数学结论：如何利用二维hash矩阵判断是否是神奇矩阵，判断cdgh这部分是否是神奇矩阵，生成上下翻转和左右翻转的矩阵，判断(1)cdgh 是否等于右侧(2)ghcd是否等于下侧(3)dchg这三个hash值是否相等
+	// 数学结论：如何利用二维hash矩阵判断是否是神奇矩阵，判断cdgh这部分是否是神奇矩阵，生成上下翻转和左右翻转的矩阵，
+	//  判断(1)cdgh 是否等于右侧(2)ghcd是否等于下侧(3)dchg这三个hash值是否相等
+	//  既要位置对得上，也要hash值一样
 	// a b c d           i j k l
 	// e f g h   =>>     e f g h
 	// i j k l           a b c d
-	//   |
+	//   |左右翻转
 	// d c b a
 	// h g f e
 	// l k j i

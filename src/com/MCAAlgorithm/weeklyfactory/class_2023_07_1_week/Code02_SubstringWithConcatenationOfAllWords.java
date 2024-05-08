@@ -78,7 +78,7 @@ public class Code02_SubstringWithConcatenationOfAllWords {
 		// "abc" : 2
 		// "fct" : 1
 		// Long : string -> long
-		HashMap<Long, Integer> map = new HashMap<>();
+		HashMap<Long, Integer> map = new HashMap<>();//用字符串hash代替字符串，这是字符串的欠债表
 		for (String key : words) {
 			long v = hashValue(key);
 			map.put(v, map.getOrDefault(v, 0) + 1);
@@ -89,7 +89,8 @@ public class Code02_SubstringWithConcatenationOfAllWords {
 		int wordNum = words.length;
 		int allLen = wordLen * wordNum;
 		HashMap<Long, Integer> window = new HashMap<>();
-		for (int init = 0; init < wordLen && init + allLen <= n; init++) {
+		//尝试所有开头
+		for (int init = 0; init < wordLen && init + allLen <= n; init++) {//建立窗口
 			// [0...5) [5...10) [10...15) ... 
 			// [1...6) [6...11) [11...16) ...
 			// [2...7) [7...12) [12...17) ...
@@ -97,7 +98,7 @@ public class Code02_SubstringWithConcatenationOfAllWords {
 			// [0...5) [5...10) [10...15)
 			for (int l = init, r = init + wordLen, part = 0; part < wordNum; l += wordLen, r += wordLen, part++) {
 				long cur = hashValue(l, r);
-				window.put(cur, window.getOrDefault(cur, 0) + 1);
+				window.put(cur, window.getOrDefault(cur, 0) + 1);//建立窗口
 				if (window.get(cur) <= map.getOrDefault(cur, 0)) {
 					debt--;
 				}
@@ -107,6 +108,7 @@ public class Code02_SubstringWithConcatenationOfAllWords {
 			}
 			// [5...10) [10...15) [15...20)
 			// [10...15) [15...20)[20...25]
+			// l1..r1是要从窗口弹出的，l2..r2是要加进来的，往外吐，然后整体往右侧推
 			for (int l1 = init, r1 = init + wordLen, l2 = init + allLen,
 					r2 = init + allLen + wordLen; r2 <= n; 
 					l1 += wordLen, r1 += wordLen, l2 += wordLen, r2 += wordLen) {

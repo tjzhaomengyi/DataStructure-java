@@ -16,7 +16,7 @@ public class Code04_DinnerPlateStacks {
 
 	class DinnerPlates {
 		// 根据题目数据量，leetcode升级数据，改大
-		private final int N = 100001;
+		private final int N = 100001;//多的1个栈放多余的数，放不下的那些数
 		private int capacity;
 		// 所有栈的结构
 		private ArrayList<ArrayList<Integer>> stacks = new ArrayList<>();
@@ -25,9 +25,9 @@ public class Code04_DinnerPlateStacks {
 		// 曾经满了，然后又因为popAtStack方法变得不满的栈
 		// 编号放在这个堆里，小根堆
 		// 可以理解为空洞栈组成的堆
-		private PriorityQueue<Integer> heap = new PriorityQueue<>();
+		private PriorityQueue<Integer> heap = new PriorityQueue<>();//把没有满的栈编号放入这里
 		// 拥有数字的栈中，最右栈的编号
-		private int rightStack;
+		private int rightStack; //再往右的栈什么都没有了
 
 		public DinnerPlates(int cap) {
 			capacity = cap;
@@ -40,7 +40,7 @@ public class Code04_DinnerPlateStacks {
 				rightStack--;
 			}
 			if (cnt[rightStack] == 0) {
-				// 来到0号站，还没遇到数字
+				// 来到0号站，还没遇到数字，所有栈都空了
 				return -1;
 			}
 			return stacks.get(rightStack).remove(--cnt[rightStack]);
@@ -63,7 +63,7 @@ public class Code04_DinnerPlateStacks {
 		
 		public void push(int val) {
 			if (heap.isEmpty()) {
-				// 没有空洞
+				// 没有空洞，依次放即可
 				// 0.....rightstack
 				if (cnt[rightStack] == capacity && rightStack < N) {
 					rightStack++;

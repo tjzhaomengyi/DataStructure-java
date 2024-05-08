@@ -15,7 +15,7 @@ public class Code05_MakeArrayStrictlyIncreasing {
 		// arr2 [3,7,7,2,3]
 		Arrays.sort(arr2);
 		// arr2 [2,3,3,7,7]
-		int cnt = 1;
+		int cnt = 1;//数一下多少不一样的数字
 		for (int i = 1; i < arr2.length; i++) {
 			if (arr2[i] != arr2[i - 1]) {
 				cnt++;
@@ -35,9 +35,9 @@ public class Code05_MakeArrayStrictlyIncreasing {
 		return ans == Integer.MAX_VALUE ? -1 : ans;
 	}
 
-	// 系统最小
+	// -1位置是系统最小
 	// -1     0 1 2 3 ...
-	// arr1[i.....] 在i位置的数，一定不换的情况下
+	// process1()的含义是：arr1[i.....] 在i位置的数，一定不换的情况下
 	// 后续至少要换几个数，能做到整体递增!
 	public static int process1(int[] arr1, int[] arr2, int i) {
 		if (i == arr1.length) {
@@ -58,7 +58,7 @@ public class Code05_MakeArrayStrictlyIncreasing {
 			int ans = Integer.MAX_VALUE;
 			// 目前换了几个数了
 			int times = 0;
-			for (int j = i + 1; j <= arr1.length; j++) {
+			for (int j = i + 1; j <= arr1.length; j++) {//有可能到达终止位置
 				//j 右边离i最近，下一个不换的位置
 				// i(不换) i+1...  i+2... i+3...
 				// i......j(不换)

@@ -12,6 +12,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/maximum-length-of-pair-chain/
 public class Code04_MaximumLengthOfPairChain {
 
+	//最小递增子序列的修改
 	public static int findLongestChain(int[][] pairs) {
 		int n = pairs.length;
 		Arrays.sort(pairs, (a, b) -> a[0] - b[0]);

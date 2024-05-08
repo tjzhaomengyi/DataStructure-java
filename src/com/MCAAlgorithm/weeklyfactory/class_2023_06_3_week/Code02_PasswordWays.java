@@ -6,7 +6,7 @@ package com.MCAAlgorithm.weeklyfactory.class_2023_06_3_week;
 // 纸条上共有n个整数ai，其中a1表示密码里第一个字母的编号
 // 若i>1的话就表示第i个字母和第i-1个字母编号的差值
 // 例如，a2就代表密码中第1个字母和第2个字母编号的差值
-// 若密码是acb，那么纸条上的数字就是[5, 2, 1]
+// 若密码是acb，那么纸条上的数字就是[0, 2, 1] f(0) = a, f(0+2)=c f(0+1)=b
 // a b c d e f
 // 0 1 2 3 4 5
 // 返回可能的密码的个数，由于结果可能很大，
@@ -20,7 +20,7 @@ public class Code02_PasswordWays {
 		//
 		// 0 -> a
 		// 1 -> b
-		return process1(arr, 1, arr[0]);
+		return process1(arr, 1, arr[0]);//从字条的第1位开始跑
 	}
 
 	// arr : 字条 i现在来到的位置
@@ -33,7 +33,7 @@ public class Code02_PasswordWays {
 	// pre pre
 	public static int process1(int[] arr, int i, int pre) {
 		int ans = 0;
-		if (pre < 0 || pre > 25) {
+		if (pre < 0 || pre > 25) { //不在26个字母之内
 			ans = 0;
 		} else {
 			// pre 有效！
@@ -44,8 +44,8 @@ public class Code02_PasswordWays {
 				// pre f 2
 				// f+2.....
 				// f-2.....
-				ans += process1(arr, i + 1, pre - arr[i]);
-				ans += process1(arr, i + 1, pre + arr[i]);
+				ans += process1(arr, i + 1, pre - arr[i]);//在pre的左侧
+				ans += process1(arr, i + 1, pre + arr[i]);//在pre的右侧
 			}
 		}
 		return ans;

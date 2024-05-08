@@ -21,7 +21,10 @@ import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 public class Code03_CanChangeMoneyNumbers {
-
+   //思路：如何不实用zhang的枚举理解找零问题，dp[i][j] 0到i号货币是否能够找开j元，如果上面的格子dp[i-1][j]=true,那么不用i货币dp[i][j]=true，
+   //  如果是false，尝试1张i号货币看看能不能找开，然后去问问dp[i-1][j-i]是不是true，如果是false，那么就看dp[i-2][j-2i]是不是能找开
+	// 思路：2、【下标分组】把钱模3，模结果不同的数放入不同的组，这样可以把遍历的时候往左侧寻找的过程变成窗口，比如0,3,6,9,12,15,18,21,来到21的时候窗口维持住，看看窗口里面有几个true
+	//  就是利用窗口滑动省掉枚举！！！
 	public static int MAXN = 101;
 
 	public static int[] val = new int[MAXN];
@@ -30,7 +33,7 @@ public class Code03_CanChangeMoneyNumbers {
 
 	public static int MAXM = 100001;
 
-	public static boolean[] dp = new boolean[MAXM];
+	public static boolean[] dp = new boolean[MAXM]; //用一维做空间压缩
 
 	public static int n, m;
 
@@ -70,7 +73,7 @@ public class Code03_CanChangeMoneyNumbers {
 						dp[j] = true;
 					}
 				}
-			} else if (val[i] * cnt[i] > m) {
+			} else if (val[i] * cnt[i] > m) { //等价于随便用，等同于完全背包问题
 				// 等于当前货币无限张
 				for (int j = val[i]; j <= m; j++) {
 					if (dp[j - val[i]]) {
@@ -79,7 +82,7 @@ public class Code03_CanChangeMoneyNumbers {
 				}
 			} else {
 				// 既不是1张，也不是无限张
-				for (int mod = 0; mod < val[i]; mod++) {
+				for (int mod = 0; mod < val[i]; mod++) { //根据余数分组，在一组计算答案
 					// val[i] = 3元
 					// 0 : ....
 					// 1 : ....
@@ -93,26 +96,26 @@ public class Code03_CanChangeMoneyNumbers {
 					//
 					//
 					//     9  12  【15  18  21  24】
-					//                   
+					//   j是要凑的钱数
 					for (int j = m - mod, size = 0; j >= 0 && size <= cnt[i]; j -= val[i], size++) {
 						trueCnt += dp[j] ? 1 : 0;
 					}
-//				    // 9  12  【15  18  21  24】
+//				    // 9  12  【15  18  21  24】，思路：让24出去，让12进来，算此时24是true还是false
 					// 9 【12  15  18  21】 24
-					// 每次窗口出去一个下标
+					// 每次窗口出去一个下标，j=m-mod就是最后一个值
 					// 进来一个下标
 					for (int j = m - mod, l = j - val[i] * (cnt[i] + 1); j >= 1; j -= val[i], l -= val[i]) {
 						// dp[j] = 上一行的值
 						// dp[j] 更新成 本行的值
 						
-						if (dp[j]) {
+						if (dp[j]) { // 思路：让24出去，如果此时24是true，那么24的值不变，改变truecnt数量的统计就完了
 							trueCnt--;
-						} else {
-							if (trueCnt != 0) {
+						} else { //思路：dp[24]不等于true
+							if (trueCnt != 0) { //思路：但是，truecnt不等于0，说明15、18、21也有true，可以凑到24！！！！！24是有救的！！！把dp[24]改成true！！！
 								dp[j] = true;
 							}
 						}
-						if (l >= 0) {
+						if (l >= 0) {//思路：把l边界拉进来！窗口左移动，回到上面循环中，窗口右侧挪到21了
 							trueCnt += dp[l] ? 1 : 0;
 						}
 					}
