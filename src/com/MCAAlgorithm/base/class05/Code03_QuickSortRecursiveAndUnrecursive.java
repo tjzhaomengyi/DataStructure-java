@@ -6,7 +6,14 @@ import java.util.Stack;
 
 public class Code03_QuickSortRecursiveAndUnrecursive {
 
-	// 荷兰国旗问题
+	public static void swap(int[] arr, int i, int j) {
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
+	}
+
+	// 荷兰国旗问题，这是Hoare分区法，用less和more逐渐逼近整体有序。
+	// 还有一种就是单边维护小于部分的区域，是Lomuto分区法，只用less指针维护小于的区域，最后也是要把pivot位置和less部分进行交换矫正。
 	public static int[] netherlandsFlag(int[] arr, int L, int R) {
 		if (L > R) {
 			return new int[] { -1, -1 };
@@ -17,6 +24,9 @@ public class Code03_QuickSortRecursiveAndUnrecursive {
 		int less = L - 1;
 		int more = R;
 		int index = L;
+		//思路：这里是先把index所指向的pivot放到数组的more区的最后一位开始的时候即arr[R]这个位置，
+		// 后面在不断移动指针进行比较交换的时候只调整对应less more 控制的区域，从两边分别往中间收缩，
+		//	剩下的 L 和 R 两个原始固定参与调整的位置就是函数传递进来的值，不变！！！
 		while (index < more) {
 			if (arr[index] == arr[R]) {
 				index++;
@@ -30,11 +40,7 @@ public class Code03_QuickSortRecursiveAndUnrecursive {
 		return new int[] { less + 1, more };
 	}
 
-	public static void swap(int[] arr, int i, int j) {
-		int tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-	}
+
 
 	// 快排递归版本
 	public static void quickSort1(int[] arr) {

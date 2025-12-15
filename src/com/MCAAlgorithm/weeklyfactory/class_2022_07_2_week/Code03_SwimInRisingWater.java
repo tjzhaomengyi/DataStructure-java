@@ -32,7 +32,7 @@ public class Code03_SwimInRisingWater {
 			}
 		}
 		// 所有格子小对象，生成好了!
-		// 排序！[a,b,c]  [d,e,f]
+		// 排序.txt！[a,b,c]  [d,e,f]
 		Arrays.sort(points, (a, b) -> a[2] - b[2]);
 		// 生成并查集！n * m
 		// 初始化的时候，把所有格子独自成一个集合！

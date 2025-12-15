@@ -25,7 +25,7 @@ public class Code04_RadixSort {
 		return res;
 	}
 
-	// arr[L..R]排序  ,  最大值的十进制位数digit
+	// arr[L..R]排序.txt  ,  最大值的十进制位数digit
 	public static void radixSort(int[] arr, int L, int R, int digit) {
 		final int radix = 10;
 		int i = 0, j = 0;

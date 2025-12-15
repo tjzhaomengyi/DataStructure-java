@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Code02_MaxTopK {
 
 	// 时间复杂度O(N*logN)
-	// 排序+收集
+	// 排序.txt+收集
 	public static int[] maxTopK1(int[] arr, int k) {
 		if (arr == null || arr.length == 0) {
 			return new int[0];

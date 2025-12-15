@@ -14,13 +14,14 @@ public class Code03_HeapSort {
 //		for (int i = 0; i < arr.length; i++) { // O(N)
 //			heapInsert(arr, i); // O(logN)
 //		}
-		// O(N)
+		// O(N)，堆排序的固定写法，第一步先让每个结点从末尾开始进行heapify，也就是往自己的子树上下落，最终让最大值顶到数组根结点
 		for (int i = arr.length - 1; i >= 0; i--) {
 			heapify(arr, i, arr.length);
 		}
+		//第二步，把在第一步找好的最大值，放到最后一位，这样就不需要重新开辟空间了。
 		int heapSize = arr.length;
 		swap(arr, 0, --heapSize);
-		// O(N*logN)
+		// O(N*logN),第三步，不是递归胜似递归，把数组中剩下的元素，在原地重新整理排序，多巧妙啊，是吧。
 		while (heapSize > 0) { // O(N)
 			heapify(arr, 0, heapSize); // O(logN)
 			swap(arr, 0, --heapSize); // O(1)
@@ -35,7 +36,7 @@ public class Code03_HeapSort {
 		}
 	}
 
-	// arr[index]位置的数，能否往下移动
+	// arr[index]位置的数，能否往下移动，以index为根的子树，让arr[index]往子树上“落”
 	public static void heapify(int[] arr, int index, int heapSize) {
 		int left = index * 2 + 1; // 左孩子的下标
 		while (left < heapSize) { // 下方还有孩子的时候
@@ -44,7 +45,7 @@ public class Code03_HeapSort {
 			// 2) 同时有左孩子和右孩子，右孩子的值<= 左孩子的值，left -> largest
 			// 3) 同时有左孩子和右孩子并且右孩子的值> 左孩子的值， right -> largest
 			int largest = left + 1 < heapSize && arr[left + 1] > arr[left] ? left + 1 : left;
-			// 父和较大的孩子之间，谁的值大，把下标给largest
+			// 父和较大的孩子之间，谁的值大，把下标给largest，index值初始不变
 			largest = arr[largest] > arr[index] ? largest : index;
 			if (largest == index) {
 				break;

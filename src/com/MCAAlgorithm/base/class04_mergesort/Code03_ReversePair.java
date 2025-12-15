@@ -11,8 +11,8 @@ public class Code03_ReversePair {
 
 	// arr[L..R]既要排好序，也要求逆序对数量返回
 	// 所有merge时，产生的逆序对数量，累加，返回
-	// 左 排序 merge并产生逆序对数量
-	// 右 排序 merge并产生逆序对数量
+	// 左 排序.txt merge并产生逆序对数量
+	// 右 排序.txt merge并产生逆序对数量
 	public static int process(int[] arr, int l, int r) {
 		if (l == r) {
 			return 0;

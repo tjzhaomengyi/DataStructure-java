@@ -25,7 +25,7 @@ public class DancJielong {
       sb.append(wordList.get(start));
       wordList.remove(start);
 
-      //排序,这么做就是左右解，把长度长的，字典序小的放在前面
+      //排序.txt,这么做就是左右解，把长度长的，字典序小的放在前面
       wordList.sort((word1, word2) ->{
         int len1 = word1.length();
         int len2 = word2.length();

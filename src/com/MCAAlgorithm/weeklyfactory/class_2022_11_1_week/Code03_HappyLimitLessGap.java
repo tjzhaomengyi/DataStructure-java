@@ -104,7 +104,7 @@ public class Code03_HappyLimitLessGap {
 	}
 
 	// 正式方法
-	// 排序 + 窗口
+	// 排序.txt + 窗口
 	public static int lessGap3(int[] a, int[] b, long k) {
 		int n = a.length;
 		int[][] f = new int[n][2];

@@ -11,8 +11,8 @@ public class Code02_SmallSum {
 
 	// arr[L..R]既要排好序，也要求小和返回
 	// 所有merge时，产生的小和，累加
-	// 左 排序   merge
-	// 右 排序  merge
+	// 左 排序.txt   merge
+	// 右 排序.txt  merge
 	// merge
 	public static int process(int[] arr, int l, int r) {
 		if (l == r) {

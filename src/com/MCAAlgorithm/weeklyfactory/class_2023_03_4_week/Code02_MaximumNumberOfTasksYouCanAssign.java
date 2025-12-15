@@ -22,8 +22,8 @@ import java.util.TreeMap;
 public class Code02_MaximumNumberOfTasksYouCanAssign {
 
 	// 思路：1、最多完成多少个任务0..n(task数量）
-	//  2、n个任务，如果只要求其中k个任务完成，选最小工作量的k个任务（排序）
-	//  3、n个任务，如果只要求k个任务完成，让能力最大的k个工人去做 （排序）
+	//  2、n个任务，如果只要求其中k个任务完成，选最小工作量的k个任务（排序.txt）
+	//  3、n个任务，如果只要求k个任务完成，让能力最大的k个工人去做 （排序.txt）
 	//  如果6个人，10个任务，返回最大值就完了，完不成。
 	// 时间复杂度O(N * (logN)平方)
 	public static int maxTaskAssign1(int[] tasks, int[] workers, int pills, int strength) {
