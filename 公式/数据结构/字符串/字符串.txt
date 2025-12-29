@@ -1,0 +1,2 @@
+一、KMP算法
+左神上课讲解思路：见 https://www.processon.com/diagraming/6951f423906a3c7a3aa35522
