@@ -17,7 +17,7 @@ public class CommonAncestor {
    *    一旦确定了这个函数递归的思路就要确定他的争取性，不怀疑；
    *  (4)通过p,q参数作为状态转移,
    *  (5)base case 如果root就是p或者q，显然root就是公共祖先。
-   *  比如root就是p节点，如果q存在于以root为根的树中，显然root就是最近公共祖先，
+   *  比如root就是p节点，如果q存在于以root为根的树中，显然root就是r最近公共祖先，
    *  即使q不存在于以root为根的树中，
    *  这里从后往前找说明正好用的是后续遍历
    * **/

@@ -51,7 +51,7 @@ public class IsFullBinaryTree {
             if(r != null) {
                 queue.offer(r);
             }
-            if(l == null || r == null){
+            if((l == null && r == null) || (l != null) && (r == null)){
                 leaf = true;
             }
         }

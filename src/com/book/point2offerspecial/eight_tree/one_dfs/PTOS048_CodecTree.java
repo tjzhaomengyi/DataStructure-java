@@ -27,7 +27,7 @@ public class PTOS048_CodecTree {
         right;
   }
 
-  public TreeNode deserialize(String data) {
+  public TreeNode deserstialize(String data) {
     String[] splits = data.split(",");
     Queue<String> q = new LinkedList<>(); //这里建议弄一个Queue队列，如果用数组和下标反序列化的话需要对递增下标进行特殊处理
     //参考《剑指offer专项练习解释》：用数组int[] i = new int{0}；来代替i++的处理，因为在递归中i++无法进行正常递增操作
@@ -46,5 +46,11 @@ public class PTOS048_CodecTree {
     node.left = rebuildDFS(q);
     node.right = rebuildDFS(q);
     return node;
+  }
+
+  public static void main(String[] args) {
+    PTOS048_CodecTree tmp = new PTOS048_CodecTree();
+    TreeNode root = tmp.deserstialize("1,2,3,#,#,6,7");
+    System.out.println(tmp.serialize(root));
   }
 }
