@@ -47,23 +47,42 @@ public class PTOS077_ListSort {
     return bakHead;
   }
 
-  private ListNode merge(ListNode head1, ListNode head2){
+  private ListNode merge(ListNode p1, ListNode p2){
     ListNode dummy = new ListNode(0);
     ListNode cur = dummy;
-    while(head1 != null && head2 != null){
-      if(head1.val < head2.val) {
-        cur.next = head1;
-        head1 = head1.next;
+    while(p1 != null && p2 != null){
+      if(p1.val < p2.val) {
+        cur.next = p1;
+        p1 = p1.next;
       } else {
-        cur.next = head2;
-        head2 = head2.next;
+        cur.next = p2;
+        p2 = p2.next;
       }
       cur = cur.next;
     }
-    cur.next = head1 != null ? head1 : head2;
+    cur.next = p1 != null ? p1 : p2;
     return dummy.next;
   }
 
+
+  // 简单的归并写法
+  public ListNode sortList_easy(ListNode head){
+      if(head == null || head.next == null){
+          return head;
+      }
+      // 只找一次中点
+      ListNode slow = head;
+      ListNode fast = head.next;
+      while(fast != null && fast.next != null){
+          slow = slow.next;
+          fast = fast.next.next;
+      }
+      ListNode mid = slow.next;
+      slow.next = null; // 断链
+      ListNode left = sortList_easy(head);
+      ListNode right = sortList_easy(mid);
+      return merge(left, right);
+  }
   public static void main(String[] args) {
     ListNode a = new ListNode(4);
     a.next = new ListNode(2);

@@ -4,7 +4,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 
-import javax.xml.bind.DatatypeConverter;
 
 public class Hash {
 
@@ -19,7 +18,8 @@ public class Hash {
 	}
 
 	public String hashCode(String input) {
-		return DatatypeConverter.printHexBinary(hash.digest(input.getBytes())).toUpperCase();
+		//return DatatypeConverter.printHexBinary(hash.digest(input.getBytes())).toUpperCase();
+		return null;
 	}
 
 	public static void main(String[] args) {

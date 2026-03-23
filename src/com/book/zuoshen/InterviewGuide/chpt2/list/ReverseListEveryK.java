@@ -92,4 +92,55 @@ public class ReverseListEveryK {
         }
         start.next = right;
     }
+
+    //第三种方法，这个是Chat们给出面试比较好的方法，反转法的头插，就用dummyNode，所有链表的题目就顺下来了。
+
+    public Node reverseKGroup (Node head, int k) {
+        // write code here
+        if (k <= 1) return head;
+        Node dummy = new Node(-1);
+        dummy.next = head;
+        Node pre = dummy;
+        Node end = dummy;
+
+        while (true) {
+
+            for (int i = 0; i < k && end != null; i++) {
+                end = end.next;
+            }
+            if (end == null) {
+                break; //不足k个，跳出
+            }
+            //数满了k个节点，准备临时变量
+            Node start = pre.next;
+            Node next_seg = end.next;
+            //对从start开始到end结束的节点进行反转。
+            end.next = null;//先断开，要不反转一直执行
+            pre.next = reverseKNodes(start);
+            start.next = next_seg;//反转完了，原来的头连接到下一部分的头节点
+            //指引节点移动即可
+            pre = start;
+            end = start;
+        }
+        return dummy.next;
+    }
+
+    private Node reverseKNodes(Node head) {
+        //使用头插法进行链表反转
+        Node dummy = new Node(0);
+        dummy.next = head;
+        Node pre = dummy;
+        Node cur = pre.next;
+        while (true) {
+            if (cur.next == null) {
+                break;
+            }
+            Node next = cur.next;
+            //开始使用头插法反转链表
+            cur.next = next.next;
+            next.next = pre.next;
+            pre.next = next;
+        }
+        return dummy.next;
+    }
 }
