@@ -1,0 +1,64 @@
+一、spring事务
+1、在Spring框架的声明式事务管理中，默认的事务传播行为是PROPAGATION_REQUIRED。该行为表示如果当前存在事务，则加入该事务；如果不存在事务，则创建一个新事务。
+2、Propagation.REQUIRES_NEW的典型应用场景是强制挂起当前事务并创建独立的新事务，这确保了内部事务的独立性，即使外部失败也能提交，例如用于日志记录。
+3、PROPAGATION_NESTED表示在外围是PROPAGATION_REQUIRED的事务中，被包裹的PROPAGATION_NESTED事务如果抛出异常会被外围事务捕获，嵌套事务回滚到保存点，
+而外围事务执行并成功返回，导致外围事务提交，内部操作被回滚到保存点。
+4、在Spring事务管理中，传播行为选项设置为REQUIRES_NEWS时，当新事务在现有事务上下文中启动，框架会挂起当前事务并独立启动一个新事务，新事务是独立的，
+有自己的提交和回滚。
+5、Spring 声明式事务是基于 AOP 代理实现的。
+
+  默认使用 JDK 动态代理（基于接口），或 CGLIB 代理（基于类，在 proxyTargetClass=true 时）。
+
+  代理对象调用方法时，才触发事务拦截器。
+
+  自调用问题：在目标类内部，一个方法调用另一个方法（即使是 public 调用 public）是通过 this 调用的，不会经过代理，因此事务注解不会生效。
+
+  事务注解可以标注在 public 方法上才有效（在标准 Spring 代理模式下），private 方法上的 @Transactional 会被忽略，即使是通过代理调用也不会起作用，
+  因为 Spring 在生成代理时只考虑 public 方法（不考虑 protected、private 的方法）。
+6、在Spring事务管理中，蘑菇额方法标注了@Transactional(propagation=REQUIRES_NEW)，当它在另一个已经存在事务的方法中被调用时，当前事务会被挂起，新建独立事务执行完成后恢复原事务。
+这确保了新事务独立于原事务提交或回滚，避免了数据干扰
+二、生命周期
+1、在Spring Bean的生命周期中，初始化回调的标准执行顺序：首先调用构造器创建Bean实例，然后依赖注入完成后调用@PostConstruct注解的方法，
+接着调用InitializingBean接口的afterPropertiesSet()方法，最后调用自定义init-method
+2、在 Spring Bean初始化过程中，执行顺序是固定的，首先调用BeanNameAware.setBeanName()，在依赖注入后，后处理器之前，然后调用@PostConstruct方法
+（在BeanPostProcessor的postProcessBeforeInitialization阶段），最后抵用init-method，在初始化回调阶段
+3、Spring Bean的生命周期顺序为：实例化，属性注入，初始化，销毁
+4、在Spring框架中，Bean的作用域设置为prototype时，每次从容器中获取该Bean，容器会创建一个全新的实例，但是Spring容器仅管理其初始化和配置，并不管理销毁阶段，即不会调用destroy方法。
+5、在Spring Bean的生命周期中，初始化回调的顺序是，InitializingBean的afterPropertiesSet，然后是init-method，完成初始化调用后，调用BeanPostProcessor的
+postProcessAfterInitialization()
+三、设计模式
+1、在基于Spring MVC的应用中，某服务需要在每次HTTP请求使用独立状态，并且还能被注入到单例Controller中，在该服务上使用@RequestScope，并
+设置proxyMode=ScopedProxyMode.Target_Class,通过代理为每个请求创建新实例，解决单例注入问题（这个问题是：使用@Scope("prototype")，在
+单例注入时仅创建一次，无法保证每次请求独立状态)
+2、Spring Boot的自动配置机制主要基于条件注解如@ConditionalOnClass实现。该机制使用@ConditionOnClass、@ConditionalOnMissingBean等注解
+根据类路径、环境等因素自动配置Bean。
+3、Spring IoC容器荣国三级缓存机制解决单例Bean的循环依赖问题。singletonFactories、earlySingletonObjects、singletonObjects允许在Bean初始化过程中提前暴露一个未完成初始化的Bean引用，
+从而打破循环依赖。例如，商品服务和库存服务相互依赖时，spring会创建Bean实例但是不注入属性，并将其放入singletonFactories缓存中，以便依赖注入时获取早期引用。
+4、在Spring中，Bean作用域用于定义Bean实例的生命周期。singleton表示每个Spring容器中值创建一个Bean实例，所有HTTP请求共享该实例；prototype表示每次注入或者
+过去Bean时创建一个新实例，但是不直接绑定HTTP请求生命周期。request表示每个HTTP请求都会创建一个新的Bean。session表示每个HTTP会话创建一个实例，
+在会话期间多个请求共享同一实例。
+5、JDK动态代理，是Java提供的动态代理技术，可以在运行时创建接口的代理实例。Spring AOP默认采用这种方式，在接口的代理实例中编入代码。
+CGLib动态代理，使用底层的字节码技术，在运行时创建子类代理的实例。当目标对象不存在接口时，Spring AOP采用CGLib动态代理方法，在子类实例中织入代码。
+6、proxyBeanMethods属性在Spring框架中控制@Configuration类的代理行为。当设置为true默认时，配置类被CGLib代理，@Bean方法间的直接调用会被拦截并走容器，确保单例Bean的一致性。
+
+四、接口和方法
+1、在Spring框架中，ApplicationContext接口支持国际化（通过MessageSource）和事件发布（通过ApplicationEventPublisher）功能，而BeanFactory接口
+仅提供基本的bean功能，不支持这些企业特性。BeanFactory默认采用懒加载策略初始化单例Bean，而ApplicationContext默认预初始化所有单例Bean。
+ApplicationContext继承自BeanFactory，器默认自动初始化所有单例Bean。
+2、在@Around的通知中，必须调用joinPoint.proceed()来执行目标方法，否则Service方法不会执行
+3、在Spring Boot中，使用@ConfigurationProperties注解绑定配置属性时看，为了保障类型安全应该搭配@ConstructBinding，在绑定配置属性时，
+通过基于构造函数的绑定机制，确保所有属性在对象创建时被正确初始化和验证，避免运行时类型错误。
+4、在Spring MVC中，@ControllerAdvice配合ExceptionHandler使用的主要场景是提供全局性的控制器层异常处理
+5、在Spring Boot自动配置机制中，我们常看到@Configuration类上使用了@ConditionalOnClass({Some.class})的注解，表示只有当应用程序的classpath路径下
+能够找到这个类时，该配置才会生效
+6、在构造器参数上使用@Lazy注解时，Spring会创建一个代理对象延迟实际Bean的初始化，从而解决构造器注入的循环依赖。
+三级缓存仅适用于单例Bean的setter或者字段注入的循环依赖，无法直接解决构造器注入的循环依赖问题。
+7、Spring Boot应用启动时，自动配置机制主要通过使用SpringFactoriesLoader加载META-INF/spring.factories文件，这些类使用了@Conditional注解来实现条件化Bean定义。
+
+五、切面设计
+2、Spring AOP中，若需要对标记特定注解的方法进行增强，最准确的切入点表达是：execution(* *(..)) && @annotation(com.example.Loggable)
+@annotation点切指示符号用于直接匹配方法为级别的注解，execution匹配所有方法执行点，@annotation限制为带有Loggable注解的方法.
+2、Spring AOP的execution切点表达式，能正确匹配com.example.service报下所有类的public方法是execution(public * com.example.service.*.save*(..))
+3、@Aspect注解配置的切面默认代理机制是基于接口的JDK动态代理。
+4、Spring AOP常用于实现横切关注点，在事务管理场景中，它通过通知Advice定义了在方法执行前后应用的逻辑。如Before和After通知，常用于事务管理场景中的事务开始、
+提交或回滚等操作。连接点join point仅表示程序执行的特定点，比如方法调用。切点pointcut用于选择匹配的连接点。切面Aspect则是切点和通知的组合模块。

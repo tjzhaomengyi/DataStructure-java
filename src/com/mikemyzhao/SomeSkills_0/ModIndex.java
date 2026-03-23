@@ -39,7 +39,7 @@ public class ModIndex {
     //对因子求模
     a%=base;
     int res = 1;
-    for(int _=0;_<k;_++){
+    for(int i = 0; i < k; i++){
       //这里有乘法，是潜在的溢出点
       res *= a;
       //对乘法结果求模

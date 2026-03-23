@@ -1,0 +1,43 @@
+一、Hive中的引擎
+1、在Hive中，启用完整的ACID事务支持，包括INSERT、UPDATE、DELETE操作的核心前提条件必须是托管表（Managed Table），并且文件格式为ORC。因为
+托管表允许Hive管理数据生命周期，支持事务操作；ORC文件格式内置ACID事务支持。
+2、在ORC文件结构中，谓词下推主要依赖每个Stripe的尾部中存储的各列最小值、最大值等统计信息。这些信息允许ORC在查询时评估为此条件，如范围查询，
+如果整个Stripe的数据都不满足条件， 则直接跳过读取该Stripe，从而实现高效的数据过滤。
+3、设置orc.bloom.filter.columns属性可以为特定列创建布隆过滤器，利用ORC列式存储特性的列投影和高效过滤机制，在查询时减少IO操作，从而提升新能。
+4、Hive表采用ORC格式存储，现在需要更新部分历史数据，在满足啊ACID要求的前提下，Hive表需要为事务表启用事务支持，设置hive.support.concurrency=true
+和hive.txn.manager后执行MERGE INTO操作
+5、SMB Join Sort-Merge Bucket Join的核心机制是通过预分桶和排序来避免数据shuffle，从而减低开销。关键先决条件是两表必须在连接键上使用相同的分桶数、
+分桶列和排序顺序，这确保了对应桶的数据可以直接合并而无需重分发。
+6、在Hive 3.x的ACID事务支持的分区表中，底层HDFS文件结构使用事务性表的设计机制。典型结构包括base文件，存放基础数据，以及delta文件存放
+Insert、update和Delete操作产生的增量更改和删除记录。这种结构允许高效的事务处理，查询时通过合并基础数据和增量变更来提供新视图。
+7、为了让Hive CBO生成更优的执行计划，最关键的前提是确保表和分区的统计信息准确，因为CBO依赖于这些信息进行代价估计。
+Hive 成本优化器（CBO）生成最优执行计划的关键前提是有拥有准确的统计信息，如表行数、列值分布等，以便估算不同Join顺序和算法的成本。
+8、在Hive中，当使用完全动态分区，所有分区例如dt 和 region均来自源表字段时，设置hive.exec.dynamic.partition=true是基础条件，
+但默认的严格模式hive.exec.dynamic.partition.mode=strict要求动态分区操作必须至少有一个静态分区，否则会报错。
+在Hive中执行动态分区插入操作时，当混合使用静态分区和动态分区，静态分区字段必须在动态分区字段之前。因为，静态分区用于固定分区路径后，动态分区才根据查询结果自动创建。
+9、Hive的分桶和Redis分槽的思路类似，都是通过哈希函数将数据划分为固定数量的、更易管理的单元，以换取特定操作上的性能提升。
+Hive的分桶Bucketing，是将数据按照字段的哈希值，均匀地分散到固定数量的文件中。实现原理：hash(分桶字段)%桶的个数。余数决定数据归属于哪个桶。
+核心作用。优化大表Join，数据抽样，并使数据分布更加均匀。分桶的数量是固定不变的，桶阿数量在建表时候指定，后续无法更改。
+（1）如何实现高效的大表Join：如果两个表基于相同的字段进行分桶，且桶数成倍数关系，Hive可以在本地直接进行Bucket Map Join
+或 Sort Merge Bucket Join。这意味着只需要对桶的数据进行连接，极大减少了连接过程中的数据Shuffling开销，从而大幅提升查询效率。
+（2）如何实现快速的数据抽样？
+在超大表上进行数据探索、调试或者测试查询。
+分桶数据的优势是，可以直接读取整个桶文件作为样本，而不需要扫描全表。这使得抽样查询变得极其高效。
+（3）优化数据存储
+解决因分区不合理或动态插入导致的小文件过多问题。分桶强制将数据按照固定数量写入文件。相比于无限制地产生小文件，分桶生成数量可控、大小相对均匀的文件，
+有效缓解HDFS NameNode的压力并提升后续查询性能。
+在HDFS上的物理表现为文件，表或分区的目录下存放的是000000_0、000000_1这样的分桶文件。
+10、Hive分区是按照字段的值，将数据划分到不同的目录中。例如按照日期来创建一个目录。字段值决定了数据行属于哪个目录。
+Hive分区可以避免全表扫面，根据where条件快速裁剪掉不需要的分区目录。
+可动态增长，可以随时添加新的分区值，例如新的一天。
+在HDFS的表现为目录，表的主目录下是country=China/ country=USA这样的子目录。
+
+11、ORDER BY 是全局排序，会生成一个Reduce任务。SORT BY不是全局排序 而是局部排序，保证每个Reducer中进行排序，不保证全局有序。
+DISTRIBUTE BY必须写在SORT BY之前，因为数据必须按照DISTRIBUTE BY的规则分发到不同的Reducer，然后每个Reducer进行排序。
+CLUSTER BY具有DISTRIBUTE BY 和 SORT BY的功能。使用CLUSTER BY 时分发数据和排序都是按照相同的列进行的。
+12、org.apache.hive.hcatalog.data.JsonSerDe是专门用于解析JSON数据的SerDE，支持复杂嵌套结构能直接将原始JSON数据映射到Hive表模式，通过优化存储和索引确保高效
+查询，并且避免数据丢失（通过完整的JSON解析）。
+LazySimpleSerDE用于分隔文本如CSV，不解析JSON内部结构。
+ParquetSerDe用于Parquet二进制格式，需要先转换JSON数据，无法直接解析原始JSON文本。
+13、数据倾斜连接优化hive.optimize.skewjoin=true,并配置hive.skewjoin.key参数能直接检测和分散倾斜键值到多个Reducer，有效缓解长尾。
+14、使用INSERT OVERWRITE TABLE t PARTITION(ds='2024-01-01') SELECT col1, col2 FROM src;可以覆盖掉ds='2024-01-01'的数据，不能使用where，where不指定分区，会覆盖整个表，导致其他分区数据丢失。
