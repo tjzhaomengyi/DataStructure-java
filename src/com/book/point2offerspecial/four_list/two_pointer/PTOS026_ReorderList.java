@@ -10,6 +10,8 @@ public class PTOS026_ReorderList {
     int val;
     ListNode next;
 
+    ListNode() {
+    }
 
     ListNode(int val) {
       this.val = val;

@@ -46,7 +46,7 @@ public class LevelOrder_32 {
       while(!q.isEmpty()){
         List tmp = new ArrayList();
         int qsize = q.size();//注意：在for循环中动态变化的集合，在取大小的时候要先取，遍历当前集合的大小！
-        for(int i=0; i<qsize; i++) { //这个时候q队列中存的就是该行的元素，所以挨个弹出遍历即可
+        for(int i=0;i<qsize;i++) {//这个时候q队列中存的就是该行的元素，所以挨个弹出遍历即可
           TreeNode cur = q.poll();
           tmp.add(cur.val);
           //添加下一层的节点

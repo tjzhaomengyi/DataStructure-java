@@ -19,12 +19,12 @@ public class InverseCount_02 {
   }
 
   public int process(int[] arr,int L,int R){
-    if(L >= R){
+    if(L==R){
       return 0;
     }
     int mid = L+((R-L)>>1);
     //左侧逆序对的数量+右侧逆序对的数量+归并时候发现的逆序对数量
-    return process(arr,L,mid)+ process(arr,mid+1,R)+merge_nice(arr,L,mid,R);
+    return process(arr,L,mid)+ process(arr,mid+1,R)+merge(arr,L,mid,R);
   }
 
   public int merge(int[] arr,int L,int M,int R){
@@ -47,26 +47,6 @@ public class InverseCount_02 {
       arr[L+i]=help[i];
     }
     return res;
-  }
-
-  public int merge_nice(int[] arr, int left, int mid, int right){
-    int[] tmp = new int[right - left + 1];
-    int i = left, j = mid + 1, k = 0;
-    int cnt = 0;//统计交换次数
-    while(i <= mid && j <= right){
-      if(arr[i] < arr[j]){
-        tmp[k++] = arr[i++];
-      } else {
-        tmp[k++] = arr[j++];
-        cnt += (mid - i + 1); // 这里从i开始到mid这些数都和arr[j]构成逆序对,统计
-      }
-    }
-    while(i <= mid) tmp[k++] = arr[i++];
-    while(j <= right) tmp[k++] = arr[j++];
-    for(int p = 0; p < tmp.length; p++){
-      arr[left + p] = tmp[p];
-    }
-    return cnt;
   }
 
 }
