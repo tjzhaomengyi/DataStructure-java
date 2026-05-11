@@ -6,25 +6,25 @@ public class Code03_NQueens {
 		if (n < 1) {
 			return 0;
 		}
-		int[] record = new int[n];
-		return process1(0, record, n);
+		int[] record = new int[n]; //之前每一行棋子放在哪一列
+		return process1( record, 0, n);
 	}
 
 	// 当前来到i行，一共是0~N-1行
 	// 在i行上放皇后，所有列都尝试
 	// 必须要保证跟之前所有的皇后不打架
 	// int[] record record[x] = y 之前的第x行的皇后，放在了y列上
-	// 返回：不关心i以上发生了什么，i.... 后续有多少合法的方法数
-	public static int process1(int i, int[] record, int n) {
+	// 返回：不关心i以上发生了什么，从i开始到.... 后续有多少合法的方法数
+	public static int process1(int[] record, int i, int n) {
 		if (i == n) {
 			return 1;
 		}
 		int res = 0;
-		// i行的皇后，放哪一列呢？j列，
+		// i行的皇后，放哪个j列合适，每步需要进行isValid检测
 		for (int j = 0; j < n; j++) {
 			if (isValid(record, i, j)) {
 				record[i] = j;
-				res += process1(i + 1, record, n);
+				res += process1( record, i + 1, n);
 			}
 		}
 		return res;
@@ -32,8 +32,8 @@ public class Code03_NQueens {
 
 	public static boolean isValid(int[] record, int i, int j) {
 		// 0..i-1
-		for (int k = 0; k < i; k++) { //在i行上把queen放在j位置是否合理，检测下之前行放过的情况
-			if (j == record[k] || Math.abs(record[k] - j) == Math.abs(i - k)) {
+		for (int k = 0; k < i; k++) { //在i行上把queen放在j位置是否合理，检测下之前行放过的情况，
+			if (j == record[k] || Math.abs(record[k] - j) == Math.abs(i - k)) { // 在同一列上或者在同一斜线上（同一斜线上行差和列差相同）
 				return false;
 			}
 		}

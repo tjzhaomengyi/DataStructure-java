@@ -7,6 +7,7 @@ import java.util.*;
  * @Author: zhaomengyi
  * @Date: 2023-04-14 15:13
  * @Description: 计算表达式,这道题一共三个板子，(1)括号嵌套问题 (2)计算问题的入栈处理 (3)入栈结果表达式的最终计算
+ *  这个写法还是不是双栈法，使用双栈法最好，看下BM49_cal的写法是标准的
  */
 public class CalculateExpression {
   public static void main(String[] args) {

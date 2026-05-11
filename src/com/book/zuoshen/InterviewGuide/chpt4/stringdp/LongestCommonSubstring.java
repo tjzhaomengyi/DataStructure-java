@@ -29,7 +29,8 @@ public class LongestCommonSubstring {
         return dp;
     }
 
-    //找出最长公共子串
+    //找出
+    // 最长公共子串
     public String lcst(String str1, String str2){
         if(str1 == null || str2 == null || str1.equals("") || str2.equals("")){
             return "";

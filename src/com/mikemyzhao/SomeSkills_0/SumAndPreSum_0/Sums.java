@@ -60,4 +60,45 @@ public class Sums {
     }
     return res;
   }
+
+  /**
+   * 三数求和，标准使用双指针方法
+   */
+  public ArrayList<ArrayList<Integer>> threeSumByTwoPointer(int[] num){
+    ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+    int n = num.length;
+    if(n < 3) return res;
+    Arrays.sort(num);
+    for(int i = 0; i < n - 2; i++){
+      if(i != 0 && num[i - 1] == num[i]) continue; //i指针指向一样的数跳过
+      int L = i + 1;
+      int R = n - 1;
+      int target = -num[i];
+      while(L < R){
+        if(num[L] + num[R] == target){
+          ArrayList<Integer> tmp = new ArrayList<Integer>();
+          tmp.add(num[i]);
+          tmp.add(num[L]);
+          tmp.add(num[R]);
+          res.add(tmp);
+          // 把左右指针相同的数推走
+          while(L + 1 < R && num[L + 1] == num[L]){
+            L++;
+          }
+          while(L < R - 1 && num[R - 1] == num[R]){
+            R--;
+          }
+          //上面正好卡到相等的最后一个，这里卡到第一个不一样的
+          L++;
+          R--;
+        }else if(num[L] + num[R] < target){ //压缩左右指针找到合适的结果
+          L++;
+        } else {
+          R--;
+        }
+
+      }
+    }
+    return res;
+  }
 }

@@ -33,6 +33,7 @@ public class Code02_PartitionAndQuickSort {
 	// 重点算法：荷兰国旗问题，一定要记住：区域如何扩，小于等于的时候是交换当前index并向右扩充less区域。当前数大于目标数，当前数和大于区前一个数交换，大于区向左扩大
 	// arr[L...R] 玩荷兰国旗问题的划分，以arr[R]做划分值
 	// <arr[R] ==arr[R] >arr[R]
+	// 以最右边的arr[R]作为基准进行三次交换，相等的时候不动，循环结束的时候要把 more指向的数 和 R指的数交换，因为R一直指向的是基准数
 	public static int[] netherlandsFlag(int[] arr, int L, int R) {
 		if (L > R) { // L...R L>R
 			return new int[] { -1, -1 };
@@ -53,11 +54,11 @@ public class Code02_PartitionAndQuickSort {
 				//思路：当前的数和小于等于区的下一个数进行交换，然后当前位置移动
 				swap(arr, index++, ++less);//index先交换再后移，less先移动再交换,因为less左侧肯定保持都看过的状态，所以交换完index直接走
 			} else { // >
-				swap(arr, index, --more);//注意：index不动！！，more先减再交换
+				swap(arr, index, --more);//注意：index不动！！more先减再交换
 			}
 		}
 		swap(arr, more, R); // <[R]   =[R]   >[R] //因为最开始卡住arr[R],所以要把arr[R]放到more区域的第一个位置
-		return new int[] { less + 1, more };
+		return new int[] { less + 1, more };//最终返回是等于arr[R]的区域：左闭右闭的区间，less指向小于区的最后一个数所以是less+1，more区在最后一步交换完，正好是基准arr[R]的最后一个位置，大于区从more+1开始
 	}
 
 	public static void quickSort1(int[] arr) {
@@ -105,7 +106,8 @@ public class Code02_PartitionAndQuickSort {
 	
 	
 	
-	
+
+	// quickSort3 是标准的快排
 	public static void quickSort3(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;

@@ -10,11 +10,9 @@ public class Majorelement_39 {
     int x=0,votes=0;
     for(int num:nums) {
       if(votes==0) x=num;
-      if(x==num){
-        votes++;
-      }else {
-        votes--;
-      }
+      //这两行永远在循环中进行统计，不用在上面赋值的时候统计。
+      if(x==num) votes++;
+      if(x != num) votes--;
     }
     return x;
   }

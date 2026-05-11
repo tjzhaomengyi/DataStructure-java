@@ -27,6 +27,7 @@ public class Code01_SlidingWindowMaxArray {
 		return res;
 	}
 
+	// 滑动窗口中最大值问题
 	public static int[] getMaxWindow(int[] arr, int w) {
 		if (arr == null || w < 1 || arr.length < w) {
 			return null;

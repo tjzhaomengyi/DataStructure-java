@@ -17,43 +17,37 @@ import java.util.Arrays;
            i    j
  */
 public class LongestCycleSubArr {
+  //要知道dp[2][5] 要先知道 dp[3][4] 所以i要从大到小遍历，j要从小到大遍历
   public int longestPalindromeSubseq(String s) {
     int n = s.length();
-    int dp[][] = new int[n][n];
-    dp[0][0]=1;
-    for(int i=1;i<n;i++){
-      dp[i][i]=1;
+    boolean[][] dp = new boolean[n][n];
+    int start = 0;
+    int maxLen = 1;
+
+    //单个字符一定是回文子串
+    for(int i = 0; i < n; i++){
+      dp[i][i] = true;
     }
-    for(int i=n-2;i>=0;i--){//注意下标i和j的移动方式，
-      for(int j=i+1;j<=n-1;j++){
-        if(s.charAt(i)==s.charAt(j)){
-          dp[i][j]=dp[i+1][j-1]+2;
-        }else{
-          dp[i][j]=Math.max(dp[i+1][j],dp[i][j-1]);
+    // i从下往上
+    for(int i = n - 1; i >= 0; i--){
+      for(int j = i + 1; j < n; j++) {
+        if (s.charAt(i) == s.charAt(j)) {
+          if (j - i < 3) { // aba
+            dp[i][j] = true;
+          } else {
+            dp[i][j] = dp[i + 1][j - 1];
+          }
+        }
+        //更新最大长度
+        if (dp[i][j] && j - i + 1 > maxLen) {
+          maxLen = j - i + 1;
+          start = i;
         }
       }
     }
-    return dp[0][n-1];
+    return maxLen; //如果返回string，返回s.substring(start, start + maxLen);
   }
-  //最长回文降维写法
-  public int LPSOneDim(String s){
-    int n = s.length();
-    int[] dp = new int[n];
-    Arrays.fill(dp,1);
-    for(int i=n-1;i>=0;i--){
-      int pre = 0;
-      for(int j=i+1;j<=n-1;j++){
-        int tmp = dp[j];
-        if(s.charAt(i)==s.charAt(j)){
-           dp[j] = dp[j]+2;
-        }else{
-          dp[j] = Math.max(dp[j],dp[j-1]);
-        }
-        pre=tmp;
-      }
-    }
-    return dp[n-1];
-  }
+
 
   public static void main(String[] args) {
     System.out.println(new LongestCycleSubArr().longestPalindromeSubseq("bbbab"));

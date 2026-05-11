@@ -27,4 +27,26 @@ public class Code06_MissingNumber {
 		arr[j] = tmp;
 	}
 
+	public int firstMissingByTwoStep(int[] arr){
+		// 这道题就是折腾数组的过程，就是让数组下标和数映射上的题
+		// 上面左神的解法优化了，最普通的解法就是两次遍历，第一次把映射作对即可
+		// arr长度为n，那么如果正常存放的话，arr存放的是从1到n按顺序存放，
+		// 下标和值的对应关系为arr[arr[i] - 1] = arr[i]
+		int n = arr.length;
+		for(int i = 0; i < n; i++){
+			//这里要用 while 不能用 if，每次交换过来，arr[arr[i] - 1]的数不停变换
+			while(arr[i] > 0 && arr[i] <=n && arr[arr[i] - 1] != arr[i]){
+				int tmp = arr[arr[i] - 1];
+				arr[arr[i] - 1] = arr[i];
+				arr[i] = tmp;
+			}
+		}
+		for(int i = 0; i < n; i++){
+			if(arr[i] != i + 1){
+				return i + 1;
+			}
+		}
+		return n + 1;
+	}
+
 }

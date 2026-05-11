@@ -11,7 +11,7 @@ package com.mikemyzhao.DP.DP;
  * dp[i][j],i和j表示长度！！！！
  * dp[i-1][j-1]表示在i\j之前已经匹配上对于新一位i/j有以下情况：
  * 1、如果s[i]==p[j]，继续下去i++,j++
- * 2、p[j]是可以是其他东西
+ * 2、p[j]是其他东西
  * (1)p[j]=‘.’:dp[i][j]=dp[i-1][j-1];i++,j++
  * 3、p[j]='*'的话，*表示匹配零个或者多个前面的那一个元素。所以要考虑p[j-1]这个元素。
  * *跟着其前面一个字符走，要保证p[j-1]匹配上s[i]。如果p[j-1]不匹配s[i]，只能然前一个字符消失，也就是匹配0次前一个字符
@@ -51,6 +51,7 @@ public class RegexMatch {
         } else if (p.charAt(j - 1) == '*') {
           if (p.charAt(j - 2) == s.charAt(i - 1) || p.charAt(j - 2) == '.') {
             dp[i][j] = dp[i - 1][j] || dp[i][j - 2];//p[j-1]==s[i]或者p[j-1]='.';
+            //todo:这里处理明显有问题，不太合适
           } else if (p.charAt(j - 2) != s.charAt(i - 1)) {
             //只能回退到dp[j-2]上了,可以说这是最坏的情况
             dp[i][j] = dp[i][j - 2];
