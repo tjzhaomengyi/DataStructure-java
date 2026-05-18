@@ -21,9 +21,6 @@ public class Problem_0630_CourseScheduleIII {
 			} else { // 当前时间 + 花费 > 截止时间的, 只有淘汰掉某课，当前的课才能进来！
 				// 如何淘汰大根堆里面的课程
 				if (!heap.isEmpty() && heap.peek() > c[0]) {
-//					time -= heap.poll(); //时间回调
-//					heap.add(c[0]);
-//					time += c[0];
 					heap.add(c[0]);
 					time += c[0] - heap.poll();
 				}

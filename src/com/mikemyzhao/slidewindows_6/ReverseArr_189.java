@@ -1,4 +1,4 @@
-package com.mikemyzhao.SomeSkills_0.TwoPntAndBSearch.twopnts;
+package com.mikemyzhao.slidewindows_6;
 
 import java.util.Arrays;
 

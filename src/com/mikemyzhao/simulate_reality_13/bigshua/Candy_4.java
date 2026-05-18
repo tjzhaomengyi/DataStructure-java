@@ -26,7 +26,7 @@ public class Candy_4 {
     }
     int ans = 0;
     for(int i = 0; i < N; i++){
-      ans += Math.max(left[i],right[i]);
+      ans += Math.max(left[i],right[i]); //每个孩子以坡度大的为准
     }
     return ans + N;
   }

@@ -24,7 +24,7 @@ import java.util.LinkedList;
  *      不在窗口内的下标已经在 “原则二”中被移除了，所以qmax自动把这个窗口给维护好了，不用担心左边界问题。
  *
  */
-public class BM45_SlidingWindowMaxValue {
+public class M45_SlidingWindowMaxValue {
     public ArrayList<Integer> maxInWindows(int[] nums, int size){
         if(size > nums.length){
             return null;

@@ -1,4 +1,4 @@
-package com.mikemyzhao.SomeSkills_0.TwoPntAndBSearch.twopnts.bigshua;
+package com.mikemyzhao.slidewindows_6.bigshua;
 
 import java.util.ArrayList;
 import java.util.List;

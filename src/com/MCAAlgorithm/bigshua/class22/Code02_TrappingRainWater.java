@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Code02_TrappingRainWater {
 
 	public static int trap(int[] arr) {
-		if (arr == null || arr.length < 2) {
+		if (arr.length < 2) {
 			return 0;
 		}
 		int N = arr.length;

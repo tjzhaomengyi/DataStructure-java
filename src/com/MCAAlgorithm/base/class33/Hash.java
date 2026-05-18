@@ -1,10 +1,11 @@
 package com.MCAAlgorithm.base.class33;
 
+//import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 
-import javax.xml.bind.DatatypeConverter;
+import static com.MCAAlgorithm.bigshua.class05.Hash.bytesToHex;
 
 public class Hash {
 
@@ -19,7 +20,8 @@ public class Hash {
 	}
 
 	public String hashCode(String input) {
-		return DatatypeConverter.printHexBinary(hash.digest(input.getBytes())).toUpperCase();
+		//return DatatypeConverter.printHexBinary(hash.digest(input.getBytes())).toUpperCase();
+		return bytesToHex(hash.digest(input.getBytes())).toUpperCase();
 	}
 
 	public static void main(String[] args) {
