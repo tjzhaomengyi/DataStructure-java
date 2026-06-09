@@ -21,6 +21,6 @@ def simple_conv2d(input_matrix: np.ndarray, kernel: np.ndarray, padding: int, st
     for i in range(output_height):
         for j in range(output_width):
             region = padded_input[i * stride: i * stride + kernel_height, j * stride: j * stride + kernel_width]
-            output_matrix[i, j] = w  # 视野 * 卷积核 求和
+            output_matrix[i, j] = np.sum(region * kernel)  # 视野 * 卷积核 求和
 
     return output_matrix

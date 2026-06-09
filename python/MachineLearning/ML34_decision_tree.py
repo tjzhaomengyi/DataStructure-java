@@ -21,12 +21,14 @@
 import math
 from collections import Counter
 
+
 # 熵
 def calculate_entropy(labels):
     label_counts = Counter(labels)
     total_count = len(labels)
     entropy = -sum((count / total_count) * math.log2(count / total_count) for count in label_counts.values())
     return entropy
+
 
 # 信息增益
 def calculate_information_gain(examples, attr, target_attr):
@@ -38,13 +40,15 @@ def calculate_information_gain(examples, attr, target_attr):
             example[target_attr] for example in examples if example[attr] == value
         ]
         value_entropy = calculate_entropy(value_subset)
-        attr_entropy += (len(value_subset) / len(examples)) * value_entropy
+        attr_entropy += (len(value_subset) / len(examples)) * value_entropy # 这个是条件熵
     return total_entropy - attr_entropy
+
 
 def majority_class(examples, target_attr):
     return Counter([example[target_attr] for example in examples]).most_common(1)[0][0]
 
-def learn_decision_tree(examples , attributes, target_attr):
+
+def learn_decision_tree(examples, attributes, target_attr):
     if not examples:
         return "No examples"
     if all(example[target_attr] == examples[0][target_attr] for example in examples):
@@ -62,16 +66,18 @@ def learn_decision_tree(examples , attributes, target_attr):
         subset = [example for example in examples if example[best_attr] == value]
         new_attributes = attributes.copy()
         new_attributes.remove(best_attr)
-        subtree = learn_decision_tree(subset, new_attributes, target_attr)
+        subtree = learn_decision_tree(subset, new_attributes, target_attr) # 递归
         tree[best_attr][value] = subtree
 
     return tree
+
 
 def print_tree(tree):
     outs = []
     for key, value in sorted(tree.items()):
         outs.append(f"{key}:{print_tree(value) if isinstance(value, dict) else value}")
     return "{" + ",".join(outs) + "}"
+
 
 if __name__ == "__main__":
     examples = eval(input())

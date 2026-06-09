@@ -3,7 +3,7 @@ package com.mikemyzhao.DP.DP.bigshua.sample;
 /**
  * @Author: zhaomengyi
  * @Date: 2022-03-18 10:46
- * @Description:编辑距离问题
+ * @Description:a编辑距离问题
  */
 public class EditCost_5 {
   //解法：样本对应模型，根据结尾划分可能性，并且dp表示的是前缀长度的意思,把word1变成word2
